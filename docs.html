@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mission Control Documentation</title>
+<meta name="description" content="Install Mission Control, run a company of coding agents from the UI or CLI, and understand tasks, roles, agents, sessions, safety and configuration.">
+<style>
+:root {
+  --bg:#fff; --surface:#f7f7f5; --surface-2:#efefec; --ink:#171717;
+  --muted:#5f6360; --faint:#8b8e8c; --line:#e5e5e2; --green:#10a37f;
+  --green-soft:#e3f5ef; --code:#202123; --code-ink:#f7f7f5;
+  --shadow:0 14px 40px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:3px}
+code,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+.early-banner{min-height:34px;padding:7px 18px;display:flex;align-items:center;justify-content:center;text-align:center;background:#f1faf7;border-bottom:1px solid #d8eee7;color:#315d52;font-size:12px}
+.early-banner a{margin-left:4px;color:#087f63;font-weight:700}
+.topbar{height:68px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(16px);position:sticky;top:0;z-index:10}
+.topbar-inner{width:min(1220px,calc(100% - 40px));height:100%;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px}
+.top-links{display:flex;gap:22px;align-items:center;font-size:14px;font-weight:600}
+.top-links a{color:var(--muted);text-decoration:none}.top-links a:hover{color:var(--ink)}
+.docs-shell{width:min(1220px,calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:240px minmax(0,820px);gap:72px;align-items:start}
+.sidebar{position:sticky;top:96px;padding:38px 0 60px;height:calc(100vh - 96px);overflow:auto}
+.sidebar p{margin:0 0 12px;color:var(--faint);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sidebar a{display:block;padding:7px 10px;margin-left:-10px;border-radius:8px;color:var(--muted);font-size:14px;text-decoration:none}
+.sidebar a:hover{background:var(--surface);color:var(--ink)}
+.sidebar .group{margin-top:24px}
+main{padding:76px 0 120px;min-width:0}
+.hero{padding:0 0 72px;border-bottom:1px solid var(--line)}
+.eyebrow{color:var(--green);font-size:14px;font-weight:700;margin:0 0 14px}
+h1,h2,h3{letter-spacing:-.035em;line-height:1.12}
+h1{font-size:clamp(46px,6vw,72px);margin:0 0 22px;max-width:10ch}
+h2{font-size:36px;margin:0 0 20px;padding-top:20px}
+h3{font-size:23px;margin:38px 0 12px}
+.hero>p:last-child{color:var(--muted);font-size:20px;max-width:660px;margin:0}
+.doc-section{padding:72px 0;border-bottom:1px solid var(--line);scroll-margin-top:74px}
+.doc-section>p,.doc-section>ul,.doc-section>ol{max-width:720px}
+p{margin:0 0 18px}.muted{color:var(--muted)}
+.callout{margin:26px 0;padding:22px 24px;border-radius:16px;background:var(--green-soft);border:1px solid #c8e9df}
+.callout strong{display:block;margin-bottom:5px}.callout p{margin:0;color:#245f50}
+.warning{background:#fff7e8;border-color:#f0dfb8}.warning p{color:#6d5626}
+.steps{counter-reset:step;display:grid;gap:14px;margin:28px 0}
+.step{counter-increment:step;display:grid;grid-template-columns:36px 1fr;gap:16px;padding:22px;border-radius:16px;background:var(--surface)}
+.step:before{content:counter(step);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green);font-weight:700;font-size:13px}
+.step h3{font-size:18px;margin:2px 0 6px;letter-spacing:-.02em}.step p{margin:0;color:var(--muted)}
+pre{position:relative;margin:20px 0;padding:22px 24px;border-radius:14px;background:var(--code);color:var(--code-ink);font-size:13px;line-height:1.75;overflow:auto}
+p code,li code,td code{padding:2px 6px;border-radius:5px;background:var(--surface-2);font-size:.88em}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0}
+.card{padding:24px;border-radius:16px;background:var(--surface)}
+.card h3{font-size:18px;margin:0 0 8px}.card p{margin:0;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:14px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+td:first-child{font-weight:650;white-space:nowrap}
+.command{margin:14px 0 24px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.command pre{margin:0;border-radius:0;padding:15px 18px}
+.command p{margin:0;padding:14px 18px;color:var(--muted);font-size:14px;background:var(--surface)}
+.command ul{margin:0;padding:12px 38px 16px;background:var(--surface);color:var(--muted);font-size:14px}
+.command li+li{margin-top:6px}
+.option-note{font-size:14px;color:var(--muted)}
+.on-this-page{display:none}
+footer{padding:36px 0;color:var(--faint);font-size:13px}
+@media(max-width:900px){.docs-shell{grid-template-columns:1fr;gap:0}.sidebar{display:none}.on-this-page{display:block;margin:22px 0;padding:18px;border-radius:14px;background:var(--surface)}main{padding-top:52px}.cards{grid-template-columns:1fr}}
+@media(max-width:560px){.topbar-inner,.docs-shell{width:min(100% - 28px,820px)}.top-links a:first-child{display:none}h1{font-size:44px}.doc-section{padding:56px 0}h2{font-size:31px}.step{grid-template-columns:30px 1fr;padding:18px}table{display:block;overflow-x:auto}td:first-child{white-space:normal}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="early-banner" role="status">Hey, I just launched this—expect a few bugs. <a href="https://github.com/RandComAI/mission-control-site/issues/new">Share feedback or report one →</a></div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="mark">M</span><span>Mission Control</span></a>
+    <nav class="top-links" aria-label="Documentation navigation"><a href="index.html">Overview</a><a href="#quick-start">Quick start</a><a href="#cli-reference">CLI reference</a></nav>
+  </div>
+</header>
+
+<div class="docs-shell">
+  <aside class="sidebar" aria-label="Documentation sections">
+    <p>Start here</p>
+    <a href="#overview">Overview</a>
+    <a href="#quick-start">Quick start</a>
+    <a href="#first-task">Run your first task</a>
+    <div class="group"><p>Use Mission Control</p>
+      <a href="#mental-model">Mental model</a>
+      <a href="#ui-guide">UI guide</a>
+      <a href="#cli-guide">CLI guide</a>
+      <a href="#cli-reference">CLI reference</a>
+      <a href="#roles">Roles and runners</a>
+    </div>
+    <div class="group"><p>Operate safely</p>
+      <a href="#files">Files and privacy</a>
+      <a href="#cost-control">Cost control</a>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#uninstall">Move or uninstall</a>
+    </div>
+  </aside>
+
+  <main>
+    <section class="hero" id="overview">
+      <p class="eyebrow">Documentation</p>
+      <h1>Run your agent company.</h1>
+      <p>Mission Control does not replace your coding agent or skill ecosystem. It coordinates the tools and role definitions you already prefer, while keeping every task, agent, session, and result under your control.</p>
+    </section>
+
+    <nav class="on-this-page" aria-label="On this page"><strong>Start here:</strong> <a href="#quick-start">Quick start</a> · <a href="#first-task">First task</a> · <a href="#ui-guide">UI</a> · <a href="#cli-reference">CLI</a></nav>
+
+    <section class="doc-section" id="quick-start">
+      <p class="eyebrow">Get started</p>
+      <h2>Quick start</h2>
+      <p>Mission Control currently runs on macOS. It needs Python 3.11 or newer, <code>tmux</code> for agent sessions, and either Claude Code or Codex CLI installed and signed in.</p>
+      <div class="warning callout"><strong>Private preview</strong><p>The product download is not public yet. <a href="https://github.com/RandComAI/mission-control-site/issues/new">Open an issue</a> if you want to try the preview or share feedback. Installation instructions are included with approved preview builds.</p></div>
+
+      <div class="steps">
+        <div class="step"><div><h3>Get preview access</h3><p>Open an issue to request the current private macOS preview.</p></div></div>
+        <div class="step"><div><h3>Install two small commands</h3><p>The installer writes <code>mctl</code> and <code>mission-control</code> into <code>~/.local/bin</code>. They run the same program.</p></div></div>
+        <div class="step"><div><h3>Open Mission Control</h3><p>The first run asks where your company should live and which installed coding-agent CLI should run its agents.</p></div></div>
+      </div>
+
+<pre>mctl</pre>
+
+      <div class="callout"><strong>What the installer changes</strong><p>It creates two shell scripts in <code>~/.local/bin</code>. It installs no Python packages, creates no virtual environment, and starts no background service.</p></div>
+
+      <h3>First-run questions</h3>
+      <p>The company folder holds roles, tasks, decisions, status, messages, and results as ordinary files. It is not necessarily the codebase where agents work. You choose project folders separately for each task.</p>
+      <p>If both Claude Code and Codex CLI are installed, Mission Control asks which one should run coordinators. It checks whether the selected runner appears signed in, but never reads or stores the credential value and never signs in for you.</p>
+    </section>
+
+    <section class="doc-section" id="first-task">
+      <p class="eyebrow">Five minutes</p>
+      <h2>Run your first task</h2>
+      <h3>From the UI</h3>
+      <ol>
+        <li>Run <code>mctl</code> to open the company window.</li>
+        <li>Describe the outcome in the main input.</li>
+        <li>Choose where the work should happen. This is the project folder agents may edit.</li>
+        <li>Review the roles. Let the coordinator choose, or narrow the available set yourself.</li>
+        <li>Leave unattended spending off unless you intentionally want sessions to run without approval prompts.</li>
+        <li>Send the task. Mission Control creates the task, starts its coordinator, and hires the matching specialist roles.</li>
+      </ol>
+
+      <h3>From the CLI</h3>
+<pre>mctl task create "Review the checkout flow and fix the highest-risk defect" --in ~/code/storefront
+mctl task list
+mctl agent list TASK_ID
+mctl task results TASK_ID</pre>
+      <p>Copy <code>TASK_ID</code> from <code>mctl task list</code>. Results lists the files; it does not print them. Use <code>mctl task show RESULT_FILE_PATH</code> to print one file.</p>
+    </section>
+
+    <section class="doc-section" id="mental-model">
+      <p class="eyebrow">Core concepts</p>
+      <h2>The mental model</h2>
+      <table>
+        <thead><tr><th>Concept</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td>Company</td><td>The durable folder containing your roles, tasks, decisions, messages, status, and produced artifacts.</td></tr>
+          <tr><td>Project folder</td><td>The codebase or working folder an agent operates in. It is selected per task and can be outside the company.</td></tr>
+          <tr><td>Role</td><td>A reusable definition such as Developer, QA, or Market Analyst. Roles live in the library; they do not run by themselves.</td></tr>
+          <tr><td>Agent</td><td>One hired instance of a role on exactly one task. Two tasks using Developer get two different Developer agents.</td></tr>
+          <tr><td>Session</td><td>One running terminal for an agent. Sessions cost money; agents and their history remain when sessions stop.</td></tr>
+          <tr><td>Task</td><td>One piece of work, its assigned agents, live state, outcome, and files. Every dispatched task has its own coordinator.</td></tr>
+          <tr><td>Runner</td><td>The installed coding-agent program—currently Claude Code or Codex CLI—that executes an agent.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><strong>Roles are the company; agents are the people on the work.</strong><p>The role library has no live graph. Relationships and arrows only make sense inside one task, between the agent instances hired onto it.</p></div>
+    </section>
+
+    <section class="doc-section" id="ui-guide">
+      <p class="eyebrow">Graphical interface</p>
+      <h2>Use the UI</h2>
+      <p>Run <code>mctl</code> for the app window. Run <code>mctl ui</code> for the same company in a browser tab served only to <code>127.0.0.1</code>.</p>
+      <div class="cards">
+        <article class="card"><h3>Tasks</h3><p>Create work, see its project folder and current state, open the task map, inspect every agent, and read what came out.</p></article>
+        <article class="card"><h3>Roles</h3><p>Browse the reusable role library, read role definitions, inspect track records, import a definition, or start a task with one role.</p></article>
+        <article class="card"><h3>Agent detail</h3><p>Read reported progress and live scrollback, send a message, open the terminal, or stop the session without deleting the agent.</p></article>
+        <article class="card"><h3>History</h3><p>Review recorded company activity and artifacts without pretending that old work is still running.</p></article>
+      </div>
+
+      <h3>Read task state</h3>
+      <p>A task’s state is derived from its agents rather than stored as a guess. <strong>Needs you</strong> means an agent recorded a blocker or request. <strong>Working</strong> means current work is active. <strong>Done</strong> means the task was finished. A quiet or unknown agent is explained with its cause instead of being silently called blocked.</p>
+
+      <h3>Talk to an agent</h3>
+      <p>Open an agent from its task, read its current terminal output, and send a line. “Open in a terminal” joins the actual tmux session; detach with <code>Ctrl-B</code>, then <code>D</code>, and the agent keeps working.</p>
+    </section>
+
+    <section class="doc-section" id="cli-guide">
+      <p class="eyebrow">Command line</p>
+      <h2>Use the CLI</h2>
+      <p><code>mctl</code> and <code>mission-control</code> are identical. Commands use a noun-first grammar: <code>mctl task list</code>, <code>mctl agent logs</code>, <code>mctl role library</code>.</p>
+      <div class="callout"><strong>Capitalized words come from your own screen.</strong><p>Get <code>TASK_ID</code> from <code>mctl task list</code>, <code>AGENT_ID</code> from <code>mctl agent list</code>, and <code>RESULT_FILE_PATH</code> from <code>mctl task results</code>.</p></div>
+
+      <h3>Inspect the whole company</h3>
+<pre>mctl status
+mctl task list
+mctl agent list
+mctl inbox</pre>
+      <p><code>status</code> is the concise company summary. <code>inbox</code> answers what needs you, including actionable review state, stopped sessions, and your reminders.</p>
+
+      <h3>Use another company</h3>
+<pre>mctl task list --company ~/Companies/acme
+mctl app --company ~/Companies/new-company</pre>
+      <p><code>--company PATH</code> works across the command surface. Naming a path that does not exist creates a company there. It does not change the project folder agents work in.</p>
+    </section>
+
+    <section class="doc-section" id="cli-reference">
+      <p class="eyebrow">Reference</p>
+      <h2>Complete CLI reference</h2>
+      <p>This reference follows the public parsers in the current source. Brackets mean optional input. Every command also accepts <code>-h</code> or <code>--help</code>; <code>mctl help</code> prints the top-level map.</p>
+
+      <h3>Values and shared behavior</h3>
+      <table>
+        <thead><tr><th>Value</th><th>Where it comes from</th></tr></thead>
+        <tbody>
+          <tr><td><code>TASK_ID</code></td><td>The short slug beside a task in <code>mctl task list</code>, or enough of its long name to match exactly one task.</td></tr>
+          <tr><td><code>AGENT_ID</code></td><td>The ID in brackets after a role in <code>mctl agent list</code>. A role name also works when only one agent has that role.</td></tr>
+          <tr><td><code>RESULT_FILE_PATH</code></td><td>The complete path printed under “what it produced” by <code>mctl task results TASK_ID</code>.</td></tr>
+          <tr><td><code>TODO_ID</code></td><td>The short ID printed beside your reminder by <code>mctl inbox</code>.</td></tr>
+          <tr><td><code>ADDRESS</code></td><td>A hired agent ID or an unambiguous role name.</td></tr>
+        </tbody>
+      </table>
+      <p><code>--company PATH</code> is accepted by task, agent, role, status, app, and UI commands. It selects the folder holding <code>roles/</code> and <code>coordination/</code>; it does not select an agent’s project folder. The remembered first-run company is the default. A named path that does not exist is initialized as a company. On <code>role</code> commands the flag may appear before or after the verb.</p>
+
+      <h3>Tasks</h3>
+      <div class="command"><pre>mctl task create TEXT... [OPTIONS]</pre><p>Open a task, start its coordinator, and let the coordinator hire the roles it needs.</p><ul>
+        <li><code>--name WORDS</code> sets the display name and the basis of the short task slug. The request text is the default.</li>
+        <li><code>--in PATH</code> sets the project folder every agent opens. The last project folder used is the default.</li>
+        <li><code>--only ROLE,ROLE</code> limits which roles the coordinator may consider and remembers that narrowing. <code>--only all</code> clears it.</li>
+        <li><code>--with-role ROLE</code> hires one role you chose instead of asking the coordinator to choose it.</li>
+        <li><code>--let-it-work-without-asking</code> requests the runner’s unattended permission mode. This lowers an approval boundary; <code>role library</code> prints what the runner permits.</li>
+        <li><code>--anyway</code> confirms the new spend when sessions are already running. Without it, Mission Control reports what is running and stops.</li>
+      </ul></div>
+      <div class="command"><pre>mctl task list [--json] [--company PATH]</pre><p>Print the company org chart: every task, derived state, agent, and ready-to-run command. <code>--json</code> returns the same listing as structured JSON.</p></div>
+      <div class="command"><pre>mctl task results [TASK_ID] [--json] [--company PATH]</pre><p>Show what was requested, the coordinator’s outcome, participants, and complete paths of produced files. The task may be omitted when it can be resolved interactively. It lists files rather than printing their contents. <code>--json</code> produces structured output.</p></div>
+      <div class="command"><pre>mctl task show [RESULT_FILE_PATH] [--company PATH]</pre><p>Print one produced document whole. Use the exact path from <code>task results</code>; the path may be omitted when it can be resolved interactively.</p></div>
+      <div class="command"><pre>mctl task finish [TASK_ID] [--yes] [--company PATH]</pre><p>Close a task and stop every agent session on it. In a terminal it names the sessions and asks first. <code>--yes</code> answers in advance; non-interactive scripts are never prompted. Agents and history remain.</p></div>
+      <div class="command"><pre>mctl task reopen [TASK_ID] [--company PATH]</pre><p>Open a finished task again. It deliberately starts no sessions; list the old agents and run <code>agent start</code> only for those you want working.</p></div>
+
+      <h3>Agents</h3>
+      <div class="command"><pre>mctl agent list [TASK_ID] [--json] [--company PATH]</pre><p>List agents on one task, or every agent when the task is omitted. <code>--json</code> returns structured output.</p></div>
+      <div class="command"><pre>mctl agent logs [AGENT_ID] [--company PATH]</pre><p>Read the agent’s words: full live scrollback while it runs, or its saved conversation after it stops. This is not the reusable role definition.</p></div>
+      <div class="command"><pre>mctl agent send [AGENT_ID] [TEXT...] [--company PATH]</pre><p>Write a line to an agent. It enters the live session, or waits in the agent’s inbox when no session is running.</p></div>
+      <div class="command"><pre>mctl agent attach [AGENT_ID] [--print-the-command] [--company PATH]</pre><p>Join the tmux session in this terminal; detach with <code>Ctrl-B</code>, then <code>D</code>. <code>--print-the-command</code> prints the join command without running it, for another terminal or script.</p></div>
+      <div class="command"><pre>mctl agent start [AGENT_ID] [--company PATH]
+mctl agent stop [AGENT_ID] [--company PATH]</pre><p><code>start</code> gives the durable agent a session, resuming its identity and history. <code>stop</code> ends only that session; the agent stays and can start again.</p></div>
+
+      <h3>Role library and hiring</h3>
+      <div class="command"><pre>mctl role library [--company PATH]</pre><p>List reusable role definitions, their selection cues, and what installed runner can execute each. <code>role roles</code> is the older equivalent.</p></div>
+      <div class="command"><pre>mctl role add ROLE [OPTIONS]</pre><p>Write down one hired instance of a reusable role. Hiring does not necessarily launch it.</p><ul>
+        <li><code>--assignment WORDS...</code> records this instance’s one piece of work; it may be added later.</li>
+        <li><code>--in PATH</code> sets the project folder the agent opens. The company folder is the default. The legacy hidden spelling <code>--project PATH</code> is equivalent.</li>
+        <li><code>--task SLUG</code> binds the agent to one task’s coordination-directory slug. Omit it only for genuinely cross-task work.</li>
+        <li><code>--because WORDS</code> records why the task needs this role.</li>
+        <li><code>--runner NAME</code> chooses the runner; otherwise the installed configured default is used.</li>
+      </ul></div>
+      <div class="command"><pre>mctl role assign ADDRESS --assignment WORDS... [--continue] [--company PATH]</pre><p>Change an agent’s assignment. A different piece of work is refused because one agent session owns one assignment. <code>--continue</code> explicitly says this is the same work described more clearly.</p></div>
+      <div class="command"><pre>mctl role outcome --task SLUG [WORDS...] [--company PATH]</pre><p>Record the task’s concise outcome, produced paths, conclusions, and remaining work. Supplying no outcome words clears an incorrect outcome.</p></div>
+      <div class="command"><pre>mctl role list [--all] [--company PATH]</pre><p>List the hired roster and what is running. <code>--all</code> includes retired hires. <code>role roster</code> is equivalent.</p></div>
+      <div class="command"><pre>mctl role retire ADDRESS [--company PATH]</pre><p>Stop listing a hire as active. Its recorded history is retained.</p></div>
+      <div class="command"><pre>mctl role import PATH [OPTIONS]</pre><p>Translate an existing skill, agent, GPT export, <code>AGENTS.md</code>, or Markdown definition into a Mission Control role package. <code>PATH</code> may be a file, a containing directory, or <code>-</code> for stdin.</p><ul>
+        <li><code>--as NAME</code> overrides the inferred role name.</li>
+        <li>Without <code>--add</code>, it writes nothing and prints the proposed package for review.</li>
+        <li><code>--add</code> copies the translation into <code>role-library/&lt;name&gt;/</code> and generates <code>roles/&lt;NAME&gt;.md</code>. It never edits the source or overwrites an existing role.</li>
+        <li><code>--anyway</code> permits writing despite non-fatal missing information; it cannot override a missing name, missing mission, or overwrite refusal.</li>
+      </ul></div>
+
+      <h3>Role sessions and runners</h3>
+      <div class="command"><pre>mctl role runners [--company PATH]</pre><p>List every configured runner, whether it is installed and signed in, and which runner is the default.</p></div>
+      <div class="command"><pre>mctl role coordinator [--use NAME | --default] [--company PATH]</pre><p>With no option, show the runner used for new coordinators. <code>--use</code> remembers a new choice. <code>--default</code> forgets that choice and returns to the runner table’s default. Existing coordinator sessions are unchanged.</p></div>
+      <div class="command"><pre>mctl role runs-on ADDRESS [--use NAME] [--wait SECONDS] [--company PATH]</pre><p>Show one agent’s runner. <code>--use</code> moves it to another runner. If it is live, Mission Control requests and verifies a handover before replacing anything; <code>--wait</code> sets the handover deadline, using the runtime default when omitted.</p></div>
+      <div class="command"><pre>mctl role launch ADDRESS [--let-it-work-without-asking] [--company PATH]</pre><p>Give a hired agent a session. The unattended flag is an explicit safety-boundary reduction and is refused if that runner has no defined unattended mode.</p></div>
+      <div class="command"><pre>mctl role stop ADDRESS [--company PATH]
+mctl role attach ADDRESS [--company PATH]</pre><p><code>stop</code> ends the session but keeps the hire. Role-level <code>attach</code> prints the command that joins the session; the noun-first <code>agent attach</code> command joins it directly.</p></div>
+      <div class="command"><pre>mctl role replace ADDRESS [--wait SECONDS] [--let-it-work-without-asking] [--company PATH]</pre><p>Ask a live agent for a handover, verify it, retire the old session, and start a fresh continuation. If the handover misses the timeout, the old session is left exactly as it was.</p></div>
+      <div class="command"><pre>mctl role at-once [HOW_MANY] [--company PATH]</pre><p>Show or set how many specialist agents on each task may run simultaneously. Extra hires wait their turn. The task coordinator is not counted. The old <code>at-most</code> command was removed and only explains its replacement.</p></div>
+      <div class="command"><pre>mctl role check ADDRESS [--company PATH]
+mctl role history ADDRESS [--company PATH]</pre><p><code>check</code> takes everything waiting from an agent’s inbox. <code>history</code> shows every session that hire has had and the succession between sessions.</p></div>
+
+      <h3>Role messages</h3>
+      <div class="command"><pre>mctl role say ADDRESS TEXT... [--about TASK_ID] [--company PATH]</pre><p>Send a founder-authored message. <code>--about</code> disambiguates the task when writing to the cross-task coordinator.</p></div>
+      <div class="command"><pre>mctl role send --to ADDRESS --from NAME [--as-founder] TEXT... [--company PATH]</pre><p>Send a message from one role to another. <code>--from</code> records the truthful sender; <code>--as-founder</code> explicitly marks the message as founder-authored.</p></div>
+      <div class="command"><pre>mctl role route [--company PATH]</pre><p>Deliver everything currently waiting in the role outbox.</p></div>
+      <div class="command"><pre>mctl role read ADDRESS [--lines N] [--company PATH]</pre><p>Read the full live scrollback or saved conversation. <code>--lines N</code> limits only live scrollback; completed conversations are always shown whole.</p></div>
+      <div class="command"><pre>mctl role inbox [ADDRESS] [--company PATH]</pre><p>Show unread messages for one recipient, or for every recipient when the address is omitted.</p></div>
+
+      <h3>Private reminders</h3>
+      <div class="command"><pre>mctl todo add TEXT... [--in PATH] [--at EPOCH] [--log FILE]</pre><p>Add your own reminder without opening a task, hiring anyone, or starting anything. <code>--in</code> associates another folder; <code>--at</code> supplies a Unix timestamp for replay/testing; <code>--log</code> selects another event log.</p></div>
+      <div class="command"><pre>mctl todo note TEXT... [--on TODO_ID] [--in PATH] [--at EPOCH] [--log FILE]</pre><p>Append one line to a reminder. Without <code>--on</code>, Mission Control uses the open reminder in the current or <code>--in</code> folder.</p></div>
+      <div class="command"><pre>mctl todo done TODO_ID [--at EPOCH] [--log FILE]</pre><p>Finish a private reminder so it leaves the inbox. This is distinct from <code>task finish</code>, which settles a task and its agent sessions.</p></div>
+
+      <h3>Company status, attention, and handoff</h3>
+      <div class="command"><pre>mctl status [--json] [--company PATH]</pre><p>Print the selected runner and sign-in state, task and agent counts, then one concise line for each. <code>--json</code> returns structured output.</p></div>
+      <div class="command"><pre>mctl inbox [--repos PATH] [--log FILE] [--why] [--no-ingest]</pre><p>Answer what needs you: actionable reviews, stopped sessions, and reminders. <code>--repos</code> accepts a checkout or parent directory and is repeatable; <code>--log</code> selects another event log; <code>--why</code> also prints deliberately suppressed pull requests; <code>--no-ingest</code> judges existing log data without reading sources first.</p></div>
+      <div class="command"><pre>mctl handoff [--repos PATH] [--log FILE] [--repo NAME] [--out FILE] [--no-ingest]</pre><p>Render everything still open as Markdown. <code>--repos</code> is repeatable; <code>--repo</code> limits reminders to one repository; <code>--out</code> writes a file instead of stdout; <code>--no-ingest</code> uses the existing log without refreshing GitHub.</p></div>
+
+      <h3>App and browser interface</h3>
+      <div class="command"><pre>mctl [--repos PATH] [--log FILE] [--why] [--no-ingest]
+mctl app [--repos PATH] [--log FILE] [--no-model] [--company PATH]</pre><p>Bare <code>mctl</code> opens the native company window; <code>app</code> is its older explicit spelling. Supplying report flags to the bare command prints the inbox report. On <code>app</code>, <code>--no-model</code> disables the optional local-model paragraph.</p></div>
+      <div class="command"><pre>mctl ui [--repos PATH] [--log FILE] [--port PORT] [--no-browser] [--no-model] [--company PATH]</pre><p>Serve the same company page on this machine only. The default port is any free port; <code>--port</code> fixes it, <code>--no-browser</code> serves without opening a tab, and <code>--no-model</code> disables the optional local-model paragraph.</p></div>
+      <div class="command"><pre>mctl help
+mctl COMMAND --help
+mctl COMMAND help</pre><p>Print the complete command map or the parser help for one command.</p></div>
+
+      <h3>Short aliases</h3>
+      <p>The noun-first commands are canonical. These existing short forms remain exact aliases:</p>
+      <table><tbody>
+        <tr><td><code>do</code>, <code>dispatch</code></td><td><code>task create</code></td></tr>
+        <tr><td><code>tasks</code></td><td><code>task list</code></td></tr>
+        <tr><td><code>results</code>, <code>show</code>, <code>finish</code>, <code>reopen</code></td><td>The corresponding <code>task</code> verbs</td></tr>
+        <tr><td><code>agents</code>, <code>read</code>, <code>say</code>, <code>attach</code>, <code>start</code>, <code>stop</code></td><td><code>agent list/logs/send/attach/start/stop</code></td></tr>
+        <tr><td><code>roles</code>, <code>import</code></td><td><code>role library/import</code></td></tr>
+        <tr><td><code>todo</code>, <code>note</code>, <code>done</code></td><td><code>todo add/note/done</code></td></tr>
+        <tr><td><code>app</code></td><td>Bare <code>mctl</code> in a native window</td></tr>
+      </tbody></table>
+    </section>
+
+    <section class="doc-section" id="roles">
+      <p class="eyebrow">Execution</p>
+      <h2>Roles and runners</h2>
+      <p>A role is the interface; a runner is the installed program that executes it. Two agents of one role may use different runners.</p>
+<pre>mctl role runners
+mctl role coordinator --use NAME
+mctl role runs-on AGENT_ID --use NAME
+mctl role at-once NUMBER</pre>
+      <p><code>coordinator --use</code> changes the runner for coordinators started from then on. <code>runs-on</code> moves one agent to a runner. <code>at-once</code> controls how many specialist agents on each task run simultaneously; extra agents remain hired and wait their turn.</p>
+      <p>Mission Control ships runner definitions for Claude Code and Codex CLI. Advanced users can add or override runners in <code>~/.config/mission-control/runners.json</code> without modifying the product.</p>
+      <h3>Reuse existing skills and agents</h3>
+      <p>Mission Control is not a replacement marketplace. Its importer accepts a role definition you already have—such as an Agent Skill, Claude agent or skill, exported GPT, or plain Markdown—and translates it into the local role-package contract.</p>
+<pre>mctl role import ROLE_SOURCE_PATH
+mctl role import ROLE_SOURCE_PATH --add</pre>
+      <p>The first command is a review: it prints what was understood, what the role would become, and whether its matching rules can actually select it. Nothing is written without <code>--add</code>. The source path is read-only; the approved translation is copied into your company’s <code>role-library/</code>.</p>
+    </section>
+
+    <section class="doc-section" id="files">
+      <p class="eyebrow">Local by design</p>
+      <h2>Files, privacy, and boundaries</h2>
+      <ul>
+        <li>The UI server binds only to <code>127.0.0.1</code>.</li>
+        <li>Mission Control has no hosted account, telemetry service, or model API key of its own.</li>
+        <li>Your coding-agent CLI still communicates with its own vendor under that tool’s settings and privacy policy.</li>
+        <li>The company folder contains readable roles, task files, status, messages, and artifacts.</li>
+        <li>Local application state lives under <code>~/.config/mission-control</code> by default. Set <code>MISSION_CONTROL_HOME</code> to override it.</li>
+        <li>Mission Control checks only whether a runner’s sign-in marker exists. Credential values never reach the page, logs, or status files.</li>
+      </ul>
+      <div class="warning callout"><strong>Project-folder access is real access.</strong><p>Agents read and modify the project folder through the coding-agent CLI you selected. Its approval and sandbox settings determine what the agent may do.</p></div>
+    </section>
+
+    <section class="doc-section" id="cost-control">
+      <p class="eyebrow">Sessions spend</p>
+      <h2>Control cost and autonomy</h2>
+      <p>Hiring an agent writes a durable record. Starting its session is the step that can spend money. Mission Control keeps those concepts separate.</p>
+      <ul>
+        <li>Every task gets its own coordinator when dispatched.</li>
+        <li>The default per-task pace is three specialist agents running together; the coordinator is not counted.</li>
+        <li>Agents beyond the pace wait their turn instead of being refused.</li>
+        <li>Queued agents only advance while the app’s courier is running; the UI explains when closing the app prevents the next turn.</li>
+        <li>Finishing a task stops all its sessions. Reopening does not restart them.</li>
+        <li>Unattended permission modes are explicit and runner-specific. Enable them only after reading what the chosen runner permits.</li>
+      </ul>
+    </section>
+
+    <section class="doc-section" id="troubleshooting">
+      <p class="eyebrow">Common problems</p>
+      <h2>Troubleshooting</h2>
+      <h3><code>mctl: command not found</code></h3>
+      <p>Add <code>~/.local/bin</code> to your PATH. The installer prints the exact line for your shell.</p>
+<pre>export PATH="$HOME/.local/bin:$PATH"</pre>
+      <h3>Python is too old</h3>
+      <p>Mission Control requires Python 3.11 because it reads TOML runner configuration. On macOS, <code>brew install python</code> supplies a current version. You can also run:</p>
+<pre>MISSION_CONTROL_PYTHON=/path/to/python3 ./install.sh</pre>
+      <h3>No agent session starts</h3>
+      <p>Install <code>tmux</code>, confirm Claude Code or Codex CLI is on PATH, and sign in using that runner’s own command. Then check:</p>
+<pre>mctl status
+mctl role runners</pre>
+      <h3>The wrong company opens</h3>
+      <p>The remembered company does not change with your current directory. Name another one deliberately with <code>--company PATH</code>.</p>
+      <h3>An agent is quiet or waiting</h3>
+      <p>Read the exact cause and its transcript before restarting it:</p>
+<pre>mctl agent logs AGENT_ID
+mctl agent attach AGENT_ID</pre>
+    </section>
+
+    <section class="doc-section" id="uninstall">
+      <p class="eyebrow">Housekeeping</p>
+      <h2>Move or uninstall</h2>
+      <h3>Move the unpacked folder</h3>
+      <p>The installed commands intentionally point to that folder. After moving it, run <code>./install.sh</code> again from the new location.</p>
+      <h3>Remove Mission Control</h3>
+<pre>rm ~/.local/bin/mctl
+rm ~/.local/bin/mission-control</pre>
+      <p>Then remove the unpacked product folder. Your company folder belongs to you and is left untouched.</p>
+    </section>
+
+    <footer>Mission Control documentation · derived from the current command surface and product contracts.</footer>
+  </main>
+</div>
+</body>
+</html>

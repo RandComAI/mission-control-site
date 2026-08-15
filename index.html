@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mission Control</title>
+<meta name="description" content="A local macOS command-line tool that turns one sentence into work for a team of AI coding agents, each running as a named role in its own tmux session.">
+
+<!--
+  This page is deliberately one file with nothing outside it except its
+  screenshots. No CDN, no
+  web font, no analytics, no tracker, no request to any host — so it opens
+  correctly from a file:// URL by double-clicking it, and it draws the same with
+  the network unplugged.
+
+  Nothing on this page is invented. There are no testimonials, no user counts,
+  no customer logos and no "trusted by", because this tool has one user and
+  saying otherwise would be a lie rather than a placeholder.
+
+  Its structure, order, headings and much of its copy were designed by Codex on
+  2026-08-13 and implemented here; see STATUS.md for the two places this
+  deviates from what it asked for, and why.
+
+  ==========================================================================
+  THE SCREENSHOTS — how to put the real ones in
+  ==========================================================================
+
+  Each screenshot frame stays empty until the file it names exists.
+  Drop the file in and it appears; nothing else has to be edited.
+
+      landing/screenshots/org-chart.png     the org chart of the roles
+      landing/screenshots/role-picker.png   roles available to one task
+      landing/screenshots/role-library.png  the reusable role library
+
+  Take them from the real window. Full-window captures and wide crops both scale
+  to the frame; the source dimensions are recorded in screenshots/README.md.
+
+  PNG is what the frames expect. To use a different format, change the one
+  `src` on the frame you are replacing.
+
+  Then run `make package` from app/, which refreshes dist/index.html and
+  dist/screenshots/ — dist/ is the copy to look at, because the download link
+  points at the archive sitting beside it.
+
+  How the swap works, in case it ever needs debugging: each frame shows its
+  placeholder by default and reveals the image only once the browser has
+  actually loaded it (`onload` adds `has-shot`). So a missing file shows the
+  placeholder rather than a broken-image icon, and a browser with JavaScript
+  switched off shows the placeholder too — which is the right default either
+  way.
+-->
+
+<style>
+:root {
+  --bg: #ffffff;
+  --panel: #f7f7f5;
+  --panel-raised: #efefec;
+  --ink: #171717;
+  --ink-soft: #5f6360;
+  --ink-faint: #8b8e8c;
+  --line: #e5e5e2;
+  --line-strong: #d1d1cd;
+  --signal: #10a37f;
+  --signal-dark: #ffffff;
+  --code-bg: #202123;
+  --code-ink: #f7f7f5;
+  --shadow: 0 22px 60px rgba(0, 0, 0, .09), 0 2px 8px rgba(0, 0, 0, .04);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-wrap: break-word;
+}
+code, pre, kbd {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+a { color: var(--signal); }
+main { width: min(1120px, calc(100% - 48px)); margin: 0 auto; position: relative; }
+.early-banner { min-height: 34px; padding: 7px 18px; display: flex; align-items: center; justify-content: center; text-align: center; background: #f1faf7; border-bottom: 1px solid #d8eee7; color: #315d52; font-size: 12px; }
+.early-banner a { margin-left: 4px; color: #087f63; font-weight: 700; }
+section { padding: 112px 0; border-top: 1px solid var(--line); }
+section:first-of-type { border-top: 0; }
+h1, h2, h3 { line-height: 1.05; letter-spacing: -.045em; margin: 0 0 22px; }
+h1 { font-size: clamp(48px, 6.6vw, 82px); max-width: 12ch; font-weight: 700; }
+h2 { font-size: clamp(34px, 4vw, 52px); max-width: 14ch; }
+p { margin: 0 0 18px; max-width: 62ch; }
+.soft { color: var(--ink-soft); }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+.brand { display: flex; gap: 12px; align-items: center; }
+.topnav { display: flex; gap: 22px; align-items: center; }
+.topnav a { color: var(--ink-soft); font-size: 13px; font-weight: 600; text-decoration: none; }
+.topnav a:hover { color: var(--ink); }
+.brand-mark { width: 26px; height: 26px; border-radius: 8px; background: var(--ink); position: relative; }
+.brand-mark::after { content: "M"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 12px; font-weight: 700; }
+.wordmark { margin: 0; color: var(--ink); font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+.status { color: var(--ink-soft); font-size: 13px; }
+.status::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--signal); }
+
+.hero { min-height: 720px; display: grid; grid-template-columns: minmax(0, 1.03fr) minmax(380px, .97fr); gap: 72px; align-items: center; padding: 84px 0 120px; }
+.eyebrow { color: var(--signal); font-size: 14px; font-weight: 650; letter-spacing: -.01em; margin-bottom: 24px; }
+.lede { color: var(--ink-soft); font-size: clamp(18px, 2vw, 22px); max-width: 52ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 32px; }
+.button, .quiet-link { display: inline-flex; min-height: 50px; padding: 0 22px; align-items: center; justify-content: center; border: 1px solid var(--line-strong); border-radius: 12px; text-decoration: none; font-weight: 650; font-size: 14px; transition: transform .18s ease, background .18s ease, border-color .18s ease; }
+.button { background: var(--ink); border-color: var(--ink); color: #fff; }
+.quiet-link { color: var(--ink); background: #fff; }
+.button:hover, .quiet-link:hover { transform: translateY(-2px); border-color: var(--signal); }
+.button-disabled { background: var(--panel-raised); border-color: var(--line); color: var(--ink-faint); cursor: not-allowed; }
+.button-disabled:hover { transform: none; border-color: var(--line); }
+.section-intro { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; margin-bottom: 42px; align-items: end; }
+.section-intro p { color: var(--ink-soft); font-size: 18px; }
+ol.steps { counter-reset: steps; list-style: none; padding: 0; margin: 36px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+ol.steps li { counter-increment: steps; min-height: 210px; padding: 28px; border-radius: 18px; background: var(--panel); color: var(--ink-soft); }
+ol.steps li::before { content: counter(steps); display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 40px; border-radius: 50%; background: #e3f5ef; color: var(--signal); font-size: 13px; font-weight: 700; }
+ul.plain { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+ul.plain li { background: var(--panel); border-radius: 18px; padding: 30px; color: var(--ink-soft); }
+ul.plain strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 17px; }
+
+figure.shot { margin: 34px 0 0; border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
+.concept-map { margin: 0; border: 1px solid var(--line); border-radius: 24px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
+.concept-map svg { display: block; width: 100%; height: auto; }
+.concept-map .edge { fill: none; stroke: #b8bbb8; stroke-width: 2; stroke-linecap: round; }
+.concept-map .edge-active { stroke: var(--signal); }
+.concept-map .node { fill: #fff; stroke: var(--line-strong); stroke-width: 1.5; }
+.concept-map .node-primary { stroke: var(--signal); stroke-width: 2; }
+.concept-map .node-title { fill: var(--ink); font: 650 15px -apple-system, BlinkMacSystemFont, sans-serif; }
+.concept-map .node-meta { fill: var(--ink-faint); font: 12px -apple-system, BlinkMacSystemFont, sans-serif; }
+.concept-map .map-control { fill: #087f63; font: 12px -apple-system, BlinkMacSystemFont, sans-serif; }
+.concept-map .task-label { fill: var(--signal); font: 650 11px -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: .08em; }
+.concept-map .task-copy { fill: var(--ink); font: 650 16px -apple-system, BlinkMacSystemFont, sans-serif; }
+figure.shot img { display: none; width: 100%; height: auto; }
+figure.shot.has-shot img { display: block; }
+figure.shot.has-shot .placeholder { display: none; }
+.placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; margin: 10px; padding: 28px; min-height: 340px; border: 1px dashed var(--line-strong); border-radius: 14px; background: #fff; color: var(--ink-faint); }
+.placeholder::before { content: "Visual preview coming soon"; color: var(--signal); font-size: 13px; font-weight: 650; }
+.placeholder .what { color: var(--ink-soft); font-size: 15px; font-weight: 600; }
+.placeholder .file { font: 12px/1.4 ui-monospace, monospace; }
+.shot-pane .placeholder { min-height: 300px; }
+figcaption { padding: 12px 16px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+dl.needs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 38px 0 0; }
+dl.needs > div { padding: 30px; border-radius: 18px; background: var(--panel); }
+dl.needs > div:nth-child(odd), dl.needs > div:nth-last-child(-n+2) { border: 0; }
+dl.needs dt { margin-bottom: 8px; color: var(--ink); font-weight: 650; }
+dl.needs dd { margin: 0; color: var(--ink-soft); }
+pre { margin: 26px 0 18px; padding: 24px; background: var(--code-bg); color: var(--code-ink); border-radius: 16px; font-size: 13px; line-height: 1.8; overflow-x: auto; }
+p code, li code, dd code { color: var(--ink); background: var(--panel-raised); border-radius: 5px; padding: 2px 6px; font-size: .86em; }
+footer { display: flex; justify-content: space-between; gap: 30px; padding: 42px 0 64px; color: var(--ink-faint); font-size: 13px; border-top: 1px solid var(--line); }
+footer::after { content: "Local · Inspectable · Your machine"; color: var(--ink-soft); font-size: 12px; }
+
+@media (max-width: 820px) {
+  main { width: min(100% - 28px, 680px); }
+  .hero, .section-intro { grid-template-columns: 1fr; }
+  .hero { min-height: auto; gap: 64px; padding: 68px 0 88px; }
+  ol.steps { grid-template-columns: 1fr 1fr; }
+  section { padding: 72px 0; }
+}
+@media (max-width: 560px) {
+  h1 { font-size: clamp(43px, 14vw, 66px); }
+  .topbar .status { display: none; }
+  .actions { align-items: stretch; flex-direction: column; }
+  .button, .quiet-link { width: 100%; }
+  ol.steps, ul.plain, dl.needs { grid-template-columns: 1fr; }
+  ol.steps li { min-height: 160px; }
+  ol.steps li::before { margin-bottom: 24px; }
+  dl.needs > div, dl.needs > div:nth-child(odd) { border-right: 0; border-bottom: 1px solid var(--line); }
+  dl.needs > div:last-child { border-bottom: 0; }
+  footer { display: block; }
+  footer::after { display: block; margin-top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+</style>
+</head>
+
+<body>
+<div class="early-banner" role="status">Hey, I just launched this—expect a few bugs. <a href="https://github.com/RandComAI/mission-control-site/issues/new">Share feedback or report one →</a></div>
+<main>
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><p class="wordmark">Mission Control</p></div>
+    <nav class="topnav" aria-label="Primary navigation"><a href="docs.html">Documentation</a><span class="status">Local system ready</span></nav>
+  </header>
+
+  <!-- 1. Hero. What it is, and the download, with nothing competing. -->
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Your AI team // under command</p>
+      <h1>One task. The right agents. Full visibility.</h1>
+      <p class="lede">Mission Control is not another coding agent or chat. It coordinates Claude Code, Codex, or the compatible tool you already prefer—while every role runs in an inspectable session on your machine.</p>
+      <div class="actions">
+        <span class="button button-disabled" aria-disabled="true">macOS · Private preview</span>
+        <span class="button button-disabled" aria-disabled="true">Windows · Coming soon</span>
+        <span class="button button-disabled" aria-disabled="true">Linux · Coming soon</span>
+        <a class="quiet-link" href="#how">See the operating model</a>
+      </div>
+    </div>
+    <figure class="concept-map">
+      <svg viewBox="0 0 600 520" role="img" aria-labelledby="concept-title concept-description">
+        <title id="concept-title">One objective coordinated across a team of agents</title>
+        <desc id="concept-description">A conceptual diagram in which a coordinator routes one objective to Developer, Research, and QA agents while their sessions remain visible.</desc>
+        <rect x="18" y="18" width="564" height="484" rx="28" fill="#f7f7f5"/>
+
+        <rect x="130" y="48" width="340" height="68" rx="18" fill="#fff" stroke="#d1d1cd"/>
+        <text x="154" y="75" class="task-label">ONE OBJECTIVE</text>
+        <text x="154" y="98" class="task-copy">Ship the next product milestone</text>
+
+        <path class="edge edge-active" d="M300 116 C300 140 300 148 300 166"/>
+        <path class="edge" d="M300 242 C300 272 128 264 128 316"/>
+        <path class="edge edge-active" d="M300 242 C300 282 300 292 300 350"/>
+        <path class="edge" d="M300 242 C300 272 472 264 472 316"/>
+
+        <rect class="node node-primary" x="210" y="166" width="180" height="76" rx="18"/>
+        <circle cx="234" cy="190" r="6" fill="#10a37f"/>
+        <text x="250" y="196" class="node-title">Coordinator</text>
+        <text x="234" y="220" class="node-meta">routes · briefs · watches</text>
+
+        <rect class="node" x="48" y="316" width="160" height="84" rx="18"/>
+        <circle cx="72" cy="341" r="6" fill="#10a37f"/>
+        <text x="88" y="347" class="node-title">Developer</text>
+        <text x="72" y="374" class="node-meta">working</text>
+
+        <rect class="node" x="220" y="350" width="160" height="84" rx="18"/>
+        <circle cx="244" cy="375" r="6" fill="#10a37f"/>
+        <text x="260" y="381" class="node-title">Research</text>
+        <text x="244" y="408" class="node-meta">reported progress</text>
+
+        <rect class="node" x="392" y="316" width="160" height="84" rx="18"/>
+        <circle cx="416" cy="341" r="6" fill="#aeb2af"/>
+        <text x="432" y="347" class="node-title">QA</text>
+        <text x="416" y="374" class="node-meta">waiting its turn</text>
+
+        <rect x="170" y="464" width="260" height="24" rx="12" fill="#e3f5ef"/>
+        <text x="300" y="481" text-anchor="middle" class="map-control">Every session stays visible and controllable</text>
+      </svg>
+      <figcaption>Conceptual model — the roles and dependencies change with each task</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="section-intro">
+      <h2>Keep your tools. Add the company layer.</h2>
+      <div>
+        <p>Mission Control does not replace the agent you trust. It gives your existing coding-agent CLI durable roles, task boundaries, coordination, live visibility, and a result you can inspect.</p>
+        <p class="soft">It also does not replace ChatGPT skills, Claude skills and plugins, or other role ecosystems. Import a definition from a file or folder you already use; Mission Control reads the source, shows the translation first, and adds it to your local role library only when you approve.</p>
+      </div>
+    </div>
+    <ul class="plain">
+      <li><strong>Bring your preferred runner</strong>Claude Code and Codex CLI are supported today. The role is the interface; the runner underneath can change.</li>
+      <li><strong>Bring your existing expertise</strong>Turn an Agent Skill, Claude agent or skill, exported GPT, or plain Markdown definition into a reusable company role.</li>
+    </ul>
+  </section>
+
+  <!-- 2. The operating model. Makes "a team of agents" concrete.
+       SCREENSHOT 1 — the org chart of the roles. -->
+  <section id="how">
+    <div class="section-intro">
+      <h2>A team assembled around the work.</h2>
+      <div><p>Describe an outcome. A coordinator selects matching roles from the shipped library—Developer, QA, Designer, Market Analyst and others—then briefs each one in a session of its own.</p><p class="soft">It works in folders you choose, through a coding-agent CLI you already use. Mission Control stores no model credentials of its own.</p></div>
+    </div>
+
+    <figure class="shot shot-wide">
+      <img src="screenshots/org-chart.png" alt="A real Mission Control task map showing the coordinator and specialist agents, their state, and how their work depends on one another."
+           onload="this.closest('figure').classList.add('has-shot')">
+      <div class="placeholder">
+        <span class="what">A live task and its agent team</span>
+        <span class="file">landing/screenshots/org-chart.png</span>
+      </div>
+      <figcaption>The actual task map — agents, dependencies, and live state</figcaption>
+    </figure>
+
+  </section>
+
+  <!-- The task map shows agents working, but not the durable company they are
+       hired from or the founder's control over which roles a task may use. -->
+  <section>
+    <div class="section-intro">
+      <h2>Build the company once. Staff each task deliberately.</h2>
+      <div>
+        <p>The role library is your reusable company: definitions of who can be hired, what each role is for, and its track record. Create roles locally or translate definitions you already use with ChatGPT, Claude, and other agent tools. Roles are not running agents until a task hires them.</p>
+        <p class="soft">For each task, let the coordinator choose from the library or narrow the available set yourself. The control stays with you before any session starts or spends money.</p>
+      </div>
+    </div>
+
+    <figure class="shot shot-wide">
+      <img src="screenshots/role-library.png" alt="Mission Control's reusable role library, with roles including Architect, Developer, Designer, Marketing and QA."
+           onload="this.closest('figure').classList.add('has-shot')">
+      <div class="placeholder">
+        <span class="what">The reusable role library</span>
+        <span class="file">landing/screenshots/role-library.png</span>
+      </div>
+      <figcaption>Your company’s role library</figcaption>
+    </figure>
+
+    <figure class="shot shot-wide">
+      <img src="screenshots/role-picker.png" alt="A role picker for choosing which roles the coordinator may use on one task."
+           onload="this.closest('figure').classList.add('has-shot')">
+      <div class="placeholder">
+        <span class="what">Choose which roles a task may use</span>
+        <span class="file">landing/screenshots/role-picker.png</span>
+      </div>
+      <figcaption>Choose the team available to one task</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3. What actually happens. The sequence, not a feature list. -->
+  <section>
+    <p class="eyebrow">The operating model</p>
+    <h2>One request in. Coordinated work out.</h2>
+    <ol class="steps">
+      <li>You describe the task in one sentence.</li>
+      <li>Mission Control opens a task, takes on the roles it needs, and gives each one a tmux session.</li>
+      <li>Each agent works through its part in the coding CLI you already use.</li>
+      <li>You read what came out — the recorded outcome, and every file in the task's own folder — on the page or with <code>mctl task results TASK_ID</code>.</li>
+    </ol>
+  </section>
+
+  <!-- 4. The work stays inspectable. -->
+  <section>
+    <div class="section-intro">
+      <h2>Each agent has a terminal.</h2>
+      <div>
+        <p>
+          Every agent is a real session you can walk up to. Watch one work, read
+          everything it has said, write a line into it, or take it over
+          completely.
+        </p>
+        <pre>mctl agent list [TASK_ID]
+mctl agent logs AGENT_ID
+mctl agent send AGENT_ID "..."
+mctl agent attach AGENT_ID</pre>
+        <p class="soft">
+          Copy <code>TASK_ID</code> and <code>AGENT_ID</code> from the commands'
+          own output. A session outlives the command that started it, so closing
+          the window does not end the work.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-intro">
+      <h2>One grammar for the whole company.</h2>
+      <div>
+        <p><code>mctl</code> is the same program as <code>mission-control</code>, with less to type. Commands follow the thing first, then the action.</p>
+        <p class="soft">Create and inspect tasks, work directly with agents, manage the role library, or read the whole company from one consistent command surface.</p>
+      </div>
+    </div>
+    <pre>mctl task create "Ship the landing page"
+mctl task list
+mctl task results TASK_ID
+
+mctl role library
+mctl agent list [TASK_ID]
+mctl status
+mctl inbox</pre>
+  </section>
+
+  <!-- 5. Requirements, stated rather than discovered. -->
+  <section>
+    <h2>What you need</h2>
+    <dl class="needs">
+      <div>
+        <dt>macOS</dt>
+        <dd>Available now.</dd>
+      </div>
+      <div>
+        <dt>Windows and Linux</dt>
+        <dd>Coming soon. Their download buttons are disabled until supported builds exist.</dd>
+      </div>
+      <div>
+        <dt>Python 3.11 or newer</dt>
+        <dd>
+          No Python packages are installed and there is no virtual environment.
+          The Python macOS ships in <code>/usr/bin</code> is 3.9, which is too
+          old; <code>brew install python</code> gives you a newer one. The
+          installer says so and stops rather than half-working.
+        </dd>
+      </div>
+      <div>
+        <dt>tmux</dt>
+        <dd>
+          Each role runs in a tmux session. Without tmux everything you read
+          still works, and launching a role refuses.
+        </dd>
+      </div>
+      <div>
+        <dt>A coding-agent CLI you already have</dt>
+        <dd>
+          Claude Code (<code>claude</code>) and Codex CLI (<code>codex</code>)
+          are supported. Mission Control drives the one you have and already sign
+          in to; it does not include one.
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- 6. What it can access. Said before the download is asked for, not after. -->
+  <section>
+    <h2>What it can access</h2>
+    <ul class="plain">
+      <li><strong>A company folder</strong>, created on the first run, wherever you pick in the folder chooser. Roles, tasks and what each agent produced live there, as ordinary files.</li>
+      <li><strong>The folders you point work at.</strong> Agents read and change them through your coding-agent CLI, under that CLI's own approval settings — the same ones that apply when you run it yourself.</li>
+      <li><strong>A local web server</strong> for the dashboard, bound to <code>127.0.0.1</code> on a port the operating system had free, which stops when you close the window.</li>
+      <li><strong>No account, no telemetry, no hosted service</strong>, and nothing of ours to sign up for. Your coding-agent CLI sends what it sends to its own vendor, under its own settings and privacy policy; that is unchanged by running it from here.</li>
+    </ul>
+  </section>
+
+  <!-- 7. Install. The last thing on the page, with nothing after it. -->
+  <section>
+    <h2>Private preview</h2>
+    <p>The public download is not open yet. If you want to try the current macOS preview, <a href="https://github.com/RandComAI/mission-control-site/issues/new">open an issue</a> and tell me how you want to use it.</p>
+    <p class="soft">
+      Before running it, open <code>install.sh</code> in a text editor — it is
+      short and it is the whole install. It creates only
+      <code>~/.local/bin/mctl</code> and
+      <code>~/.local/bin/mission-control</code>, two shell scripts naming the
+      folder you unpacked and a Python it found. It installs no packages, copies
+      nothing anywhere else, and starts no background service.
+    </p>
+    <p class="soft">
+      If your shell then answers <code>mctl: command not found</code>,
+      <code>~/.local/bin</code> is not on your PATH, and the installer has
+      already printed the one line to add.
+    </p>
+    <p class="soft">
+      <code>mctl</code> opens the dashboard. The first run asks once, in an
+      ordinary folder chooser, where your company should live — then never asks
+      again. To remove it later: delete those two scripts and the unpacked
+      folder.
+    </p>
+    <div class="actions">
+      <span class="button button-disabled" aria-disabled="true">macOS · Private preview</span>
+      <span class="button button-disabled" aria-disabled="true">Windows · Coming soon</span>
+      <span class="button button-disabled" aria-disabled="true">Linux · Coming soon</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      Mission Control runs on your machine, against folders you choose, using a
+      coding-agent CLI you are already signed in to. <a href="docs.html">Read the documentation</a>.
+    </p>
+  </footer>
+
+</main>
+</body>
+</html>
