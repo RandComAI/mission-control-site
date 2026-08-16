@@ -340,7 +340,7 @@ mctl role import ROLE_SOURCE_PATH --add</pre>
       <h2>Files, privacy, and boundaries</h2>
       <ul>
         <li>The UI server binds only to <code>127.0.0.1</code>.</li>
-        <li>Mission Control has no hosted account, telemetry service, or model API key of its own.</li>
+        <li>Mission Control has no hosted account, telemetry service, or model API key of its own. This public documentation page counts visits with privacy-first Cloudflare Web Analytics; the downloadable application does not contain that beacon.</li>
         <li>Your coding-agent CLI still communicates with its own vendor under that tool’s settings and privacy policy.</li>
         <li>The company folder contains readable roles, task files, status, messages, and artifacts.</li>
         <li>Local application state lives under <code>~/.config/mission-control</code> by default. Set <code>MISSION_CONTROL_HOME</code> to override it.</li>
@@ -398,5 +398,8 @@ rm ~/.local/bin/mission-control</pre>
     <footer>Mission Control documentation · derived from the current command surface and product contracts.</footer>
   </main>
 </div>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>

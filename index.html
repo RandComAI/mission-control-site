@@ -7,11 +7,9 @@
 <meta name="description" content="A local macOS command-line tool that turns one sentence into work for a team of AI coding agents, each running as a named role in its own tmux session.">
 
 <!--
-  This page is deliberately one file with nothing outside it except its
-  screenshots. No CDN, no
-  web font, no analytics, no tracker, no request to any host — so it opens
-  correctly from a file:// URL by double-clicking it, and it draws the same with
-  the network unplugged.
+  This public copy is one file with nothing outside it except its screenshots
+  and the privacy-first Cloudflare Web Analytics beacon. The product and its
+  packaged documentation do not contain that beacon.
 
   Nothing on this page is invented. There are no testimonials, no user counts,
   no customer logos and no "trusted by", because this tool has one user and
@@ -405,7 +403,7 @@ mctl inbox</pre>
       <li><strong>A company folder</strong>, created on the first run, wherever you pick in the folder chooser. Roles, tasks and what each agent produced live there, as ordinary files.</li>
       <li><strong>The folders you point work at.</strong> Agents read and change them through your coding-agent CLI, under that CLI's own approval settings — the same ones that apply when you run it yourself.</li>
       <li><strong>A local web server</strong> for the dashboard, bound to <code>127.0.0.1</code> on a port the operating system had free, which stops when you close the window.</li>
-      <li><strong>No account, no telemetry, no hosted service</strong>, and nothing of ours to sign up for. Your coding-agent CLI sends what it sends to its own vendor, under its own settings and privacy policy; that is unchanged by running it from here.</li>
+      <li><strong>No product account or product telemetry.</strong> Mission Control has no hosted service of its own. This public website counts visits with privacy-first Cloudflare Web Analytics; the downloadable application does not contain that beacon. Your coding-agent CLI sends what it sends to its own vendor, under its own settings and privacy policy; that is unchanged by running it from here.</li>
     </ul>
   </section>
 
@@ -447,5 +445,8 @@ mctl inbox</pre>
   </footer>
 
 </main>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>
