@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RandComp Studio</title>
-<meta name="description" content="Run a one-person company through focused Claude Code or Codex role sessions, with their work, handoffs, and results visible and controllable in one local app.">
-<link rel="alternate" hreflang="en" href="index.html">
-<link rel="alternate" hreflang="zh-CN" href="zh/index.html">
+<title>RandComp Studio｜一个人的 AI 公司控制台</title>
+<meta name="description" content="把一个人的公司拆分成多个专注的 Claude Code 或 Codex 角色会话，并在一个本地应用中查看和控制工作、交接与结果。">
+<link rel="alternate" hreflang="en" href="../index.html">
+<link rel="alternate" hreflang="zh-CN" href="index.html">
 
 <!--
   This page is deliberately one file with nothing outside it except its
@@ -205,6 +205,7 @@ figure.shot.has-shot img { display: block; }
 figure.shot.has-shot .placeholder { display: none; }
 .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; margin: 10px; padding: 28px; min-height: 340px; border: 1px dashed var(--line-strong); border-radius: 14px; background: #fff; color: var(--ink-faint); }
 .placeholder::before { content: "Visual preview coming soon"; color: var(--signal); font-size: 13px; font-weight: 650; }
+html[lang="zh-CN"] .placeholder::before { content: "视觉预览即将推出"; }
 .placeholder .what { color: var(--ink-soft); font-size: 15px; font-weight: 600; }
 .placeholder .file { font: 12px/1.4 ui-monospace, monospace; }
 .shot-pane .placeholder { min-height: 300px; }
@@ -283,114 +284,114 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
 </head>
 
 <body>
-<div class="early-banner" role="status">Early preview — expect a few bugs. <a href="https://github.com/RandComAI">Visit RandComAI on GitHub →</a></div>
+<div class="early-banner" role="status">早期预览版，可能仍有一些问题。<a href="https://github.com/RandComAI">在 GitHub 查看 RandComAI →</a></div>
 <main>
 
   <header class="topbar">
     <div class="brand"><span class="brand-mark" aria-hidden="true"></span><p class="wordmark">RandComp Studio</p></div>
-    <nav class="topnav" aria-label="Primary navigation"><a href="docs.html">Documentation</a><a href="zh/index.html" lang="zh-CN">中文</a><span class="status">Local system ready</span></nav>
+    <nav class="topnav" aria-label="主导航"><a href="docs.html">文档</a><a href="../index.html" lang="en">English</a><span class="status">本地系统就绪</span></nav>
   </header>
 
   <!-- 1. Hero. What it is, and the download, with nothing competing. -->
   <section class="hero">
     <div>
-      <p class="eyebrow">For one-person companies working with AI</p>
-      <h1>Stop running your whole company in one endless AI session.</h1>
-      <p class="lede">One long Claude Code or Codex session keeps carrying more history into every new job. Split research, product, implementation, and review into focused role sessions instead. RandComp Studio gives those sessions one local place to coordinate, report, and ask for you—so you can see the whole company without managing a pile of terminals yourself.</p>
-      <p class="requirement"><strong>One local system, two ways to operate it.</strong> Use the desktop board directly or connect it to an MCP-capable AI session. This build requires Apple silicon, macOS 11 or newer, and your own Claude Code or Codex CLI installed and signed in.</p>
+      <p class="eyebrow">为使用 AI 的一人公司而做</p>
+      <h1>别再让一个无限变长的 AI 会话包办整家公司。</h1>
+      <p class="lede">一个长期运行的 Claude Code 或 Codex 会话，会把越来越多的历史带进每一项新工作。更好的方式是把研究、产品、开发和评审拆成专注的角色会话。RandComp Studio 让这些会话在本地统一协调、汇报并向你求助——你能看清整家公司，而不必自己管理一堆终端窗口。</p>
+      <p class="requirement"><strong>同一个本地系统，两种操作方式。</strong>直接使用桌面看板，或从支持 MCP 的 AI 会话中操作。当前版本需要 Apple 芯片、macOS 11 或更高版本，以及已安装并登录的 Claude Code 或 Codex CLI。</p>
       <div class="actions">
-        <a class="button" href="https://missioncontroldl.z5.web.core.windows.net/RandCompStudio-0.1.0.dmg" download>Download for macOS ↓</a>
-        <span class="button button-disabled" aria-disabled="true">Windows · Coming soon</span>
-        <span class="button button-disabled" aria-disabled="true">Linux · Coming soon</span>
+        <a class="button" href="https://missioncontroldl.z5.web.core.windows.net/RandCompStudio-0.1.0.dmg" download>下载 macOS 版 ↓</a>
+        <span class="button button-disabled" aria-disabled="true">Windows · 即将推出</span>
+        <span class="button button-disabled" aria-disabled="true">Linux · 即将推出</span>
       </div>
       <div class="entry-switch">
         <input type="radio" name="entry" id="entry-app" checked>
         <input type="radio" name="entry" id="entry-mcp">
-        <div class="entry-tabs" role="group" aria-label="Choose how to use RandComp Studio">
-          <label for="entry-app">Desktop app</label>
-          <label for="entry-mcp">Inside your AI session</label>
+        <div class="entry-tabs" role="group" aria-label="选择 RandComp Studio 的使用方式">
+          <label for="entry-app">桌面应用</label>
+          <label for="entry-mcp">在 AI 会话中</label>
         </div>
         <div class="entry-panel entry-app-panel">
           <div class="entry-app-layout">
             <div class="entry-panel-copy">
-              <h3>See the whole crew from one board.</h3>
-              <p>Keep every focused work session in view: what it owns, whether it is working or waiting, who it depends on, what it said, and which files it produced. Send a correction or step into the live terminal whenever you want.</p>
-              <p class="soft">The board controls real local sessions. Closing the window does not stop them.</p>
+              <h3>在一个看板上看清整个团队。</h3>
+              <p>所有专注的工作会话都一目了然：负责什么、正在工作还是等待、依赖谁、说了什么、产出了哪些文件。你随时可以发送修正，或直接进入实时终端。</p>
+              <p class="soft">看板控制的是真实本地会话。关闭窗口不会停止它们。</p>
             </div>
             <figure class="concept-map">
-              <div class="window-bar" aria-hidden="true"><span class="window-dots">● ● ●</span><span class="window-title">RandComp Studio · Task map</span></div>
+              <div class="window-bar" aria-hidden="true"><span class="window-dots">● ● ●</span><span class="window-title">RandComp Studio · 任务图</span></div>
               <svg viewBox="0 0 600 520" role="img" aria-labelledby="concept-title concept-description">
-                <title id="concept-title">One objective coordinated across a team of agents</title>
-                <desc id="concept-description">A desktop-app illustration in which a coordinator routes one objective to Developer, Research, and QA agents while their sessions remain visible.</desc>
+                <title id="concept-title">一个目标由多个智能体协同完成</title>
+                <desc id="concept-description">桌面应用示意图：协调员把一个目标分配给开发、研究和 QA 智能体，并让所有会话保持可见。</desc>
                 <rect x="18" y="18" width="564" height="484" rx="28" fill="#f7f7f5"/>
                 <rect x="130" y="48" width="340" height="68" rx="18" fill="#fff" stroke="#d1d1cd"/>
-                <text x="154" y="75" class="task-label">ONE OBJECTIVE</text>
-                <text x="154" y="98" class="task-copy">Ship the next product milestone</text>
+                <text x="154" y="75" class="task-label">一个目标</text>
+                <text x="154" y="98" class="task-copy">交付下一个产品里程碑</text>
                 <path class="edge edge-active" d="M300 116 C300 140 300 148 300 166"/>
                 <path class="edge" d="M300 242 C300 272 128 264 128 316"/>
                 <path class="edge edge-active" d="M300 242 C300 282 300 292 300 350"/>
                 <path class="edge" d="M300 242 C300 272 472 264 472 316"/>
                 <rect class="node node-primary" x="210" y="166" width="180" height="76" rx="18"/>
                 <circle cx="234" cy="190" r="6" fill="#10a37f"/>
-                <text x="250" y="196" class="node-title">Coordinator</text>
-                <text x="234" y="220" class="node-meta">routes · briefs · watches</text>
+                <text x="250" y="196" class="node-title">协调员</text>
+                <text x="234" y="220" class="node-meta">分配 · 交代 · 观察</text>
                 <rect class="node" x="48" y="316" width="160" height="84" rx="18"/>
                 <circle cx="72" cy="341" r="6" fill="#10a37f"/>
-                <text x="88" y="347" class="node-title">Developer</text>
-                <text x="72" y="374" class="node-meta">working</text>
+                <text x="88" y="347" class="node-title">开发</text>
+                <text x="72" y="374" class="node-meta">工作中</text>
                 <rect class="node" x="220" y="350" width="160" height="84" rx="18"/>
                 <circle cx="244" cy="375" r="6" fill="#10a37f"/>
-                <text x="260" y="381" class="node-title">Research</text>
-                <text x="244" y="408" class="node-meta">reported progress</text>
+                <text x="260" y="381" class="node-title">研究</text>
+                <text x="244" y="408" class="node-meta">已汇报进度</text>
                 <rect class="node" x="392" y="316" width="160" height="84" rx="18"/>
                 <circle cx="416" cy="341" r="6" fill="#aeb2af"/>
                 <text x="432" y="347" class="node-title">QA</text>
-                <text x="416" y="374" class="node-meta">waiting its turn</text>
+                <text x="416" y="374" class="node-meta">等待轮次</text>
                 <rect x="170" y="464" width="260" height="24" rx="12" fill="#e3f5ef"/>
-                <text x="300" y="481" text-anchor="middle" class="map-control">Every session stays visible and controllable</text>
+                <text x="300" y="481" text-anchor="middle" class="map-control">每个会话始终可见、可控制</text>
               </svg>
-              <figcaption>Desktop app — one task and its working roles</figcaption>
+              <figcaption>桌面应用：一个任务及其工作角色</figcaption>
             </figure>
           </div>
         </div>
         <div class="entry-panel entry-mcp-panel">
           <div class="entry-mcp-layout">
             <div class="claude-session" aria-label="Example AI session using RandComp Studio over MCP">
-              <div class="terminal-bar"><i></i><i></i><i></i><span>AI session · ~/code/storefront</span></div>
+              <div class="terminal-bar"><i></i><i></i><i></i><span>AI 会话 · ~/code/storefront</span></div>
               <div class="terminal-body">
-                <p class="terminal-prompt">› Use RandComp Studio to review checkout with Developer and QA.</p>
-                <p class="terminal-muted">Calling RandComp Studio over MCP…</p>
-                <p class="terminal-result">Task checkout-review opened<br>Developer started · QA queued<br>Follow it in the RandComp Studio app</p>
+                <p class="terminal-prompt">› 使用 RandComp Studio，让开发和 QA 一起评审结账流程。</p>
+                <p class="terminal-muted">正在通过 MCP 调用 RandComp Studio…</p>
+                <p class="terminal-result">任务 checkout-review 已创建<br>开发已启动 · QA 已排队<br>可在 RandComp Studio 应用中查看</p>
               </div>
             </div>
             <div class="entry-mcp-copy">
-              <h3>Direct the same crew from your AI session.</h3>
-              <p>Stay in an MCP-capable AI session and ask it to use RandComp Studio for work that should run separately. RandComp Studio creates durable tasks and role sessions underneath, while the board keeps their progress, terminals, handoffs, and files visible whenever you want to inspect them.</p>
-              <p class="requirement"><strong>Required:</strong> an AI client that can run a local MCP server, plus <code>randcomp</code> on PATH. From the downloaded app, choose <em>RandComp Studio → Install the randcomp command in PATH</em> first.</p>
+              <h3>从你的 AI 会话指挥同一支团队。</h3>
+              <p>留在支持 MCP 的 AI 会话中，让它把应该独立完成的工作交给 RandComp Studio。RandComp Studio 会创建持久任务和角色会话；需要检查时，看板会展示它们的进度、终端、交接和文件。</p>
+              <p class="requirement"><strong>需要：</strong>能运行本地 MCP 服务器的 AI 客户端，以及 PATH 中的 <code>randcomp</code>。若使用下载的应用，请先选择 <em>RandComp Studio → Install the randcomp command in PATH</em>。</p>
 <pre>claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
-              <p class="soft">That command is the Claude Code setup example. Other MCP clients register the same local <code>randcomp mcp</code> process in their own settings.</p>
-              <p class="soft">Registering also adds four slash commands for the things you start a message with. Claude Code 2.1.233 shows them as <code>/mcp__randcomp-studio__catch-me-up</code> and three more; other clients spell the same four names their own way.</p>
-              <a class="quiet-link" href="docs.html#mcp-guide">Set up MCP →</a>
+              <p class="soft">这是 Claude Code 的配置示例。其他 MCP 客户端也在各自设置中注册同一个本地 <code>randcomp mcp</code> 进程。</p>
+              <p class="soft">注册后还会加入四个斜杠命令。Claude Code 2.1.233 将其中一个显示为 <code>/mcp__randcomp-studio__catch-me-up</code>；其他客户端可能使用不同写法展示同样的四个名称。</p>
+              <a class="quiet-link" href="docs.html#mcp-guide">配置 MCP →</a>
             </div>
           </div>
         </div>
       </div>
-      <p class="soft download-facts">Release <code data-fact="version">0.1.0</code> · <code data-fact="size">25M</code> · Signed and notarized for Apple silicon · Python and tmux included<br>SHA-256 <code data-fact="sha256">ec54319a074fe54efac1ce235c40366e874315c8780ecbbd75563d4ed83216f2</code></p>
-      <div class="actions"><a class="quiet-link" href="#how">See the operating model</a></div>
+      <p class="soft download-facts">版本 <code data-fact="version">0.1.0</code> · <code data-fact="size">25M</code> · 已为 Apple 芯片签名并公证 · 内含 Python 和 tmux<br>SHA-256 <code data-fact="sha256">ec54319a074fe54efac1ce235c40366e874315c8780ecbbd75563d4ed83216f2</code></p>
+      <div class="actions"><a class="quiet-link" href="#how">了解运行方式</a></div>
     </div>
   </section>
 
   <section class="section-band section-tinted">
     <div class="section-intro">
-      <h2>Keep your tools. Add the company layer.</h2>
+      <h2>保留你的工具，只添加公司管理层。</h2>
       <div>
-        <p>RandComp Studio is not another Claude, Codex, or chat app. It runs the command-line AI agents you already use, giving separate sessions durable roles, clear task boundaries, visible coordination, and results you can inspect.</p>
-        <p class="soft">It does not replace ChatGPT skills, Claude skills and plugins, or other role ecosystems either. Import a definition you already use, review the translation, and add it to your local role library only when you approve.</p>
+        <p>RandComp Studio 不是另一个 Claude、Codex 或聊天应用。它运行你已经在用的命令行 AI 智能体，为独立会话提供持久角色、清晰任务边界、可见协作和可检查的结果。</p>
+        <p class="soft">它也不替代 ChatGPT skills、Claude skills、插件或其他角色生态。你可以导入已有定义，检查转换结果，并只在确认后加入本地角色库。</p>
       </div>
     </div>
     <ul class="plain">
-      <li><strong>Bring your preferred runner</strong>Claude Code and Codex work today. Each role can run on the tool you choose, using the account and approval settings you already have.</li>
-      <li><strong>Bring your existing expertise</strong>Turn an Agent Skill, Claude agent or skill, exported GPT, or plain Markdown definition into a reusable role for your crew.</li>
+      <li><strong>继续使用你偏好的运行器</strong>当前支持 Claude Code 和 Codex。每个角色都能使用你选择的工具、已有账户与审批设置。</li>
+      <li><strong>复用你已有的专业能力</strong>把 Agent Skill、Claude agent 或 skill、导出的 GPT 或普通 Markdown 定义转换成团队可复用的角色。</li>
     </ul>
   </section>
 
@@ -398,18 +399,18 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
        SCREENSHOT 1 — the org chart of the roles. -->
   <section id="how" class="showcase">
     <div class="section-intro">
-      <h2>Split the context. Keep the company connected.</h2>
-      <div><p>An all-purpose session has to keep re-reading a growing history, even when the next job needs only a small part of it. Give research, implementation, and review their own role sessions with job-specific context instead. RandComp Studio keeps the brief, dependencies, messages, and handoffs connected while you stay in charge.</p><p class="soft">Every session works in a folder you choose through Claude Code or Codex. RandComp Studio stores no model credentials of its own.</p></div>
+      <h2>拆分上下文，同时让公司保持连接。</h2>
+      <div><p>一个全能会话不得不反复读取不断增长的历史，即使下一项工作只需要其中很小一部分。让研究、开发和评审分别使用只包含本职上下文的角色会话。RandComp Studio 把任务说明、依赖、消息和交接连接起来，同时由你掌控。</p><p class="soft">每个会话都通过 Claude Code 或 Codex 在你选择的文件夹中工作。RandComp Studio 不保存任何模型凭据。</p></div>
     </div>
 
     <figure class="shot shot-wide">
-      <img src="screenshots/org-chart.png" alt="A real RandComp Studio task map showing the coordinator and specialist agents, their state, and how their work depends on one another."
+      <img src="../screenshots/org-chart.png" alt="真实的 RandComp Studio 任务图，显示协调员、专业智能体、状态和工作依赖关系。"
            onload="this.closest('figure').classList.add('has-shot')">
       <div class="placeholder">
-        <span class="what">A live task and its agent team</span>
+        <span class="what">一个实时任务及其智能体团队</span>
         <span class="file">landing/screenshots/org-chart.png</span>
       </div>
-      <figcaption>The actual task map — agents, dependencies, and live state</figcaption>
+      <figcaption>真实任务图：智能体、依赖与实时状态</figcaption>
     </figure>
 
   </section>
@@ -418,63 +419,62 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
        hired from or the founder's control over which roles a task may use. -->
   <section class="showcase section-tinted">
     <div class="section-intro">
-      <h2>Build the company once. Staff each task deliberately.</h2>
+      <h2>公司只需搭建一次，每个任务都能精心组队。</h2>
       <div>
-        <p>The role library is your reusable crew: definitions of the work each role is good at, the instructions it follows, and what it has done before. Create roles locally or translate definitions you already use with ChatGPT, Claude, and other agent tools. A role becomes a running agent only when a task hires it.</p>
-        <p class="soft">For each task, choose the roles yourself or let the coordinator select from the set you allow. You decide who may run before another session can start or spend money.</p>
+        <p>角色库就是可复用的团队：每个角色擅长什么、遵循哪些指令、以前做过什么。你可以在本地创建角色，也可以转换已在 ChatGPT、Claude 或其他智能体工具中使用的定义。只有任务雇用角色后，它才会成为运行中的智能体。</p>
+        <p class="soft">每个任务都可以由你亲自选角色，也可以让协调员从你允许的范围中选择。新会话开始和产生费用之前，决定权始终在你手中。</p>
       </div>
     </div>
 
     <figure class="shot shot-wide">
-      <img src="screenshots/role-library.png" alt="RandComp Studio's reusable role library, with roles including Architect, Developer, Designer, Marketing and QA."
+      <img src="../screenshots/role-library.png" alt="RandComp Studio 的可复用角色库，包括架构师、开发、设计、市场和 QA 等角色。"
            onload="this.closest('figure').classList.add('has-shot')">
       <div class="placeholder">
-        <span class="what">The reusable role library</span>
+        <span class="what">可复用角色库</span>
         <span class="file">landing/screenshots/role-library.png</span>
       </div>
-      <figcaption>Your company’s role library</figcaption>
+      <figcaption>你的公司角色库</figcaption>
     </figure>
 
     <figure class="shot shot-wide">
-      <img src="screenshots/role-picker.png" alt="A role picker for choosing which roles the coordinator may use on one task."
+      <img src="../screenshots/role-picker.png" alt="用于选择协调员可在一个任务中使用哪些角色的角色选择器。"
            onload="this.closest('figure').classList.add('has-shot')">
       <div class="placeholder">
-        <span class="what">Choose which roles a task may use</span>
+        <span class="what">选择任务可以使用的角色</span>
         <span class="file">landing/screenshots/role-picker.png</span>
       </div>
-      <figcaption>Choose the team available to one task</figcaption>
+      <figcaption>为一个任务选择可用团队</figcaption>
     </figure>
   </section>
 
   <!-- 3. What actually happens. The sequence, not a feature list. -->
   <section class="process-section">
-    <p class="eyebrow">How the crew works</p>
-    <h2>Focused sessions. Visible handoffs. You in control.</h2>
+    <p class="eyebrow">团队如何工作</p>
+    <h2>会话更专注，交接看得见，控制权在你。</h2>
     <ol class="steps">
-      <li>Start a task with one outcome and choose which roles it may use.</li>
-      <li>RandComp Studio gives each hired role a separate local session and a clear part of the work.</li>
-      <li>The crew can pass work and messages between roles while you follow the live state from the board or your AI session.</li>
-      <li>Step into any terminal when needed, then inspect the recorded outcome and every file the task produced.</li>
+      <li>用一个明确结果创建任务，并选择它可以使用哪些角色。</li>
+      <li>RandComp Studio 为每个被雇用的角色建立独立本地会话，并分配清晰职责。</li>
+      <li>团队可在角色之间传递工作和消息；你能从看板或 AI 会话查看实时状态。</li>
+      <li>需要时进入任何终端，最后检查记录的结果和任务产出的所有文件。</li>
     </ol>
   </section>
 
   <!-- 4. The work stays inspectable. -->
   <section class="compact-section section-tinted">
     <div class="section-intro">
-      <h2>Each agent has a terminal.</h2>
+      <h2>每个智能体都有自己的终端。</h2>
       <div>
         <p>
-          These are not hidden background workers. Every agent is a real session
-          you can watch, read, redirect, or take over completely.
+          它们不是藏在后台的工作进程。每个智能体都是真实会话，
+          你可以观察、阅读、纠正，或完全接管。
         </p>
         <pre>randcomp agent list TASK_ID
 randcomp agent logs AGENT_ID
 randcomp agent send AGENT_ID "..."
 randcomp agent attach AGENT_ID</pre>
         <p class="soft">
-          Copy <code>TASK_ID</code> and <code>AGENT_ID</code> from the commands'
-          own output. A session outlives the command that started it, so closing
-          the window does not end the work.
+          从命令输出中复制 <code>TASK_ID</code> 和 <code>AGENT_ID</code>。
+          会话不会随着启动命令结束而消失，所以关闭窗口不会终止工作。
         </p>
       </div>
     </div>
@@ -482,13 +482,13 @@ randcomp agent attach AGENT_ID</pre>
 
   <section class="compact-section">
     <div class="section-intro">
-      <h2>One grammar for the whole company.</h2>
+      <h2>整个公司使用同一套命令语法。</h2>
       <div>
-        <p><code>randcomp</code> and <code>randcomp-studio</code> are the same program; <code>randcomp</code> is shorter to type. Every command names the thing first and the action after: the plural noun on its own is a listing, a word after it names one, and a word after that says what to do with it.</p>
-        <p class="soft">Open work, read what came back, talk to any agent, bring in a role somebody else wrote, or take in the whole company — from one command surface with one shape.</p>
+        <p><code>randcomp</code> 和 <code>randcomp-studio</code> 是同一个程序；<code>randcomp</code> 更短。每条命令先写对象，再写动作：名词本身用于列出对象，后面的词指定对象，再后面的词说明要做什么。</p>
+        <p class="soft">创建工作、读取结果、与智能体沟通、导入别人写的角色，或查看整个公司，都使用同一种命令结构。</p>
       </div>
     </div>
-    <pre>randcomp task create "Ship the landing page"
+    <pre>randcomp task create "发布落地页"
 randcomp task list
 randcomp task results TASK_ID
 randcomp agent list TASK_ID
@@ -500,40 +500,38 @@ randcomp status</pre>
 
   <!-- 5. Requirements, stated rather than discovered. -->
   <section class="requirements-section section-tinted">
-    <h2>What you need</h2>
+    <h2>你需要什么</h2>
     <dl class="needs">
       <div>
-        <dt>macOS 11 or newer, Apple silicon</dt>
+        <dt>macOS 11 或更高版本，Apple 芯片</dt>
         <dd>
-          The download is an <code>arm64</code> build, so it runs on M1 and
-          later. Intel Macs are not supported yet.
+          下载的是 <code>arm64</code> 版本，可在 M1 及更新芯片上运行。
+          暂不支持 Intel Mac。
         </dd>
       </div>
       <div>
-        <dt>Windows and Linux</dt>
-        <dd>Coming soon. Their download buttons are disabled until supported builds exist.</dd>
+        <dt>Windows 和 Linux</dt>
+        <dd>即将推出。在相应版本可用前，下载按钮保持禁用。</dd>
       </div>
       <div>
-        <dt>Python — already inside</dt>
+        <dt>Python：已内置</dt>
         <dd>
-          The application carries its own Python 3.13, because the one macOS
-          ships in <code>/usr/bin</code> is 3.9 and too old. You do not need to
-          install anything, and it does not touch whatever Python you do have.
+          应用自带 Python 3.13，因为 macOS 在 <code>/usr/bin</code> 中提供的
+          Python 3.9 版本过旧。你无需另行安装，也不会影响现有 Python。
         </dd>
       </div>
       <div>
-        <dt>tmux — already inside</dt>
+        <dt>tmux：已内置</dt>
         <dd>
-          Each role runs in a tmux session that outlives the command that
-          started it. A copy is in the application, so there is nothing to brew.
+          每个角色都在 tmux 会话中运行，会话不会随着启动命令结束。
+          应用已经带有 tmux，无需使用 Homebrew 安装。
         </dd>
       </div>
       <div>
-        <dt>A command-line AI agent you already have</dt>
+        <dt>你已经在用的命令行 AI 智能体</dt>
         <dd>
-          Claude Code (<code>claude</code>) and Codex CLI (<code>codex</code>)
-          are supported. RandComp Studio drives the one you have and already sign
-          in to; it does not include one.
+          支持 Claude Code（<code>claude</code>）和 Codex CLI（<code>codex</code>）。
+          RandComp Studio 驱动你已安装并登录的工具，本身不包含 AI 智能体。
         </dd>
       </div>
     </dl>
@@ -541,85 +539,78 @@ randcomp status</pre>
 
   <!-- 6. What it can access. Said before the download is asked for, not after. -->
   <section class="access-section">
-    <h2>What it can access</h2>
+    <h2>它能访问什么</h2>
     <ul class="plain">
-      <li><strong>A company folder</strong>, created on the first run, wherever you pick in the folder chooser. Roles, tasks and what each agent produced live there, as ordinary files.</li>
-      <li><strong>The folders you point work at.</strong> Agents read and change them through your command-line AI agent, under that CLI's own approval settings — the same ones that apply when you run it yourself.</li>
-      <li><strong>A local web server</strong> for the dashboard, bound to <code>127.0.0.1</code> on a port the operating system had free, which stops when you close the window.</li>
-      <li><strong>No product account, telemetry, or hosted service</strong>, and nothing in the downloaded app to sign up for. This public website counts visits with privacy-first Cloudflare Web Analytics; the application does not contain that beacon. Your command-line AI agent still communicates with its own vendor under its own settings and privacy policy.</li>
+      <li><strong>一个公司文件夹</strong>：首次运行时由你在文件选择器中指定。角色、任务和各智能体产出的内容都以普通文件保存在这里。</li>
+      <li><strong>你为工作指定的文件夹</strong>：智能体通过命令行 AI 工具读写它们，并遵循该 CLI 自己的审批设置，与单独运行该工具时完全相同。</li>
+      <li><strong>一个本地网页服务器</strong>：看板只绑定到 <code>127.0.0.1</code> 和操作系统提供的空闲端口，关闭窗口后停止。</li>
+      <li><strong>产品无需账户、没有遥测、没有托管服务</strong>：下载的应用无需注册。这个公开网站使用注重隐私的 Cloudflare Web Analytics 统计访问量；下载的应用不包含该统计脚本。你的命令行 AI 智能体仍按自身设置和隐私政策与其供应商通信。</li>
     </ul>
   </section>
 
   <!-- 7. Install. The last thing on the page, with nothing after it. -->
   <section class="install-section">
-    <h2>Install and start</h2>
-    <p>Open the desktop app when you want the board in its own window. Connect the local MCP server when you want an AI session to operate the same tasks and crew without leaving the tool you already use.</p>
-    <h3>Desktop app</h3>
-    <p>Three things, and none of them is typing.</p>
+    <h2>安装并开始使用</h2>
+    <p>需要独立窗口中的看板时，打开桌面应用；希望在现有 AI 工具中操作同一组任务和团队时，连接本地 MCP 服务器。</p>
+    <h3>桌面应用</h3>
+    <p>只需三步，不用输入命令。</p>
     <ol class="steps">
-      <li><strong>Download</strong> <code data-fact="dmg">RandCompStudio-0.1.0.dmg</code>.</li>
-      <li><strong>Open it.</strong> A window appears with the application and a shortcut to your Applications folder.</li>
-      <li><strong>Drag</strong> RandComp Studio onto Applications, then open it from there.</li>
+      <li><strong>下载</strong> <code data-fact="dmg">RandCompStudio-0.1.0.dmg</code>。</li>
+      <li><strong>打开文件。</strong>窗口中会显示应用和 Applications 文件夹快捷方式。</li>
+      <li><strong>拖动</strong> RandComp Studio 到 Applications，然后从那里打开。</li>
     </ol>
     <p class="soft">
-      The first run asks once, in an ordinary folder chooser, where your company
-      should live — then never asks again. To remove it later: drag the
-      application to the Trash. Your company folder is yours and is left alone.
+      首次运行时，普通文件选择器会询问一次公司文件夹的位置，之后不再询问。
+      要移除应用，只需拖到废纸篓；你的公司文件夹属于你，不会被删除。
     </p>
     <p class="soft">
-      <strong>The <code>randcomp</code> command is a menu item, not an installer.</strong>
-      Everything the window does has a terminal equivalent, and
-      <em>RandComp Studio → Install the randcomp command in PATH</em> is where you
-      get one: it writes <code>randcomp</code> and <code>randcomp-studio</code> into
-      <code>~/.local/bin</code> and tells you if that folder is not on your PATH
-      yet. Nothing is written there until you ask for it.
+      <strong><code>randcomp</code> 命令通过菜单安装。</strong>
+      窗口中的每项操作都有终端等价方式。选择
+      <em>RandComp Studio → Install the randcomp command in PATH</em> 后，应用会把
+      <code>randcomp</code> 和 <code>randcomp-studio</code> 写入 <code>~/.local/bin</code>，
+      并在该文件夹尚未加入 PATH 时提醒你。只有你主动选择后才会写入。
     </p>
     <div class="download-card">
       <div class="actions">
-        <a class="button" href="https://missioncontroldl.z5.web.core.windows.net/RandCompStudio-0.1.0.dmg" download>Download for macOS ↓</a>
-        <span class="button button-disabled" aria-disabled="true">Windows · Coming soon</span>
-        <span class="button button-disabled" aria-disabled="true">Linux · Coming soon</span>
+        <a class="button" href="https://missioncontroldl.z5.web.core.windows.net/RandCompStudio-0.1.0.dmg" download>下载 macOS 版 ↓</a>
+        <span class="button button-disabled" aria-disabled="true">Windows · 即将推出</span>
+        <span class="button button-disabled" aria-disabled="true">Linux · 即将推出</span>
       </div>
       <p class="download-facts">
-        Apple silicon, macOS 11 or newer. Version
+        Apple 芯片，macOS 11 或更高版本。版本
         <code data-fact="version">0.1.0</code>, <code data-fact="size">25M</code>,
-        SHA-256 <code data-fact="sha256">ec54319a074fe54efac1ce235c40366e874315c8780ecbbd75563d4ed83216f2</code>. Check it before you
-        open it with <code>shasum -a 256 ~/Downloads/RandCompStudio-0.1.0.dmg</code>.
+        SHA-256 <code data-fact="sha256">ec54319a074fe54efac1ce235c40366e874315c8780ecbbd75563d4ed83216f2</code>。打开前可使用
+        <code>shasum -a 256 ~/Downloads/RandCompStudio-0.1.0.dmg</code> 检查。
       </p>
     </div>
 
     <div class="install-options">
       <div class="install-option">
-        <h3>Inside your AI session over MCP</h3>
-        <p class="soft">Your AI client must support a local MCP server, and <code>randcomp</code> must be on PATH. If you installed the disk image, open RandComp Studio and choose <em>RandComp Studio → Install the randcomp command in PATH</em>. For Claude Code, register it with:</p>
+        <h3>通过 MCP 在 AI 会话中使用</h3>
+        <p class="soft">AI 客户端必须支持本地 MCP 服务器，并且 <code>randcomp</code> 必须在 PATH 中。若从磁盘映像安装，请打开 RandComp Studio 并选择 <em>RandComp Studio → Install the randcomp command in PATH</em>。Claude Code 的注册命令是：</p>
 <pre>claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
-        <p class="soft">The MCP server is the local <code>randcomp mcp</code> process speaking over stdin and stdout. It opens and manages the same tasks, roles, agents, sessions, messages, and result files as the app. It is not hosted and needs no RandComp Studio API key.</p>
+        <p class="soft">MCP 服务器就是通过标准输入和标准输出通信的本地 <code>randcomp mcp</code> 进程。它与应用操作同样的任务、角色、智能体、会话、消息和结果文件。它不是托管服务，也不需要 RandComp Studio API 密钥。</p>
       </div>
 
       <div class="install-option">
-        <h3>Or from the command line</h3>
+        <h3>或者从命令行安装</h3>
         <p class="soft">
-          The same tool, without the application bundle — this is the one to take if
-          you would rather read every line before you run it. It needs Python 3.11
-          or newer and tmux on your own machine, which the disk image would have
-          brought with it.
+          这是同一个工具，但没有应用程序包。如果你希望运行前阅读每一行代码，可以选择这种方式。
+          它需要你自行准备 Python 3.11 或更高版本和 tmux；磁盘映像版本则已经内置这些依赖。
         </p>
 <pre>tar -xzf randcomp-studio.tar.gz
 cd randcomp-studio
 ./install.sh</pre>
         <p class="soft">
-          <code>install.sh</code> puts <code>randcomp</code> in <code>~/.local/bin</code>, which
-          macOS does not have on your <code>PATH</code> by default. If it says so, add the
-          line it prints to your <code>~/.zshrc</code>, open a new terminal, and then run
-          <code>randcomp</code> — it only prints that when it is needed.
+          <code>install.sh</code> 会把 <code>randcomp</code> 放进 <code>~/.local/bin</code>；
+          macOS 默认不会把这个目录加入 <code>PATH</code>。如果安装脚本提示，请把它输出的那一行加入
+          <code>~/.zshrc</code>，打开新终端，再运行 <code>randcomp</code>。
         </p>
         <p class="soft">
           <a href="https://missioncontroldl.z5.web.core.windows.net/randcomp-studio.tar.gz" download>randcomp-studio.tar.gz</a> —
-          open <code>install.sh</code> in a text editor first; it is short and it is
-          the whole install. It creates only <code>~/.local/bin/randcomp</code> and
-          <code>~/.local/bin/randcomp-studio</code>, two shell scripts naming the
-          folder you unpacked and a Python it found. It installs no packages, copies
-          nothing anywhere else, and starts no background service.
+          建议先在文本编辑器中打开 <code>install.sh</code>；它很短，并包含全部安装步骤。
+          它只创建 <code>~/.local/bin/randcomp</code> 和 <code>~/.local/bin/randcomp-studio</code>
+          两个脚本，指向你解压的文件夹和找到的 Python。它不会安装软件包、不会向其他位置复制文件，也不会启动后台服务。
         </p>
       </div>
     </div>
@@ -627,8 +618,8 @@ cd randcomp-studio
 
   <footer>
     <p>
-      RandComp Studio runs on your machine, against folders you choose, using a
-      command-line AI agent you are already signed in to. <a href="docs.html">Read the documentation</a>.
+      RandComp Studio 在你的机器上运行，只访问你选择的文件夹，并使用你已经登录的命令行 AI 智能体。
+      <a href="docs.html">阅读中文文档</a>。
     </p>
   </footer>
 

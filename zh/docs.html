@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RandComp Studio 中文文档</title>
+<meta name="description" content="安装 RandComp Studio，把一个人的公司拆分为专注的 AI 角色会话，并通过 UI、CLI 或 MCP 进行操作。">
+<link rel="alternate" hreflang="en" href="../docs.html">
+<link rel="alternate" hreflang="zh-CN" href="docs.html">
+<style>
+:root {
+  --bg:#fff; --surface:#f7f7f5; --surface-2:#efefec; --ink:#171717;
+  --muted:#5f6360; --faint:#8b8e8c; --line:#e5e5e2; --green:#10a37f;
+  --green-soft:#e3f5ef; --code:#202123; --code-ink:#f7f7f5;
+  --shadow:0 14px 40px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:3px}
+code,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+.early-banner{min-height:34px;padding:7px 18px;display:flex;align-items:center;justify-content:center;text-align:center;background:#f1faf7;border-bottom:1px solid #d8eee7;color:#315d52;font-size:12px}
+.early-banner a{margin-left:4px;color:#087f63;font-weight:700}
+.topbar{height:68px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(16px);position:sticky;top:0;z-index:10}
+.topbar-inner{width:min(1220px,calc(100% - 40px));height:100%;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px}
+.top-links{display:flex;gap:22px;align-items:center;font-size:14px;font-weight:600}
+.top-links a{color:var(--muted);text-decoration:none}.top-links a:hover{color:var(--ink)}
+.docs-shell{width:min(1220px,calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:240px minmax(0,820px);gap:72px;align-items:start}
+.sidebar{position:sticky;top:96px;padding:38px 0 60px;height:calc(100vh - 96px);overflow:auto}
+.sidebar p{margin:0 0 12px;color:var(--faint);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sidebar a{display:block;padding:7px 10px;margin-left:-10px;border-radius:8px;color:var(--muted);font-size:14px;text-decoration:none}
+.sidebar a:hover{background:var(--surface);color:var(--ink)}
+.sidebar .group{margin-top:24px}
+main{padding:76px 0 120px;min-width:0}
+.hero{padding:0 0 72px;border-bottom:1px solid var(--line)}
+.eyebrow{color:var(--green);font-size:14px;font-weight:700;margin:0 0 14px}
+h1,h2,h3{letter-spacing:-.035em;line-height:1.12}
+h1{font-size:clamp(46px,6vw,72px);margin:0 0 22px;max-width:10ch}
+h2{font-size:36px;margin:0 0 20px;padding-top:20px}
+h3{font-size:23px;margin:38px 0 12px}
+.hero>p:last-child{color:var(--muted);font-size:20px;max-width:660px;margin:0}
+.doc-section{padding:72px 0;border-bottom:1px solid var(--line);scroll-margin-top:74px}
+.doc-section>p,.doc-section>ul,.doc-section>ol{max-width:720px}
+p{margin:0 0 18px}.muted{color:var(--muted)}
+.callout{margin:26px 0;padding:22px 24px;border-radius:16px;background:var(--green-soft);border:1px solid #c8e9df}
+.callout strong{display:block;margin-bottom:5px}.callout p{margin:0;color:#245f50}
+.warning{background:#fff7e8;border-color:#f0dfb8}.warning p{color:#6d5626}
+.steps{counter-reset:step;display:grid;gap:14px;margin:28px 0}
+.step{counter-increment:step;display:grid;grid-template-columns:36px 1fr;gap:16px;padding:22px;border-radius:16px;background:var(--surface)}
+.step:before{content:counter(step);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green);font-weight:700;font-size:13px}
+.step h3{font-size:18px;margin:2px 0 6px;letter-spacing:-.02em}.step p{margin:0;color:var(--muted)}
+.start-paths{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.start-path{min-width:0;padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.start-path h3{margin:0 0 8px;font-size:22px}.start-path>p{color:var(--muted)}
+.start-path pre{margin:16px 0;padding:16px;font-size:12px}.start-path .requirement{color:var(--ink);padding:12px 14px;border-left:3px solid var(--green);background:#fff}
+pre{position:relative;margin:20px 0;padding:22px 24px;border-radius:14px;background:var(--code);color:var(--code-ink);font-size:13px;line-height:1.75;overflow:auto}
+p code,li code,td code{padding:2px 6px;border-radius:5px;background:var(--surface-2);font-size:.88em}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0}
+.card{padding:24px;border-radius:16px;background:var(--surface)}
+.card h3{font-size:18px;margin:0 0 8px}.card p{margin:0;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:14px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+td:first-child{font-weight:650;white-space:nowrap}
+.command{margin:14px 0 24px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.command pre{margin:0;border-radius:0;padding:15px 18px}
+.command p{margin:0;padding:14px 18px;color:var(--muted);font-size:14px;background:var(--surface)}
+.command ul{margin:0;padding:12px 38px 16px;background:var(--surface);color:var(--muted);font-size:14px}
+.command li+li{margin-top:6px}
+.option-note{font-size:14px;color:var(--muted)}
+.on-this-page{display:none}
+footer{padding:36px 0;color:var(--faint);font-size:13px}
+@media(max-width:900px){.docs-shell{grid-template-columns:1fr;gap:0}.sidebar{display:none}.on-this-page{display:block;margin:22px 0;padding:18px;border-radius:14px;background:var(--surface)}main{padding-top:52px}.cards,.start-paths{grid-template-columns:1fr}}
+@media(max-width:560px){.topbar-inner,.docs-shell{width:min(100% - 28px,820px)}.top-links a:first-child{display:none}h1{font-size:44px}.doc-section{padding:56px 0}h2{font-size:31px}.step{grid-template-columns:30px 1fr;padding:18px}table{display:block;width:100%;max-width:100%;overflow-x:auto}td:first-child{white-space:normal}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="early-banner" role="status">早期预览版，可能仍有一些问题。<a href="https://github.com/RandComAI">在 GitHub 查看 RandComAI →</a></div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="mark">R</span><span>RandComp Studio</span></a>
+    <nav class="top-links" aria-label="文档导航"><a href="index.html">概览</a><a href="#quick-start">快速开始</a><a href="#cli-reference">CLI 参考</a><a href="../docs.html" lang="en">English</a></nav>
+  </div>
+</header>
+
+<div class="docs-shell">
+  <aside class="sidebar" aria-label="文档章节">
+    <p>从这里开始</p>
+    <a href="#overview">概览</a>
+      <a href="#quick-start">快速开始</a>
+      <a href="#mcp-guide">通过 MCP 使用 AI 会话</a>
+    <a href="#first-task">运行第一个任务</a>
+    <div class="group"><p>使用 RandComp Studio</p>
+      <a href="#mental-model">基本概念</a>
+      <a href="#ui-guide">UI 指南</a>
+      <a href="#cli-guide">CLI 指南</a>
+      <a href="#cli-reference">CLI 参考</a>
+      <a href="#roles">角色与运行器</a>
+    </div>
+    <div class="group"><p>安全运行</p>
+      <a href="#files">文件与隐私</a>
+      <a href="#cost-control">成本控制</a>
+      <a href="#troubleshooting">故障排查</a>
+      <a href="#uninstall">移动或卸载</a>
+    </div>
+  </aside>
+
+  <main>
+    <section class="hero" id="overview">
+      <p class="eyebrow">文档</p>
+      <h1>用专注的 AI 会话运行你的一人公司。</h1>
+      <p>一个全能会话会累积所有工作和不断增长的上下文。RandComp Studio 让你把研究、产品、开发和评审拆成专注的角色会话，再把任务、消息、依赖与结果连接起来。它不会替代你的 AI 智能体或 skill 生态。</p>
+    </section>
+
+    <nav class="on-this-page" aria-label="本页内容"><strong>从这里开始：</strong> <a href="#quick-start">快速开始</a> · <a href="#mcp-guide">通过 MCP 使用 AI 会话</a> · <a href="#first-task">第一个任务</a> · <a href="#ui-guide">UI</a> · <a href="#cli-reference">CLI</a></nav>
+
+    <section class="doc-section" id="quick-start">
+      <p class="eyebrow">开始使用</p>
+      <h2>快速开始</h2>
+      <p>先安装 RandComp Studio 应用，然后从桌面看板或支持 MCP 的 AI 会话操作同一个本地公司。两种方式都要求你已安装并登录自己的命令行 AI 智能体——当前支持 Claude Code 和 Codex。</p>
+
+      <div class="start-paths">
+        <article class="start-path">
+          <p class="eyebrow">方式 1</p>
+          <h3>桌面应用</h3>
+          <p class="requirement"><strong>需要：</strong>Apple 芯片和 macOS 11 或更高版本。Python 和 tmux 已内置。</p>
+          <ol>
+            <li>下载 <code>RandCompStudio-0.1.0.dmg</code>。</li>
+            <li>打开文件，把 RandComp Studio 拖入 Applications。</li>
+            <li>打开应用，选择公司文件夹的位置。</li>
+          </ol>
+          <p>构建过程会把版本、大小和 SHA-256 写入落地页；打开磁盘映像前请核对页面显示的哈希值。</p>
+        </article>
+        <article class="start-path" id="mcp-guide">
+          <p class="eyebrow">方式 2</p>
+          <h3>在你的 AI 会话中</h3>
+          <p class="requirement"><strong>需要：</strong>RandComp Studio 应用、支持本地 MCP 服务器的 AI 客户端，以及 PATH 中的 <code>randcomp</code>。请先在应用中选择 <em>RandComp Studio → Install the randcomp command in PATH</em>。</p>
+<pre>claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
+          <p>上面是 Claude Code 示例。<code>-s user</code> 让它在所有项目中可用；不加该参数时，服务器只为当前文件夹注册。其他 MCP 客户端通过各自的本地服务器设置注册同一个 <code>randcomp mcp</code> 进程。</p>
+          <p>你的 AI 会话可以创建任务、雇用角色、启动智能体、发送工作并读取结果。应用打开后会显示同一块看板和同一组终端。</p>
+          <p>注册后还会向客户端添加四个 RandComp Studio <a href="#mcp-prompts">斜杠命令</a>。</p>
+          <p>这是通过标准输入和标准输出通信的本地 MCP 进程，不是托管服务器。RandComp Studio 不需要账户或 API 密钥。AI 客户端仍按自身设置与其供应商通信。</p>
+        </article>
+      </div>
+
+      <h3>首次运行时的问题</h3>
+      <p>公司文件夹用普通文件保存角色、任务、决策、状态、消息和结果。它不一定是智能体工作的代码库；每个任务可单独选择项目文件夹。</p>
+      <p>若同时安装了 Claude Code 和 Codex CLI，RandComp Studio 会询问哪个工具用于运行协调员。它只检查所选运行器是否看起来已登录，不读取或保存凭据值，也不会替你登录。</p>
+    </section>
+
+    <section class="doc-section" id="first-task">
+      <p class="eyebrow">五分钟</p>
+      <h2>运行第一个任务</h2>
+      <h3>从 UI 开始</h3>
+      <ol>
+        <li>运行 <code>randcomp</code> 打开公司窗口。</li>
+        <li>在主输入框描述你需要的结果。</li>
+        <li>选择工作位置，也就是智能体可以编辑的项目文件夹。</li>
+        <li>检查角色：让协调员选择，或由你缩小可用范围。</li>
+        <li>除非你明确希望会话不经审批提示自行运行，否则不要启用无人值守支出。</li>
+        <li>发送任务。RandComp Studio 会创建任务、启动协调员并雇用匹配的专业角色。</li>
+      </ol>
+
+      <h3>从 CLI 开始</h3>
+<pre>randcomp task create "评审结账流程并修复风险最高的问题" --in ~/code/storefront
+randcomp task list
+randcomp agent list TASK_ID
+randcomp task results TASK_ID</pre>
+      <p>从 <code>randcomp task list</code> 复制 <code>TASK_ID</code>。<code>randcomp task results TASK_ID</code> 只列出产出文件，不打印内容；使用 <code>randcomp task show RESULT_FILE_PATH</code> 可完整打印指定文件。</p>
+
+      <h3>从通过 MCP 连接的 AI 会话开始</h3>
+      <p>注册服务器后，让 AI 会话通过 RandComp Studio 创建和管理工作，而不是使用客户端自己的临时子智能体。AI 客户端选择 MCP 工具；RandComp Studio 则负责底层持久任务、角色智能体、会话、消息和结果。</p>
+<pre>使用 RandComp Studio 为这项工作创建任务。
+让开发角色实现，并由 QA 评审结果。
+让任务和智能体始终显示在 RandComp Studio 看板上。</pre>
+      <p>用自然语言提出请求仍是主要方式，RandComp Studio 的所有能力都可由此调用。下面四个命令只是常用句子的快捷方式。</p>
+
+      <h3 id="mcp-prompts">斜杠命令</h3>
+      <p>RandComp Studio 发布四个 prompt，客户端会把它们转换成可在消息开头选择的命令。Claude Code 2.1.233 使用以下写法，并在 <code>/mcp</code> 下列出所有已连接服务器的命令：</p>
+      <table>
+        <thead><tr><th>输入</th><th>作用</th></tr></thead>
+        <tbody>
+          <tr><td><code>/mcp__randcomp-studio__catch-me-up</code></td><td>查看公司现状：所有任务、参与者、等待你处理的事项和沉默的会话。只读。</td></tr>
+          <tr><td><code>/mcp__randcomp-studio__what-came-out TASK_ID</code></td><td>查看一个任务的目标、协调员记录的结果以及每个文件的完整路径。只读，会话结束很久后仍可使用。</td></tr>
+          <tr><td><code>/mcp__randcomp-studio__start-work WHAT YOU WANT DONE</code></td><td>根据这句话创建任务，并让协调员雇用所需角色。启动智能体会产生费用；省略内容时系统会询问。</td></tr>
+          <tr><td><code>/mcp__randcomp-studio__check-on AGENT_ID</code></td><td>读取一个智能体用自己的话记录的工作，以及它是否在等待你。只读。</td></tr>
+        </tbody>
+      </table>
+      <p>prompt 名称分别为 <code>catch-me-up</code>、<code>what-came-out</code>、<code>start-work</code> 和 <code>check-on</code>。其他 MCP 客户端可能使用不同写法；请查看该客户端的 prompt 或命令列表。</p>
+      <p>命令后的内容是它唯一的值：任务 ID、智能体 ID，或你希望完成的工作。</p>
+      <div class="callout"><strong>命令给会话的是起点，不是现成答案。</strong><p>它会返回应该调用哪些 RandComp Studio 工具以及如何读取结果。随后会话在客户端自身审批设置下发起调用；在你允许工具调用前，不会创建、启动或停止任何内容。</p></div>
+    </section>
+
+    <section class="doc-section" id="mental-model">
+      <p class="eyebrow">核心概念</p>
+      <h2>基本概念</h2>
+      <table>
+        <thead><tr><th>概念</th><th>含义</th></tr></thead>
+        <tbody>
+          <tr><td>公司</td><td>持久保存角色、任务、决策、消息、状态和产出文件的文件夹。</td></tr>
+          <tr><td>项目文件夹</td><td>智能体实际操作的代码库或工作文件夹。每个任务单独选择，可以位于公司文件夹之外。</td></tr>
+          <tr><td>角色</td><td>可复用定义，例如开发、QA 或市场分析。角色位于角色库中，本身不会运行。</td></tr>
+          <tr><td>智能体</td><td>一个角色在一个任务中被雇用的实例。两个任务使用开发角色时，会得到两个不同的开发智能体。</td></tr>
+          <tr><td>会话</td><td>智能体正在运行的一个终端。会话会产生费用；会话停止后，智能体及其历史仍会保留。</td></tr>
+          <tr><td>任务</td><td>一项工作及其智能体、实时状态、结果和文件。每个已派发任务都有自己的协调员。</td></tr>
+          <tr><td>运行器</td><td>执行智能体的已安装命令行 AI 工具，当前为 Claude Code 或 Codex。</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><strong>角色构成公司；智能体是参与具体工作的成员。</strong><p>角色库没有实时关系图。关系与箭头只存在于一个任务内部，连接该任务雇用的智能体实例。</p></div>
+    </section>
+
+    <section class="doc-section" id="ui-guide">
+      <p class="eyebrow">图形界面</p>
+      <h2>使用 UI</h2>
+      <p>直接运行 <code>randcomp</code>，不加其他参数。它会在独立窗口中打开公司，服务只绑定到 <code>127.0.0.1</code>。</p>
+      <div class="cards">
+        <article class="card"><h3>任务</h3><p>创建工作，查看项目文件夹与当前状态，打开任务图，检查每个智能体并读取产出。</p></article>
+        <article class="card"><h3>角色</h3><p>浏览可复用角色库，阅读定义和历史记录，导入定义，或使用一个角色启动任务。</p></article>
+        <article class="card"><h3>智能体详情</h3><p>读取汇报进度和实时终端内容，发送消息、打开终端，或停止会话而不删除智能体。</p></article>
+        <article class="card"><h3>历史</h3><p>查看已记录的公司活动和产出，不把旧工作误报为仍在运行。</p></article>
+      </div>
+
+      <h3>读取任务状态</h3>
+      <p>任务状态根据智能体推导，而不是保存一个猜测。<strong>需要你</strong>表示智能体记录了阻塞或请求；<strong>工作中</strong>表示当前工作活跃；<strong>已完成</strong>表示任务已经结束。沉默或未知状态会显示具体原因，不会被简单标成阻塞。</p>
+
+      <h3>与智能体沟通</h3>
+      <p>从任务中打开智能体，读取当前终端输出并发送消息。“在终端中打开”会加入真实 tmux 会话；按 <code>Ctrl-B</code>，再按 <code>D</code> 即可脱离，智能体会继续工作。</p>
+    </section>
+
+    <section class="doc-section" id="cli-guide">
+      <p class="eyebrow">命令行</p>
+      <h2>使用 CLI</h2>
+      <p><code>randcomp</code> 与 <code>randcomp-studio</code> 是同一个程序，前者更短。每条命令先写对象，再写动作，例如 <code>randcomp task list</code>、<code>randcomp task results TASK_ID</code>、<code>randcomp task finish TASK_ID</code>。复数旧写法仍会继续工作；<code>randcomp help</code> 讲解的是单数新写法。</p>
+
+      <h3>查看整个公司</h3>
+<pre>randcomp status
+randcomp task list
+randcomp agent list</pre>
+      <p><code>status</code> 是简洁的公司摘要：使用哪个程序运行智能体、是否已登录、任务与智能体数量，以及每项的一行摘要。<code>randcomp task list</code> 解释每个任务为什么处于当前状态；<code>randcomp agent list</code> 说明每个智能体正在做什么。</p>
+
+      <h3>使用另一家公司</h3>
+<pre>randcomp task list --company ~/Companies/acme
+randcomp --company ~/Companies/new-company</pre>
+      <p><code>--company PATH</code> 适用于整个命令面。指定不存在的路径会在该处创建公司；它不会改变智能体工作的项目文件夹。</p>
+    </section>
+
+    <section class="doc-section" id="cli-reference">
+      <p class="eyebrow">参考</p>
+      <h2>完整 CLI 参考</h2>
+      <p>本参考与当前源代码中的公开解析器一致。方括号表示可选输入。每条命令都接受 <code>-h</code> 或 <code>--help</code>；<code>randcomp help</code> 打印顶层命令图。</p>
+
+      <h3>参数值与通用行为</h3>
+      <table>
+        <thead><tr><th>值</th><th>来源</th></tr></thead>
+        <tbody>
+          <tr><td><code>TASK_ID</code></td><td><code>randcomp task list</code> 中任务旁的短标识，或足以唯一匹配一个任务的长名称片段。</td></tr>
+          <tr><td><code>AGENT_ID</code></td><td><code>randcomp agent list</code> 中角色后括号内的 ID。若只有一个该角色智能体，也可使用角色名。</td></tr>
+          <tr><td><code>RESULT_FILE_PATH</code></td><td><code>randcomp task results TASK_ID</code> 在“产出”下打印的完整路径。</td></tr>
+                    <tr><td><code>ADDRESS</code></td><td>已雇用智能体 ID，或不会产生歧义的角色名。</td></tr>
+        </tbody>
+      </table>
+      <p>task、agent、role、status 和打开窗口的裸命令都接受 <code>--company PATH</code>。它选择包含 <code>roles/</code> 与 <code>coordination/</code> 的公司文件夹，而不是智能体的项目文件夹。默认使用首次运行时记住的公司；不存在的指定路径会被初始化为公司。对 <code>role</code> 命令，该参数可放在动作前或后。</p>
+
+      <h3>MCP 服务器</h3>
+      <div class="command"><pre>randcomp mcp [--company PATH]</pre><p>通过标准输入和标准输出使用 Model Context Protocol，让本地 MCP 客户端读取和控制公司。请用 <code>claude mcp add -s user randcomp-studio -- randcomp mcp</code> 注册，不要手动运行。它发布客户端可调用的工具，以及客户端显示为斜杠命令的四个 <a href="#mcp-prompts">prompt</a>。<code>--company</code> 可选择非默认公司。没有网络监听、托管服务、RandComp Studio 账户或 API 密钥。</p></div>
+
+      <h3>任务</h3>
+      <div class="command"><pre>randcomp task create TEXT... [OPTIONS]</pre><p>创建任务、启动协调员，并让协调员雇用所需角色。</p><ul>
+        <li><code>--name WORDS</code> 设置显示名称和短任务标识的基础，默认使用请求文本。</li>
+        <li><code>--in PATH</code> 设置每个智能体打开的项目文件夹，默认使用上次选择的项目文件夹。</li>
+        <li><code>--only ROLE,ROLE</code> 限制协调员可考虑的角色并记住该范围；<code>--only all</code> 清除限制。</li>
+        <li><code>--with-role ROLE</code> 直接雇用你选择的一个角色，不让协调员选择。</li>
+        <li><code>--let-it-work-without-asking</code> 请求运行器的无人值守权限模式。这会降低审批边界；<code>randcomp role list</code> 会打印运行器允许的内容。</li>
+        <li><code>--anyway</code> 在已有会话运行时确认新增支出。省略时，RandComp Studio 会报告运行内容并停止。</li>
+      </ul></div>
+      <div class="command"><pre>randcomp task list [--json] [--company PATH]</pre><p>打印公司组织图：所有任务、推导状态、智能体和可直接运行的命令。<code>--json</code> 返回结构化 JSON。</p></div>
+      <div class="command"><pre>randcomp task results TASK_ID [--json] [--company PATH]</pre><p>显示请求、协调员结果、参与者和产出文件完整路径。若可交互确定任务，可以省略 ID。它只列文件，不打印内容；<code>--json</code> 输出结构化结果。</p></div>
+      <div class="command"><pre>randcomp task show RESULT_FILE_PATH [--company PATH]</pre><p>完整打印一个产出文档。包含目录分隔符的参数按文件路径读取，其余按任务名读取。请使用“产出”下显示的精确路径。</p></div>
+      <div class="command"><pre>randcomp task finish TASK_ID [--yes] [--company PATH]</pre><p>关闭任务并停止其所有智能体会话。终端中会列出会话并先询问；<code>--yes</code> 提前确认，非交互脚本不会收到提示。智能体和历史会保留。</p></div>
+      <div class="command"><pre>randcomp task reopen TASK_ID [--company PATH]</pre><p>重新打开已完成任务，但不会自动启动会话。请列出旧智能体，并仅对需要继续工作的对象运行 <code>randcomp agent start AGENT_ID</code>。</p></div>
+
+      <h3>智能体</h3>
+      <div class="command"><pre>randcomp agent list TASK_ID [--json] [--company PATH]
+randcomp agent list [--json] [--company PATH]</pre><p>列出一个任务的智能体；省略任务时列出公司全部智能体。<code>--json</code> 返回结构化输出。</p></div>
+      <div class="command"><pre>randcomp agent logs AGENT_ID [--company PATH]</pre><p>读取智能体自己的话：运行中读取完整实时回滚内容，停止后读取保存的对话。这不是可复用角色定义。</p></div>
+      <div class="command"><pre>randcomp agent send AGENT_ID TEXT... [--company PATH]</pre><p>向智能体发送一行。会话运行时直接进入会话；未运行时等待在智能体收件箱中。</p></div>
+      <div class="command"><pre>randcomp agent attach AGENT_ID [--print-the-command] [--company PATH]</pre><p>在当前终端加入 tmux 会话；按 <code>Ctrl-B</code>，再按 <code>D</code> 脱离。<code>--print-the-command</code> 只打印加入命令，供其他终端或脚本使用。</p></div>
+      <div class="command"><pre>randcomp agent start AGENT_ID [--company PATH]
+randcomp agent stop AGENT_ID [--company PATH]</pre><p><code>start</code> 为持久智能体创建会话并恢复其身份与历史。<code>stop</code> 只结束会话；智能体仍保留并可再次启动。</p></div>
+
+      <h3>角色库与雇用</h3>
+      <div class="command"><pre>randcomp role add ROLE [OPTIONS]</pre><p>把公司中的一个角色加入任务。雇用会记录实例，但不一定立即启动；<code>role hire</code> 是旧写法。</p><ul>
+        <li><code>--assignment WORDS...</code> 记录该实例唯一的一项工作，也可稍后添加。</li>
+        <li><code>--in PATH</code> 设置智能体打开的项目文件夹，默认使用公司文件夹。隐藏的旧参数 <code>--project PATH</code> 等价。</li>
+        <li><code>--task SLUG</code> 把智能体绑定到一个任务的协调目录标识。只有真正跨任务工作时才省略。</li>
+        <li><code>--because WORDS</code> 记录任务为什么需要该角色。</li>
+        <li><code>--runner NAME</code> 选择运行器；省略时使用已安装并配置的默认项。</li>
+      </ul></div>
+      <div class="command"><pre>randcomp role assign ADDRESS --assignment WORDS... [--continue] [--company PATH]</pre><p>更改智能体的任务说明。一个会话只拥有一项工作，因此不同工作会被拒绝；<code>--continue</code> 明确表示这是对同一工作的更清晰描述。</p></div>
+      <div class="command"><pre>randcomp role outcome --task SLUG [WORDS...] [--company PATH]</pre><p>记录任务的简洁结果、产出路径、结论和剩余工作。不提供结果文字可清除错误结果。</p></div>
+      <div class="command"><pre>randcomp role list [--all] [--company PATH]</pre><p>列出已雇用成员和运行情况。<code>--all</code> 包括已退休成员；<code>role roster</code> 等价。</p></div>
+      <div class="command"><pre>randcomp role retire ADDRESS [--company PATH]</pre><p>不再把某个成员列为活跃，但保留其历史记录。</p></div>
+      <div class="command"><pre>randcomp role import PATH [OPTIONS]</pre><p>把现有 skill、agent、GPT 导出、<code>AGENTS.md</code> 或 Markdown 定义转换为 RandComp Studio 角色包。<code>PATH</code> 可以是文件、目录，或表示标准输入的 <code>-</code>。</p><ul>
+        <li><code>--as NAME</code> 覆盖推断的角色名。</li>
+        <li>不加 <code>--add</code> 时不会写入任何内容，只打印建议包供检查。</li>
+        <li><code>--add</code> 把转换结果复制到 <code>role-library/&lt;name&gt;/</code> 并生成 <code>roles/&lt;NAME&gt;.md</code>。不会编辑来源或覆盖现有角色。</li>
+        <li><code>--anyway</code> 允许在缺少非关键资料时写入，但不能绕过缺少名称、使命或覆盖拒绝。</li>
+      </ul></div>
+
+      <h3>角色会话与运行器</h3>
+      <div class="command"><pre>randcomp role runners [--company PATH]</pre><p>列出所有已配置运行器、是否安装和登录，以及默认运行器。</p></div>
+      <div class="command"><pre>randcomp role coordinator [--use NAME | --default] [--company PATH]</pre><p>不加参数时显示新协调员使用的运行器。<code>--use</code> 记住新选择；<code>--default</code> 清除选择并回到运行器表默认值。现有协调员会话不受影响。</p></div>
+      <div class="command"><pre>randcomp role runs-on ADDRESS [--use NAME] [--wait SECONDS] [--company PATH]</pre><p>显示智能体运行器。<code>--use</code> 将它迁移到另一个运行器。若正在运行，RandComp Studio 会先请求并验证交接；<code>--wait</code> 设置交接截止时间。</p></div>
+      <div class="command"><pre>randcomp role launch ADDRESS [--let-it-work-without-asking] [--company PATH]</pre><p>为已雇用智能体创建会话。无人值守参数会明确降低安全边界；若运行器未定义该模式则会被拒绝。</p></div>
+      <div class="command"><pre>randcomp role stop ADDRESS [--company PATH]
+randcomp role attach ADDRESS [--company PATH]</pre><p><code>stop</code> 结束会话但保留雇用记录。角色级 <code>attach</code> 打印加入命令；<code>agent attach</code> 直接加入。</p></div>
+      <div class="command"><pre>randcomp role replace ADDRESS [--wait SECONDS] [--let-it-work-without-asking] [--company PATH]</pre><p>请求在线智能体交接、验证交接、退役旧会话并启动新的延续会话。超时则旧会话完全保持原样。</p></div>
+      <div class="command"><pre>randcomp role at-once [HOW_MANY] [--company PATH]</pre><p>显示或设置每个任务可同时运行的专业智能体数量。多余成员等待轮次；任务协调员不计入。旧 <code>at-most</code> 已移除，只会说明替代命令。</p></div>
+      <div class="command"><pre>randcomp role check ADDRESS [--company PATH]
+randcomp role history ADDRESS [--company PATH]</pre><p><code>check</code> 取出智能体收件箱中等待的全部内容；<code>history</code> 显示该成员的所有会话及会话继承关系。</p></div>
+
+      <h3>角色消息</h3>
+      <div class="command"><pre>randcomp role say ADDRESS TEXT... [--about TASK_ID] [--company PATH]</pre><p>发送创始人撰写的消息。向跨任务协调员发送时，<code>--about</code> 用于明确任务。</p></div>
+      <div class="command"><pre>randcomp role send --to ADDRESS --from NAME [--as-founder] TEXT... [--company PATH]</pre><p>从一个角色向另一个角色发送消息。<code>--from</code> 如实记录发送者；<code>--as-founder</code> 明确标记消息由创始人撰写。</p></div>
+      <div class="command"><pre>randcomp role route [--company PATH]</pre><p>投递角色发件箱中当前等待的全部消息。</p></div>
+      <div class="command"><pre>randcomp role read ADDRESS [--lines N] [--company PATH]</pre><p>读取完整实时回滚内容或保存的对话。<code>--lines N</code> 只限制实时内容；已完成对话始终完整显示。</p></div>
+      <div class="command"><pre>randcomp role inbox [ADDRESS] [--company PATH]</pre><p>显示一个接收者的未读消息；省略地址时显示所有接收者。</p></div>
+
+      <h3>公司状态与窗口</h3>
+      <div class="command"><pre>randcomp status [--json] [--company PATH]</pre><p>打印所选运行器及登录状态、任务和智能体数量，再为每项打印一行摘要。<code>--json</code> 返回结构化输出。</p></div>
+      <div class="command"><pre>randcomp [--company PATH] [--no-model]</pre><p>不加后续命令时，在独立窗口中打开公司，并只绑定到 <code>127.0.0.1</code>。<code>--no-model</code> 禁用可选的本地模型说明。</p></div>
+      <div class="command"><pre>randcomp help
+randcomp COMMAND --help</pre><p>打印完整命令图，或某一命令的解析器帮助。</p></div>
+
+      <h3>颜色</h3>
+      <div class="command"><pre>randcomp COMMAND --no-color</pre><p>只有人在终端读取时，命令才会为状态、可复制值、标题和弱化的上下文行着色。通过管道、重定向或智能体读取时，输出是逐字节纯文本。所有命令都支持 <code>--no-color</code>，也遵循 <code>NO_COLOR</code> 和 <code>FORCE_COLOR</code>。</p></div>
+
+      <h3>旧写法</h3>
+      <p>建议学习上面的语法。工具过去支持的所有写法仍会原样运行，因此已有脚本不会失效：</p>
+      <table><tbody>
+        <tr><td><code>task create</code>, <code>do</code>, <code>dispatch</code></td><td><code>tasks new</code></td></tr>
+        <tr><td><code>task list</code></td><td><code>tasks ls</code></td></tr>
+        <tr><td><code>task results</code>, <code>results</code></td><td><code>tasks TASK_ID</code></td></tr>
+        <tr><td><code>task show</code>, <code>show</code></td><td><code>tasks RESULT_FILE_PATH</code></td></tr>
+        <tr><td><code>task finish</code>, <code>finish</code>, <code>reopen</code></td><td><code>tasks TASK_ID finish</code> / <code>reopen</code></td></tr>
+        <tr><td><code>agent list</code></td><td><code>tasks TASK_ID agents</code></td></tr>
+        <tr><td><code>agent logs/send/attach/start/stop</code>, <code>read</code>, <code>say</code>, <code>attach</code>, <code>start</code>, <code>stop</code></td><td><code>agents AGENT_ID logs</code> 及其余动作</td></tr>
+        <tr><td><code>role library</code>, <code>roles</code></td><td>并入 <code>role list</code> 与 <code>role import</code></td></tr>
+        <tr><td><code>role add</code></td><td><code>role hire</code></td></tr>
+        <tr><td><code>app</code>, <code>ui</code></td><td>直接运行 <code>randcomp</code></td></tr>
+        <tr><td><code>inbox</code>, <code>handoff</code>, <code>todo add/note/done</code></td><td>不再出现在教学界面中，但仍可运行</td></tr>
+      </tbody></table>
+    </section>
+
+    <section class="doc-section" id="roles">
+      <p class="eyebrow">执行</p>
+      <h2>角色与运行器</h2>
+      <p>角色是工作定义，运行器是执行它的已安装程序。同一角色的两个智能体可以使用不同运行器。</p>
+<pre>randcomp role runners
+randcomp role coordinator --use NAME
+randcomp role runs-on AGENT_ID --use NAME
+randcomp role at-once NUMBER</pre>
+      <p><code>coordinator --use</code> 更改之后启动的协调员运行器。<code>runs-on</code> 把一个智能体迁移到另一运行器。<code>at-once</code> 控制每个任务同时运行的专业智能体数量；多余成员保持已雇用并等待轮次。</p>
+      <p>RandComp Studio 自带 Claude Code 和 Codex CLI 的运行器定义。高级用户可在 <code>~/.config/mission-control/runners.json</code> 中新增或覆盖运行器，无需修改产品。</p>
+      <h3>复用已有 skills 和 agents</h3>
+      <p>RandComp Studio 不是替代型 marketplace。导入器接受你已有的角色定义，例如 Agent Skill、Claude agent 或 skill、导出的 GPT 或普通 Markdown，并转换为本地角色包规范。</p>
+<pre>randcomp role import ROLE_SOURCE_PATH
+randcomp role import ROLE_SOURCE_PATH --add</pre>
+      <p>第一条命令仅用于检查：打印系统理解的内容、角色转换结果，以及匹配规则能否真正选中它。不加 <code>--add</code> 不会写入任何内容。来源路径只读；确认后的转换结果会复制到公司 <code>role-library/</code>。</p>
+    </section>
+
+    <section class="doc-section" id="files">
+      <p class="eyebrow">本地优先设计</p>
+      <h2>文件、隐私与边界</h2>
+      <ul>
+        <li>UI 服务器只绑定到 <code>127.0.0.1</code>。</li>
+        <li>RandComp Studio 没有托管账户、产品遥测或自己的模型 API 密钥。这个公开文档页使用注重隐私的 Cloudflare Web Analytics 统计访问量；下载的应用不包含该统计脚本。</li>
+        <li>命令行 AI 智能体仍按该工具的设置和隐私政策与其供应商通信。</li>
+        <li>公司文件夹包含可读的角色、任务文件、状态、消息和产出。</li>
+        <li>本地应用状态默认位于 <code>~/.config/mission-control</code>。设置 <code>MISSION_CONTROL_HOME</code> 可覆盖。</li>
+        <li>RandComp Studio 只检查运行器登录标记是否存在。凭据值不会进入页面、日志或状态文件。</li>
+      </ul>
+      <div class="warning callout"><strong>访问项目文件夹就是真实访问。</strong><p>智能体通过你选择的命令行 AI 工具读取和修改项目文件夹。该工具的审批与沙箱设置决定智能体能做什么。</p></div>
+    </section>
+
+    <section class="doc-section" id="cost-control">
+      <p class="eyebrow">会话会产生费用</p>
+      <h2>控制成本与自主程度</h2>
+      <p>雇用智能体只写入持久记录；启动会话才可能产生费用。RandComp Studio 明确区分这两个概念。</p>
+      <ul>
+        <li>每个派发任务都有自己的协调员。</li>
+        <li>默认每个任务同时运行三个专业智能体，协调员不计入。</li>
+        <li>超过并发数量的智能体等待轮次，而不是被拒绝。</li>
+        <li>只有应用的消息投递器运行时，排队智能体才会继续；关闭应用会阻止下一轮时，UI 会明确说明。</li>
+        <li>完成任务会停止所有会话；重新打开不会自动重启。</li>
+        <li>无人值守权限模式必须明确启用，并且取决于运行器。请先阅读所选运行器允许的行为。</li>
+      </ul>
+    </section>
+
+    <section class="doc-section" id="troubleshooting">
+      <p class="eyebrow">常见问题</p>
+      <h2>故障排查</h2>
+      <h3><code>randcomp: command not found</code></h3>
+      <p>把 <code>~/.local/bin</code> 加入 PATH。安装程序会打印适合当前 shell 的精确命令。</p>
+<pre>export PATH="$HOME/.local/bin:$PATH"</pre>
+      <h3>Python 版本过旧</h3>
+      <p>这只影响源码安装，桌面应用自带 Python。源码安装需要 Python 3.11 以读取 TOML 运行器配置；在 macOS 上可运行 <code>brew install python</code> 安装当前版本，也可运行：</p>
+<pre>MISSION_CONTROL_PYTHON=/path/to/python3 ./install.sh</pre>
+      <h3>智能体会话无法启动</h3>
+      <p>应用已经内置 <code>tmux</code>，无需另行安装。它无法内置的是你的命令行 AI 智能体：确认工具位于 PATH 并已通过自身命令登录。<code>randcomp status</code> 会显示找到的工具和登录状态。若从源码安装，则机器上仍需安装 <code>tmux</code>。然后检查：</p>
+<pre>randcomp status
+randcomp role runners</pre>
+      <h3>打开了错误的公司</h3>
+      <p>记住的公司不会随当前目录变化。请使用 <code>--company PATH</code> 明确指定另一个公司。</p>
+      <h3>智能体沉默或等待</h3>
+      <p>重启前先读取确切原因和会话记录：</p>
+<pre>randcomp agent logs AGENT_ID
+randcomp agent attach AGENT_ID</pre>
+    </section>
+
+    <section class="doc-section" id="uninstall">
+      <p class="eyebrow">维护</p>
+      <h2>移动或卸载</h2>
+      <h3>移动解压后的文件夹</h3>
+      <p>已安装命令会指向该文件夹。移动后，请在新位置重新运行 <code>./install.sh</code>。</p>
+      <h3>移除 RandComp Studio</h3>
+<pre>rm ~/.local/bin/randcomp
+rm ~/.local/bin/randcomp-studio</pre>
+      <p>然后删除解压后的产品文件夹。公司文件夹属于你，不会被触碰。</p>
+    </section>
+
+    <footer>RandComp Studio 中文文档 · 根据当前命令面和产品规范编写。</footer>
+  </main>
+</div>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
+</body>
+</html>
