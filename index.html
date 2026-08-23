@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RandComp Studio</title>
-<meta name="description" content="Turn focused Claude Code or Codex sessions into one coordinated AI team, with their work, handoffs, and results visible and controllable in one local app.">
+<meta name="description" content="Turn focused command-line AI agent sessions into one coordinated team, with their work, handoffs, and results visible and controllable in one local app.">
 <link rel="alternate" hreflang="en" href="index.html">
 <link rel="alternate" hreflang="zh-CN" href="zh/index.html">
 
@@ -294,10 +294,10 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   <!-- 1. Hero. What it is, and the download, with nothing competing. -->
   <section class="hero">
     <div>
-      <p class="eyebrow">For Claude Code and Codex</p>
+      <p class="eyebrow">For the command-line AI agents you already use</p>
       <h1>Turn separate AI sessions into one coordinated team.</h1>
       <p class="lede">Give research, architecture, coding, and review their own focused session. RandComp Studio keeps each one visible, connects their handoffs, and shows where they need you—without replacing the tools you already use.</p>
-      <p class="requirement"><strong>One local system, two ways to operate it.</strong> Use the desktop board directly or connect it to an MCP-capable AI session. This build requires Apple silicon, macOS 11 or newer, and your own Claude Code or Codex CLI installed and signed in.</p>
+      <p class="requirement"><strong>One local system, two ways to operate it.</strong> Use the desktop board directly or connect it to an MCP-capable AI session. This build requires Apple silicon, macOS 11 or newer, and a supported command-line AI agent installed and signed in.</p>
       <div class="actions">
         <a class="button" href="https://missioncontroldl.z5.web.core.windows.net/RandCompStudio-0.1.0.dmg" download>Download for macOS ↓</a>
         <span class="button button-disabled" aria-disabled="true">Windows · Coming soon</span>
@@ -384,12 +384,12 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
     <div class="section-intro">
       <h2>Keep your tools. Add the team layer.</h2>
       <div>
-        <p>RandComp Studio runs the command-line AI agents you already use, giving separate sessions durable roles, clear task boundaries, visible coordination, and results you can inspect. It is the coordination layer—not another Claude, Codex, or chat app.</p>
+        <p>RandComp Studio runs the command-line AI agents you already use, giving separate sessions durable roles, clear task boundaries, visible coordination, and results you can inspect. It is the coordination layer—not another AI agent or chat app.</p>
         <p class="soft">It does not replace ChatGPT skills, Claude skills and plugins, or other role ecosystems either. Import a definition you already use, review the translation, and add it to your local role library only when you approve.</p>
       </div>
     </div>
     <ul class="plain">
-      <li><strong>Bring your preferred runner</strong>Claude Code and Codex work today. Each role can run on the tool you choose, using the account and approval settings you already have.</li>
+      <li><strong>Bring your preferred runner</strong>Choose which command-line AI agent each role uses, with the account and approval settings you already have. This preview includes Claude Code and Codex runners; additional runners are the next compatibility step.</li>
       <li><strong>Bring your existing expertise</strong>Turn an Agent Skill, Claude agent or skill, exported GPT, or plain Markdown definition into a reusable role for your crew.</li>
     </ul>
   </section>
@@ -399,7 +399,7 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   <section id="how" class="showcase">
     <div class="section-intro">
       <h2>Split the context. Keep the team connected.</h2>
-      <div><p>An all-purpose session has to keep re-reading a growing history, even when the next job needs only a small part of it. Give research, implementation, and review their own role sessions with job-specific context instead. RandComp Studio keeps the brief, dependencies, messages, and handoffs connected while you stay in charge.</p><p class="soft">Every session works in a folder you choose through Claude Code or Codex. RandComp Studio stores no model credentials of its own.</p></div>
+      <div><p>An all-purpose session has to keep re-reading a growing history, even when the next job needs only a small part of it. Give research, implementation, and review their own role sessions with job-specific context instead. RandComp Studio keeps the brief, dependencies, messages, and handoffs connected while you stay in charge.</p><p class="soft">Every session works in a folder you choose through its selected runner. RandComp Studio stores no model credentials of its own.</p></div>
     </div>
 
     <figure class="shot shot-wide">
@@ -531,9 +531,10 @@ randcomp status</pre>
       <div>
         <dt>A command-line AI agent you already have</dt>
         <dd>
-          Claude Code (<code>claude</code>) and Codex CLI (<code>codex</code>)
-          are supported. RandComp Studio drives the one you have and already sign
-          in to; it does not include one.
+          RandComp Studio drives the runner you have and already sign in to; it
+          does not include one. This preview includes definitions for Claude
+          Code (<code>claude</code>) and Codex CLI (<code>codex</code>), with
+          additional command-line agents planned next.
         </dd>
       </div>
     </dl>

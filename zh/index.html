@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RandComp Studio｜你的本地 AI 团队控制台</title>
-<meta name="description" content="把分散的 Claude Code 或 Codex 会话组织成一支协同工作的 AI 团队，并在一个本地应用中查看和控制工作、交接与结果。">
+<meta name="description" content="把多个命令行 AI 智能体会话组织成一支协同工作的团队，并在一个本地应用中查看和控制工作、交接与结果。">
 <link rel="alternate" hreflang="en" href="../index.html">
 <link rel="alternate" hreflang="zh-CN" href="index.html">
 
@@ -295,10 +295,10 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   <!-- 1. Hero. What it is, and the download, with nothing competing. -->
   <section class="hero">
     <div>
-      <p class="eyebrow">为 Claude Code 与 Codex 而做</p>
+      <p class="eyebrow">适用于你已经在用的命令行 AI 智能体</p>
       <h1>把分散的 AI 会话变成一支协同工作的团队。</h1>
       <p class="lede">让研究、架构、开发和评审分别使用专注的会话。RandComp Studio 让每个会话都清晰可见，连接它们之间的交接，并告诉你哪里需要介入——无需替换你已经在用的工具。</p>
-      <p class="requirement"><strong>同一个本地系统，两种操作方式。</strong>直接使用桌面看板，或从支持 MCP 的 AI 会话中操作。当前版本需要 Apple 芯片、macOS 11 或更高版本，以及已安装并登录的 Claude Code 或 Codex CLI。</p>
+      <p class="requirement"><strong>同一个本地系统，两种操作方式。</strong>直接使用桌面看板，或从支持 MCP 的 AI 会话中操作。当前版本需要 Apple 芯片、macOS 11 或更高版本，以及一个已安装并登录的受支持命令行 AI 智能体。</p>
       <div class="actions">
         <a class="button" href="https://randcompstudioasia.z7.web.core.windows.net/RandCompStudio-0.1.0.dmg" download>下载 macOS 版 ↓</a>
         <span class="button button-disabled" aria-disabled="true">Windows · 即将推出</span>
@@ -385,12 +385,12 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
     <div class="section-intro">
       <h2>保留你的工具，只添加团队协作层。</h2>
       <div>
-        <p>RandComp Studio 运行你已经在用的命令行 AI 智能体，为独立会话提供持久角色、清晰任务边界、可见协作和可检查的结果。它是协作管理层，而不是另一个 Claude、Codex 或聊天应用。</p>
+        <p>RandComp Studio 运行你已经在用的命令行 AI 智能体，为独立会话提供持久角色、清晰任务边界、可见协作和可检查的结果。它是协作管理层，而不是另一个 AI 智能体或聊天应用。</p>
         <p class="soft">它也不替代 ChatGPT skills、Claude skills、插件或其他角色生态。你可以导入已有定义，检查转换结果，并只在确认后加入本地角色库。</p>
       </div>
     </div>
     <ul class="plain">
-      <li><strong>继续使用你偏好的运行器</strong>当前支持 Claude Code 和 Codex。每个角色都能使用你选择的工具、已有账户与审批设置。</li>
+      <li><strong>继续使用你偏好的运行器</strong>每个角色都能使用你选择的命令行 AI 智能体、已有账户与审批设置。当前预览版内置 Claude Code 和 Codex 运行器；支持更多运行器是下一步兼容性工作。</li>
       <li><strong>复用你已有的专业能力</strong>把 Agent Skill、Claude agent 或 skill、导出的 GPT 或普通 Markdown 定义转换成团队可复用的角色。</li>
     </ul>
   </section>
@@ -400,7 +400,7 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   <section id="how" class="showcase">
     <div class="section-intro">
       <h2>拆分上下文，同时让团队保持连接。</h2>
-      <div><p>一个全能会话不得不反复读取不断增长的历史，即使下一项工作只需要其中很小一部分。让研究、开发和评审分别使用只包含本职上下文的角色会话。RandComp Studio 把任务说明、依赖、消息和交接连接起来，同时由你掌控。</p><p class="soft">每个会话都通过 Claude Code 或 Codex 在你选择的文件夹中工作。RandComp Studio 不保存任何模型凭据。</p></div>
+      <div><p>一个全能会话不得不反复读取不断增长的历史，即使下一项工作只需要其中很小一部分。让研究、开发和评审分别使用只包含本职上下文的角色会话。RandComp Studio 把任务说明、依赖、消息和交接连接起来，同时由你掌控。</p><p class="soft">每个会话都通过你选择的运行器，在指定文件夹中工作。RandComp Studio 不保存任何模型凭据。</p></div>
     </div>
 
     <figure class="shot shot-wide">
@@ -530,8 +530,9 @@ randcomp status</pre>
       <div>
         <dt>你已经在用的命令行 AI 智能体</dt>
         <dd>
-          支持 Claude Code（<code>claude</code>）和 Codex CLI（<code>codex</code>）。
-          RandComp Studio 驱动你已安装并登录的工具，本身不包含 AI 智能体。
+          RandComp Studio 使用你已经安装并登录的运行器，本身不包含 AI
+          智能体。当前预览版内置 Claude Code（<code>claude</code>）和 Codex
+          CLI（<code>codex</code>）定义，下一步将支持更多命令行智能体。
         </dd>
       </div>
     </dl>

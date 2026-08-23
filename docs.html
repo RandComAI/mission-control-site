@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RandComp Studio Documentation</title>
-<meta name="description" content="Install RandComp Studio, split a one-person company across focused AI role sessions, and operate them from the UI, CLI, or MCP.">
+<meta name="description" content="Install RandComp Studio, organize focused command-line AI agent sessions as one coordinated team, and operate them from the UI, CLI, or MCP.">
 <link rel="alternate" hreflang="en" href="docs.html">
 <link rel="alternate" hreflang="zh-CN" href="zh/docs.html">
 <style>
@@ -111,7 +111,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
   <main>
     <section class="hero" id="overview">
       <p class="eyebrow">Documentation</p>
-      <h1>Run your one-person company through focused AI sessions.</h1>
+      <h1>Run separate AI sessions as one coordinated team.</h1>
       <p>One all-purpose session accumulates every job and an ever-growing context. RandComp Studio lets you split research, product, implementation, and review into focused role sessions, then keeps their tasks, messages, dependencies, and results connected. It does not replace your AI agent or skill ecosystem.</p>
     </section>
 
@@ -120,7 +120,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
     <section class="doc-section" id="quick-start">
       <p class="eyebrow">Get started</p>
       <h2>Quick start</h2>
-      <p>Install the RandComp Studio app first. Then operate the same local company from its desktop board or from an MCP-capable AI session. Both paths require your own command-line AI agent—Claude Code or Codex today—installed and signed in.</p>
+      <p>Install the RandComp Studio app first. Then operate the same local team from its desktop board or from an MCP-capable AI session. Both paths require a supported command-line AI agent installed and signed in. Runner support is extensible; the <a href="#roles">roles and runners</a> section explains the bundled definitions and how to add your own.</p>
 
       <div class="start-paths">
         <article class="start-path">
@@ -148,7 +148,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
 
       <h3>First-run questions</h3>
       <p>The company folder holds roles, tasks, decisions, status, messages, and results as ordinary files. It is not necessarily the codebase where agents work. You choose project folders separately for each task.</p>
-      <p>If both Claude Code and Codex CLI are installed, RandComp Studio asks which one should run coordinators. It checks whether the selected runner appears signed in, but never reads or stores the credential value and never signs in for you.</p>
+      <p>If more than one configured runner is available, RandComp Studio asks which one should run coordinators. It checks whether the selected runner appears signed in, but never reads or stores the credential value and never signs in for you.</p>
     </section>
 
     <section class="doc-section" id="first-task">
@@ -206,7 +206,7 @@ Keep the task and agents visible on the RandComp Studio board.</pre>
           <tr><td>Agent</td><td>One hired instance of a role on exactly one task. Two tasks using Developer get two different Developer agents.</td></tr>
           <tr><td>Session</td><td>One running terminal for an agent. Sessions cost money; agents and their history remain when sessions stop.</td></tr>
           <tr><td>Task</td><td>One piece of work, its assigned agents, live state, outcome, and files. Every dispatched task has its own coordinator.</td></tr>
-          <tr><td>Runner</td><td>The installed command-line AI agent—Claude Code or Codex today—that executes an agent.</td></tr>
+          <tr><td>Runner</td><td>The installed command-line AI agent that executes an agent. Claude Code and Codex are the bundled definitions in this preview, not the limit of the runner model.</td></tr>
         </tbody>
       </table>
       <div class="callout"><strong>Roles are the company; agents are the people on the work.</strong><p>The role library has no live graph. Relationships and arrows only make sense inside one task, between the agent instances hired onto it.</p></div>
@@ -364,7 +364,7 @@ randcomp role coordinator --use NAME
 randcomp role runs-on AGENT_ID --use NAME
 randcomp role at-once NUMBER</pre>
       <p><code>coordinator --use</code> changes the runner for coordinators started from then on. <code>runs-on</code> moves one agent to a runner. <code>at-once</code> controls how many specialist agents on each task run simultaneously; extra agents remain hired and wait their turn.</p>
-      <p>RandComp Studio ships runner definitions for Claude Code and Codex CLI. Advanced users can add or override runners in <code>~/.config/mission-control/runners.json</code> without modifying the product.</p>
+      <p>RandComp Studio ships its first runner definitions for Claude Code and Codex CLI. They are initial integrations, not the product definition. Advanced users can add or override runners in <code>~/.config/mission-control/runners.json</code> without modifying the product, and additional built-in runners are the next compatibility step.</p>
       <h3>Reuse existing skills and agents</h3>
       <p>RandComp Studio is not a replacement marketplace. Its importer accepts a role definition you already have—such as an Agent Skill, Claude agent or skill, exported GPT, or plain Markdown—and translates it into the local role-package contract.</p>
 <pre>randcomp role import ROLE_SOURCE_PATH

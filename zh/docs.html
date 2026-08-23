@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RandComp Studio 中文文档</title>
-<meta name="description" content="安装 RandComp Studio，把一个人的公司拆分为专注的 AI 角色会话，并通过 UI、CLI 或 MCP 进行操作。">
+<meta name="description" content="安装 RandComp Studio，把多个命令行 AI 智能体会话组织成一支协同工作的团队，并通过 UI、CLI 或 MCP 进行操作。">
 <link rel="alternate" hreflang="en" href="../docs.html">
 <link rel="alternate" hreflang="zh-CN" href="docs.html">
 <style>
@@ -111,7 +111,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
   <main>
     <section class="hero" id="overview">
       <p class="eyebrow">文档</p>
-      <h1>用专注的 AI 会话运行你的一人公司。</h1>
+      <h1>把分散的 AI 会话作为一支协同团队来运行。</h1>
       <p>一个全能会话会累积所有工作和不断增长的上下文。RandComp Studio 让你把研究、产品、开发和评审拆成专注的角色会话，再把任务、消息、依赖与结果连接起来。它不会替代你的 AI 智能体或 skill 生态。</p>
     </section>
 
@@ -120,7 +120,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
     <section class="doc-section" id="quick-start">
       <p class="eyebrow">开始使用</p>
       <h2>快速开始</h2>
-      <p>先安装 RandComp Studio 应用，然后从桌面看板或支持 MCP 的 AI 会话操作同一个本地公司。两种方式都要求你已安装并登录自己的命令行 AI 智能体——当前支持 Claude Code 和 Codex。</p>
+      <p>先安装 RandComp Studio 应用，然后从桌面看板或支持 MCP 的 AI 会话操作同一支本地团队。两种方式都要求你已安装并登录一个受支持的命令行 AI 智能体。运行器支持可以扩展；<a href="#roles">角色与运行器</a>一节会说明内置定义以及如何添加自己的运行器。</p>
 
       <div class="start-paths">
         <article class="start-path">
@@ -148,7 +148,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
 
       <h3>首次运行时的问题</h3>
       <p>公司文件夹用普通文件保存角色、任务、决策、状态、消息和结果。它不一定是智能体工作的代码库；每个任务可单独选择项目文件夹。</p>
-      <p>若同时安装了 Claude Code 和 Codex CLI，RandComp Studio 会询问哪个工具用于运行协调员。它只检查所选运行器是否看起来已登录，不读取或保存凭据值，也不会替你登录。</p>
+      <p>若有多个已配置的运行器可用，RandComp Studio 会询问哪个工具用于运行协调员。它只检查所选运行器是否看起来已登录，不读取或保存凭据值，也不会替你登录。</p>
     </section>
 
     <section class="doc-section" id="first-task">
@@ -206,7 +206,7 @@ randcomp task results TASK_ID</pre>
           <tr><td>智能体</td><td>一个角色在一个任务中被雇用的实例。两个任务使用开发角色时，会得到两个不同的开发智能体。</td></tr>
           <tr><td>会话</td><td>智能体正在运行的一个终端。会话会产生费用；会话停止后，智能体及其历史仍会保留。</td></tr>
           <tr><td>任务</td><td>一项工作及其智能体、实时状态、结果和文件。每个已派发任务都有自己的协调员。</td></tr>
-          <tr><td>运行器</td><td>执行智能体的已安装命令行 AI 工具，当前为 Claude Code 或 Codex。</td></tr>
+          <tr><td>运行器</td><td>执行智能体的已安装命令行 AI 工具。Claude Code 和 Codex 是当前预览版内置的首批定义，不是运行器模型的边界。</td></tr>
         </tbody>
       </table>
       <div class="callout"><strong>角色构成公司；智能体是参与具体工作的成员。</strong><p>角色库没有实时关系图。关系与箭头只存在于一个任务内部，连接该任务雇用的智能体实例。</p></div>
@@ -364,7 +364,7 @@ randcomp role coordinator --use NAME
 randcomp role runs-on AGENT_ID --use NAME
 randcomp role at-once NUMBER</pre>
       <p><code>coordinator --use</code> 更改之后启动的协调员运行器。<code>runs-on</code> 把一个智能体迁移到另一运行器。<code>at-once</code> 控制每个任务同时运行的专业智能体数量；多余成员保持已雇用并等待轮次。</p>
-      <p>RandComp Studio 自带 Claude Code 和 Codex CLI 的运行器定义。高级用户可在 <code>~/.config/mission-control/runners.json</code> 中新增或覆盖运行器，无需修改产品。</p>
+      <p>RandComp Studio 首批自带 Claude Code 和 Codex CLI 的运行器定义。它们是初始集成，而不是产品定义。高级用户可在 <code>~/.config/mission-control/runners.json</code> 中新增或覆盖运行器，无需修改产品；下一步也会加入更多内置运行器。</p>
       <h3>复用已有 skills 和 agents</h3>
       <p>RandComp Studio 不是替代型 marketplace。导入器接受你已有的角色定义，例如 Agent Skill、Claude agent 或 skill、导出的 GPT 或普通 Markdown，并转换为本地角色包规范。</p>
 <pre>randcomp role import ROLE_SOURCE_PATH
