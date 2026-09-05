@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RandComp Studio</title>
-<meta name="description" content="Turn focused command-line AI agent sessions into one coordinated team, with their work, handoffs, and results visible and controllable in one local app.">
+<meta name="description" content="Coordinate parallel command-line AI sessions as one local team, with their tasks, handoffs, terminals, and results visible and controllable in one place.">
 <link rel="alternate" hreflang="en" href="index.html">
 <link rel="alternate" hreflang="zh-CN" href="zh/index.html">
 
@@ -35,9 +35,10 @@
   Each screenshot frame stays empty until the file it names exists.
   Drop the file in and it appears; nothing else has to be edited.
 
-      landing/screenshots/org-chart.png     the org chart of the roles
-      landing/screenshots/role-picker.png   roles available to one task
-      landing/screenshots/role-library.png  the reusable role library
+      landing/screenshots/workspace-overview.png  the full desktop workspace
+      landing/screenshots/org-chart.png           the org chart of the roles
+      landing/screenshots/role-picker.png         roles available to one task
+      landing/screenshots/role-library.png        the reusable role library
 
   Take them from the real window. Full-window captures and wide crops both scale
   to the frame; the source dimensions are recorded in screenshots/README.md.
@@ -156,6 +157,10 @@ p { margin: 0 0 18px; max-width: 62ch; }
 .entry-mcp-layout > * { min-width: 0; }
 .entry-mcp-copy { padding: 6px 0; }
 .entry-mcp-copy .quiet-link { margin-top: 4px; }
+.actual-app-shot { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow); }
+.actual-app-shot a { display: block; background: #f4f5fb; }
+.actual-app-shot img { display: block; width: 100%; height: auto; }
+.actual-app-shot figcaption { background: #fff; text-transform: none; letter-spacing: 0; font-size: 11px; }
 .claude-session { margin: 0; overflow: hidden; border: 1px solid #353735; border-radius: 18px; background: #202123; color: #f7f7f5; box-shadow: var(--shadow); }
 .terminal-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; border-bottom: 1px solid #343638; color: #aeb2af; font-size: 11px; }
 .terminal-bar i { width: 8px; height: 8px; border-radius: 50%; background: #6d706e; }
@@ -186,20 +191,6 @@ ul.plain li strong { padding-left: 17px; }
 
 figure.shot { margin: 34px 0 0; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
 figure.shot::before { content: "●  ●  ●     RandComp Studio"; display: block; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #f4f4f2; color: #9a9d9a; font-size: 10px; letter-spacing: .08em; }
-.concept-map { margin: 0; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow); overflow: hidden; }
-.window-bar { display: flex; align-items: center; gap: 12px; min-height: 36px; padding: 0 13px; border-bottom: 1px solid var(--line); background: #f4f4f2; color: var(--ink-faint); font-size: 10px; }
-.window-dots { color: #aeb1ae; letter-spacing: 3px; }
-.window-title { margin-left: auto; margin-right: auto; transform: translateX(-16px); }
-.concept-map svg { display: block; width: 100%; height: auto; }
-.concept-map .edge { fill: none; stroke: #b8bbb8; stroke-width: 2; stroke-linecap: round; }
-.concept-map .edge-active { stroke: var(--signal); }
-.concept-map .node { fill: #fff; stroke: var(--line-strong); stroke-width: 1.5; }
-.concept-map .node-primary { stroke: var(--signal); stroke-width: 2; }
-.concept-map .node-title { fill: var(--ink); font: 650 15px -apple-system, BlinkMacSystemFont, sans-serif; }
-.concept-map .node-meta { fill: var(--ink-faint); font: 12px -apple-system, BlinkMacSystemFont, sans-serif; }
-.concept-map .map-control { fill: #087f63; font: 12px -apple-system, BlinkMacSystemFont, sans-serif; }
-.concept-map .task-label { fill: var(--signal); font: 650 11px -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: .08em; }
-.concept-map .task-copy { fill: var(--ink); font: 650 16px -apple-system, BlinkMacSystemFont, sans-serif; }
 figure.shot img { display: none; width: 100%; height: auto; }
 figure.shot.has-shot img { display: block; }
 figure.shot.has-shot .placeholder { display: none; }
@@ -220,6 +211,20 @@ footer { display: flex; justify-content: space-between; gap: 30px; padding: 42px
 footer::after { content: "Local · Inspectable · Your machine"; color: var(--ink-soft); font-size: 12px; }
 
 .section-band { padding-top: 76px; padding-bottom: 76px; }
+.walkthrough-section { padding-top: 76px; padding-bottom: 76px; }
+.walkthrough-section .section-intro { margin-bottom: 30px; }
+.example-goal { margin-top: 22px; padding: 18px 20px; border: 1px solid #cfe9df; border-radius: 14px; background: var(--mint); color: #264f45 !important; font-weight: 600; }
+.walkthrough-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.walkthrough-card { padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.025); }
+.walkthrough-card h3 { margin-bottom: 14px; font-size: 25px; }
+.path-label { margin-bottom: 10px; color: var(--signal); font-size: 12px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+.mini-steps { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: mini-step; }
+.mini-steps li { position: relative; min-height: 52px; padding: 0 0 20px 44px; color: var(--ink-soft); }
+.mini-steps li:last-child { padding-bottom: 0; }
+.mini-steps li::before { counter-increment: mini-step; content: counter(mini-step); position: absolute; top: 0; left: 0; display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--mint); color: var(--signal); font-size: 12px; font-weight: 750; }
+.mini-steps code { font-size: .82em; }
+.walkthrough-result { display: flex; gap: 14px; align-items: center; margin-top: 18px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; color: var(--ink-soft); }
+.walkthrough-result strong { color: var(--ink); white-space: nowrap; }
 .showcase .shot + .shot { margin-top: 24px; }
 .process-section { padding-top: 84px; padding-bottom: 84px; }
 .process-section h2 { max-width: 12ch; }
@@ -247,7 +252,7 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   main { width: min(100% - 28px, 680px); }
   .section-intro { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 72px; }
-  .entry-app-layout, .entry-mcp-layout, .install-options { grid-template-columns: minmax(0, 1fr); }
+  .entry-app-layout, .entry-mcp-layout, .walkthrough-paths, .install-options { grid-template-columns: minmax(0, 1fr); }
   .entry-panel-copy h3 { max-width: none; }
   ol.steps { grid-template-columns: 1fr 1fr; }
   section { padding: 72px 0; }
@@ -269,6 +274,8 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   .entry-tabs { gap: 18px; }
   .entry-tabs label { font-size: 13px; }
   .entry-panel { padding: 18px; border-radius: 18px; }
+  .walkthrough-result { display: block; }
+  .walkthrough-result strong { display: block; margin-bottom: 5px; }
   ol.steps, ul.plain, dl.needs { grid-template-columns: 1fr; }
   dl.needs > div, dl.needs > div:nth-child(n+3) { grid-column: auto; }
   ol.steps li { min-height: 160px; }
@@ -294,9 +301,10 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   <!-- 1. Hero. What it is, and the download, with nothing competing. -->
   <section class="hero">
     <div>
-      <p class="eyebrow">For the command-line AI agents you already use</p>
-      <h1>Turn separate AI sessions into one coordinated team.</h1>
-      <p class="lede">Give research, architecture, coding, and review their own focused session. RandComp Studio keeps each one visible, connects their handoffs, and shows where they need you—without replacing the tools you already use.</p>
+      <p class="eyebrow">A local control center for parallel AI sessions</p>
+      <h1>Coordinate parallel AI sessions without managing them by hand.</h1>
+      <p class="lede">One long AI session mixes research, decisions, implementation, and review into the same growing context. Opening several smaller sessions keeps each job focused—but leaves you assigning work, copying context, tracking progress, and finding results yourself.</p>
+      <p class="lede">RandComp Studio gives that work one task, runs named roles in separate command-line AI sessions, connects their handoffs, and shows every session, dependency, message, and result on one local board. You can inspect or take over any session at any time.</p>
       <p class="requirement"><strong>One local system, two ways to operate it.</strong> Use the desktop board directly or connect it to an MCP-capable AI session. This build requires Apple silicon, macOS 11 or newer, and a supported command-line AI agent installed and signed in.</p>
       <div class="actions">
         <a class="button" href="https://missioncontroldl.z5.web.core.windows.net/RandCompStudio-0.1.0-f755c8d8.dmg" download>Download for macOS ↓</a>
@@ -313,43 +321,13 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
         <div class="entry-panel entry-app-panel">
           <div class="entry-app-layout">
             <div class="entry-panel-copy">
-              <h3>See the whole crew from one board.</h3>
-              <p>Keep every focused work session in view: what it owns, whether it is working or waiting, who it depends on, what it said, and which files it produced. Send a correction or step into the live terminal whenever you want.</p>
-              <p class="soft">The board controls real local sessions. Closing the window does not stop them.</p>
+              <h3>See every task, role, and live session at once.</h3>
+              <p>Choose a task on the left. Its coordinator, role sessions, dependencies, and files appear in the center. Open any agent on the right to read its live session, send a correction, or enter its terminal.</p>
+              <p class="soft">This is the actual desktop app. It controls real local sessions, and closing the window does not stop them.</p>
             </div>
-            <figure class="concept-map">
-              <div class="window-bar" aria-hidden="true"><span class="window-dots">● ● ●</span><span class="window-title">RandComp Studio · Task map</span></div>
-              <svg viewBox="0 0 600 520" role="img" aria-labelledby="concept-title concept-description">
-                <title id="concept-title">One objective coordinated across a team of agents</title>
-                <desc id="concept-description">A desktop-app illustration in which a coordinator routes one objective to Developer, Research, and QA agents while their sessions remain visible.</desc>
-                <rect x="18" y="18" width="564" height="484" rx="28" fill="#f7f7f5"/>
-                <rect x="130" y="48" width="340" height="68" rx="18" fill="#fff" stroke="#d1d1cd"/>
-                <text x="154" y="75" class="task-label">ONE OBJECTIVE</text>
-                <text x="154" y="98" class="task-copy">Ship the next product milestone</text>
-                <path class="edge edge-active" d="M300 116 C300 140 300 148 300 166"/>
-                <path class="edge" d="M300 242 C300 272 128 264 128 316"/>
-                <path class="edge edge-active" d="M300 242 C300 282 300 292 300 350"/>
-                <path class="edge" d="M300 242 C300 272 472 264 472 316"/>
-                <rect class="node node-primary" x="210" y="166" width="180" height="76" rx="18"/>
-                <circle cx="234" cy="190" r="6" fill="#10a37f"/>
-                <text x="250" y="196" class="node-title">Coordinator</text>
-                <text x="234" y="220" class="node-meta">routes · briefs · watches</text>
-                <rect class="node" x="48" y="316" width="160" height="84" rx="18"/>
-                <circle cx="72" cy="341" r="6" fill="#10a37f"/>
-                <text x="88" y="347" class="node-title">Developer</text>
-                <text x="72" y="374" class="node-meta">working</text>
-                <rect class="node" x="220" y="350" width="160" height="84" rx="18"/>
-                <circle cx="244" cy="375" r="6" fill="#10a37f"/>
-                <text x="260" y="381" class="node-title">Research</text>
-                <text x="244" y="408" class="node-meta">reported progress</text>
-                <rect class="node" x="392" y="316" width="160" height="84" rx="18"/>
-                <circle cx="416" cy="341" r="6" fill="#aeb2af"/>
-                <text x="432" y="347" class="node-title">QA</text>
-                <text x="416" y="374" class="node-meta">waiting its turn</text>
-                <rect x="170" y="464" width="260" height="24" rx="12" fill="#e3f5ef"/>
-                <text x="300" y="481" text-anchor="middle" class="map-control">Every session stays visible and controllable</text>
-              </svg>
-              <figcaption>Desktop app — one task and its working roles</figcaption>
+            <figure class="actual-app-shot">
+              <a href="screenshots/workspace-overview.png"><img src="screenshots/workspace-overview.png" alt="The actual RandComp Studio desktop app with a task list on the left, a task graph and role sessions in the center, and a live Developer session on the right."></a>
+              <figcaption>Actual desktop app · select the image to inspect it at full size</figcaption>
             </figure>
           </div>
         </div>
@@ -358,9 +336,9 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
             <div class="claude-session" aria-label="Example AI session using RandComp Studio over MCP">
               <div class="terminal-bar"><i></i><i></i><i></i><span>AI session · ~/code/storefront</span></div>
               <div class="terminal-body">
-                <p class="terminal-prompt">› Use RandComp Studio to review checkout with Developer and QA.</p>
+                <p class="terminal-prompt">› Use RandComp Studio to build a small online pet store. Give product, implementation, and QA separate sessions.</p>
                 <p class="terminal-muted">Calling RandComp Studio over MCP…</p>
-                <p class="terminal-result">Task checkout-review opened<br>Developer started · QA queued<br>Follow it in the RandComp Studio app</p>
+                <p class="terminal-result">Task pet-store opened<br>Product Manager · Developer · QA<br>Follow it here or in the desktop app</p>
               </div>
             </div>
             <div class="entry-mcp-copy">
@@ -378,6 +356,42 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
       <p class="soft download-facts">Release <code data-fact="version">0.1.0</code> · <code data-fact="size">25M</code> · Signed and notarized for Apple silicon · Python and tmux included<br>SHA-256 <code data-fact="sha256">f755c8d8ad73429e6a85edd61381b1e46c2c7d2b35d170d575807995d73fc001</code></p>
       <div class="actions"><a class="quiet-link" href="#how">See the operating model</a></div>
     </div>
+  </section>
+
+  <section id="walkthrough" class="walkthrough-section section-tinted">
+    <div class="section-intro">
+      <div>
+        <p class="eyebrow">A 60-second walkthrough</p>
+        <h2>Example: build a small online pet store.</h2>
+      </div>
+      <div>
+        <p>This is one concrete task, started through either entry point. Both routes create the same local task, role sessions, messages, files, and result history.</p>
+        <p class="example-goal">“Build a small online pet store with a product catalog, cart, checkout, and tests. Have Product define the smallest useful version, Developer build it, and QA verify it.”</p>
+      </div>
+    </div>
+    <div class="walkthrough-paths">
+      <article class="walkthrough-card">
+        <p class="path-label">Desktop app</p>
+        <h3>Start from the board</h3>
+        <ol class="mini-steps">
+          <li>Choose the project folder and enter the goal in <strong>Say what you want done</strong>.</li>
+          <li>Allow Product Manager, Developer, and QA. The coordinator divides the task among those roles.</li>
+          <li>Each role works in its own focused local AI session. Their instructions and task context stay separate; their messages and dependencies stay connected.</li>
+          <li>Watch the graph, open a live session, redirect an agent, and inspect the files and final result from the same task view.</li>
+        </ol>
+      </article>
+      <article class="walkthrough-card">
+        <p class="path-label">Inside your AI session</p>
+        <h3>Start without leaving your current tool</h3>
+        <ol class="mini-steps">
+          <li>Register the local <code>randcomp mcp</code> process once in an MCP-capable AI client.</li>
+          <li>Ask that AI session to use RandComp Studio for the same pet-store goal and name the roles you want involved.</li>
+          <li>Your AI client calls RandComp Studio locally. The same task and separate role sessions appear on the board underneath.</li>
+          <li>Ask for a progress summary from your AI session, or open the desktop app when you want the graph, full transcripts, terminals, and files.</li>
+        </ol>
+      </article>
+    </div>
+    <div class="walkthrough-result"><strong>Same result either way</strong><span>One durable task → separate role sessions → visible handoffs → collected files and results.</span></div>
   </section>
 
   <section class="section-band section-tinted">

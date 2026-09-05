@@ -35,9 +35,10 @@
   Each screenshot frame stays empty until the file it names exists.
   Drop the file in and it appears; nothing else has to be edited.
 
-      landing/screenshots/org-chart.png     the org chart of the roles
-      landing/screenshots/role-picker.png   roles available to one task
-      landing/screenshots/role-library.png  the reusable role library
+      landing/screenshots/workspace-overview.png  the full desktop workspace
+      landing/screenshots/org-chart.png           the org chart of the roles
+      landing/screenshots/role-picker.png         roles available to one task
+      landing/screenshots/role-library.png        the reusable role library
 
   Take them from the real window. Full-window captures and wide crops both scale
   to the frame; the source dimensions are recorded in screenshots/README.md.
@@ -156,6 +157,10 @@ p { margin: 0 0 18px; max-width: 62ch; }
 .entry-mcp-layout > * { min-width: 0; }
 .entry-mcp-copy { padding: 6px 0; }
 .entry-mcp-copy .quiet-link { margin-top: 4px; }
+.actual-app-shot { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow); }
+.actual-app-shot a { display: block; background: #f4f5fb; }
+.actual-app-shot img { display: block; width: 100%; height: auto; }
+.actual-app-shot figcaption { background: #fff; text-transform: none; letter-spacing: 0; font-size: 11px; }
 .claude-session { margin: 0; overflow: hidden; border: 1px solid #353735; border-radius: 18px; background: #202123; color: #f7f7f5; box-shadow: var(--shadow); }
 .terminal-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; border-bottom: 1px solid #343638; color: #aeb2af; font-size: 11px; }
 .terminal-bar i { width: 8px; height: 8px; border-radius: 50%; background: #6d706e; }
@@ -186,20 +191,6 @@ ul.plain li strong { padding-left: 17px; }
 
 figure.shot { margin: 34px 0 0; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
 figure.shot::before { content: "●  ●  ●     RandComp Studio"; display: block; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #f4f4f2; color: #9a9d9a; font-size: 10px; letter-spacing: .08em; }
-.concept-map { margin: 0; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow); overflow: hidden; }
-.window-bar { display: flex; align-items: center; gap: 12px; min-height: 36px; padding: 0 13px; border-bottom: 1px solid var(--line); background: #f4f4f2; color: var(--ink-faint); font-size: 10px; }
-.window-dots { color: #aeb1ae; letter-spacing: 3px; }
-.window-title { margin-left: auto; margin-right: auto; transform: translateX(-16px); }
-.concept-map svg { display: block; width: 100%; height: auto; }
-.concept-map .edge { fill: none; stroke: #b8bbb8; stroke-width: 2; stroke-linecap: round; }
-.concept-map .edge-active { stroke: var(--signal); }
-.concept-map .node { fill: #fff; stroke: var(--line-strong); stroke-width: 1.5; }
-.concept-map .node-primary { stroke: var(--signal); stroke-width: 2; }
-.concept-map .node-title { fill: var(--ink); font: 650 15px -apple-system, BlinkMacSystemFont, sans-serif; }
-.concept-map .node-meta { fill: var(--ink-faint); font: 12px -apple-system, BlinkMacSystemFont, sans-serif; }
-.concept-map .map-control { fill: #087f63; font: 12px -apple-system, BlinkMacSystemFont, sans-serif; }
-.concept-map .task-label { fill: var(--signal); font: 650 11px -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: .08em; }
-.concept-map .task-copy { fill: var(--ink); font: 650 16px -apple-system, BlinkMacSystemFont, sans-serif; }
 figure.shot img { display: none; width: 100%; height: auto; }
 figure.shot.has-shot img { display: block; }
 figure.shot.has-shot .placeholder { display: none; }
@@ -221,6 +212,20 @@ footer { display: flex; justify-content: space-between; gap: 30px; padding: 42px
 footer::after { content: "Local · Inspectable · Your machine"; color: var(--ink-soft); font-size: 12px; }
 
 .section-band { padding-top: 76px; padding-bottom: 76px; }
+.walkthrough-section { padding-top: 76px; padding-bottom: 76px; }
+.walkthrough-section .section-intro { margin-bottom: 30px; }
+.example-goal { margin-top: 22px; padding: 18px 20px; border: 1px solid #cfe9df; border-radius: 14px; background: var(--mint); color: #264f45 !important; font-weight: 600; }
+.walkthrough-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.walkthrough-card { padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.025); }
+.walkthrough-card h3 { margin-bottom: 14px; font-size: 25px; }
+.path-label { margin-bottom: 10px; color: var(--signal); font-size: 12px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+.mini-steps { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: mini-step; }
+.mini-steps li { position: relative; min-height: 52px; padding: 0 0 20px 44px; color: var(--ink-soft); }
+.mini-steps li:last-child { padding-bottom: 0; }
+.mini-steps li::before { counter-increment: mini-step; content: counter(mini-step); position: absolute; top: 0; left: 0; display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--mint); color: var(--signal); font-size: 12px; font-weight: 750; }
+.mini-steps code { font-size: .82em; }
+.walkthrough-result { display: flex; gap: 14px; align-items: center; margin-top: 18px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; color: var(--ink-soft); }
+.walkthrough-result strong { color: var(--ink); white-space: nowrap; }
 .showcase .shot + .shot { margin-top: 24px; }
 .process-section { padding-top: 84px; padding-bottom: 84px; }
 .process-section h2 { max-width: 12ch; }
@@ -248,7 +253,7 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   main { width: min(100% - 28px, 680px); }
   .section-intro { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 72px; }
-  .entry-app-layout, .entry-mcp-layout, .install-options { grid-template-columns: minmax(0, 1fr); }
+  .entry-app-layout, .entry-mcp-layout, .walkthrough-paths, .install-options { grid-template-columns: minmax(0, 1fr); }
   .entry-panel-copy h3 { max-width: none; }
   ol.steps { grid-template-columns: 1fr 1fr; }
   section { padding: 72px 0; }
@@ -270,6 +275,8 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   .entry-tabs { gap: 18px; }
   .entry-tabs label { font-size: 13px; }
   .entry-panel { padding: 18px; border-radius: 18px; }
+  .walkthrough-result { display: block; }
+  .walkthrough-result strong { display: block; margin-bottom: 5px; }
   ol.steps, ul.plain, dl.needs { grid-template-columns: 1fr; }
   dl.needs > div, dl.needs > div:nth-child(n+3) { grid-column: auto; }
   ol.steps li { min-height: 160px; }
@@ -295,9 +302,10 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
   <!-- 1. Hero. What it is, and the download, with nothing competing. -->
   <section class="hero">
     <div>
-      <p class="eyebrow">适用于你已经在用的命令行 AI 智能体</p>
-      <h1>把分散的 AI 会话变成一支协同工作的团队。</h1>
-      <p class="lede">让研究、架构、开发和评审分别使用专注的会话。RandComp Studio 让每个会话都清晰可见，连接它们之间的交接，并告诉你哪里需要介入——无需替换你已经在用的工具。</p>
+      <p class="eyebrow">并行 AI 会话的本地控制中心</p>
+      <h1>协调多个 AI 会话，不再靠手工管理。</h1>
+      <p class="lede">一个越来越长的 AI 会话会把研究、决策、开发和评审混在同一份上下文里。拆成多个小会话可以让每项工作更专注，但你又不得不亲自分配工作、复制上下文、追踪进度、寻找结果。</p>
+      <p class="lede">RandComp Studio 把这些工作组织成一个任务，让不同角色在独立的命令行 AI 会话中运行，连接它们的交接，并在一个本地看板中显示所有会话、依赖、消息和结果。你可以随时检查或接管任何会话。</p>
       <p class="requirement"><strong>同一个本地系统，两种操作方式。</strong>直接使用桌面看板，或从支持 MCP 的 AI 会话中操作。当前版本需要 Apple 芯片、macOS 11 或更高版本，以及一个已安装并登录的受支持命令行 AI 智能体。</p>
       <div class="actions">
         <a class="button" href="https://randcompstudioasia.z7.web.core.windows.net/RandCompStudio-0.1.0-f755c8d8.dmg" download>下载 macOS 版 ↓</a>
@@ -314,43 +322,13 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
         <div class="entry-panel entry-app-panel">
           <div class="entry-app-layout">
             <div class="entry-panel-copy">
-              <h3>在一个看板上看清整个团队。</h3>
-              <p>所有专注的工作会话都一目了然：负责什么、正在工作还是等待、依赖谁、说了什么、产出了哪些文件。你随时可以发送修正，或直接进入实时终端。</p>
-              <p class="soft">看板控制的是真实本地会话。关闭窗口不会停止它们。</p>
+              <h3>同时看清每个任务、角色和实时会话。</h3>
+              <p>在左侧选择任务；它的协调员、角色会话、依赖和文件显示在中间。打开右侧的任意智能体，即可阅读实时会话、发送修正，或进入它的终端。</p>
+              <p class="soft">这是真实桌面应用的界面。它控制真实本地会话，关闭窗口不会停止它们。</p>
             </div>
-            <figure class="concept-map">
-              <div class="window-bar" aria-hidden="true"><span class="window-dots">● ● ●</span><span class="window-title">RandComp Studio · 任务图</span></div>
-              <svg viewBox="0 0 600 520" role="img" aria-labelledby="concept-title concept-description">
-                <title id="concept-title">一个目标由多个智能体协同完成</title>
-                <desc id="concept-description">桌面应用示意图：协调员把一个目标分配给开发、研究和 QA 智能体，并让所有会话保持可见。</desc>
-                <rect x="18" y="18" width="564" height="484" rx="28" fill="#f7f7f5"/>
-                <rect x="130" y="48" width="340" height="68" rx="18" fill="#fff" stroke="#d1d1cd"/>
-                <text x="154" y="75" class="task-label">一个目标</text>
-                <text x="154" y="98" class="task-copy">交付下一个产品里程碑</text>
-                <path class="edge edge-active" d="M300 116 C300 140 300 148 300 166"/>
-                <path class="edge" d="M300 242 C300 272 128 264 128 316"/>
-                <path class="edge edge-active" d="M300 242 C300 282 300 292 300 350"/>
-                <path class="edge" d="M300 242 C300 272 472 264 472 316"/>
-                <rect class="node node-primary" x="210" y="166" width="180" height="76" rx="18"/>
-                <circle cx="234" cy="190" r="6" fill="#10a37f"/>
-                <text x="250" y="196" class="node-title">协调员</text>
-                <text x="234" y="220" class="node-meta">分配 · 交代 · 观察</text>
-                <rect class="node" x="48" y="316" width="160" height="84" rx="18"/>
-                <circle cx="72" cy="341" r="6" fill="#10a37f"/>
-                <text x="88" y="347" class="node-title">开发</text>
-                <text x="72" y="374" class="node-meta">工作中</text>
-                <rect class="node" x="220" y="350" width="160" height="84" rx="18"/>
-                <circle cx="244" cy="375" r="6" fill="#10a37f"/>
-                <text x="260" y="381" class="node-title">研究</text>
-                <text x="244" y="408" class="node-meta">已汇报进度</text>
-                <rect class="node" x="392" y="316" width="160" height="84" rx="18"/>
-                <circle cx="416" cy="341" r="6" fill="#aeb2af"/>
-                <text x="432" y="347" class="node-title">QA</text>
-                <text x="416" y="374" class="node-meta">等待轮次</text>
-                <rect x="170" y="464" width="260" height="24" rx="12" fill="#e3f5ef"/>
-                <text x="300" y="481" text-anchor="middle" class="map-control">每个会话始终可见、可控制</text>
-              </svg>
-              <figcaption>桌面应用：一个任务及其工作角色</figcaption>
+            <figure class="actual-app-shot">
+              <a href="../screenshots/workspace-overview.png"><img src="../screenshots/workspace-overview.png" alt="真实的 RandComp Studio 桌面应用：左侧是任务列表，中间是任务图和角色会话，右侧是开发角色的实时会话。"></a>
+              <figcaption>真实桌面应用 · 点击图片可查看完整尺寸</figcaption>
             </figure>
           </div>
         </div>
@@ -359,9 +337,9 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
             <div class="claude-session" aria-label="Example AI session using RandComp Studio over MCP">
               <div class="terminal-bar"><i></i><i></i><i></i><span>AI 会话 · ~/code/storefront</span></div>
               <div class="terminal-body">
-                <p class="terminal-prompt">› 使用 RandComp Studio，让开发和 QA 一起评审结账流程。</p>
+                <p class="terminal-prompt">› 使用 RandComp Studio 构建一个小型在线宠物商店，让产品、开发和 QA 分别使用独立会话。</p>
                 <p class="terminal-muted">正在通过 MCP 调用 RandComp Studio…</p>
-                <p class="terminal-result">任务 checkout-review 已创建<br>开发已启动 · QA 已排队<br>可在 RandComp Studio 应用中查看</p>
+                <p class="terminal-result">任务 pet-store 已创建<br>产品经理 · 开发 · QA<br>可在这里或桌面应用中跟进</p>
               </div>
             </div>
             <div class="entry-mcp-copy">
@@ -379,6 +357,42 @@ footer::after { content: "Local · Inspectable · Your machine"; color: var(--in
       <p class="soft download-facts">版本 <code data-fact="version">0.1.0</code> · <code data-fact="size">25M</code> · 已为 Apple 芯片签名并公证 · 内含 Python 和 tmux<br>SHA-256 <code data-fact="sha256">f755c8d8ad73429e6a85edd61381b1e46c2c7d2b35d170d575807995d73fc001</code></p>
       <div class="actions"><a class="quiet-link" href="#how">了解运行方式</a></div>
     </div>
+  </section>
+
+  <section id="walkthrough" class="walkthrough-section section-tinted">
+    <div class="section-intro">
+      <div>
+        <p class="eyebrow">60 秒完整示例</p>
+        <h2>示例：构建一个小型在线宠物商店。</h2>
+      </div>
+      <div>
+        <p>这是同一个具体任务，通过两种入口中的任意一种启动。两条路径都会创建同一个本地任务、角色会话、消息、文件和结果记录。</p>
+        <p class="example-goal">“构建一个带商品目录、购物车、结账和测试的小型在线宠物商店。让产品经理定义最小可用版本，开发负责实现，QA 负责验证。”</p>
+      </div>
+    </div>
+    <div class="walkthrough-paths">
+      <article class="walkthrough-card">
+        <p class="path-label">桌面应用</p>
+        <h3>从看板开始</h3>
+        <ol class="mini-steps">
+          <li>选择项目文件夹，在<strong>说出你想完成的工作</strong>中输入目标。</li>
+          <li>允许产品经理、开发和 QA 参与；协调员在这些角色之间拆分任务。</li>
+          <li>每个角色都在独立、专注的本地 AI 会话中工作。各自的指令和任务上下文保持分离，消息和依赖则保持连接。</li>
+          <li>查看任务图，打开实时会话，纠正智能体，并在同一任务视图中检查文件和最终结果。</li>
+        </ol>
+      </article>
+      <article class="walkthrough-card">
+        <p class="path-label">在你的 AI 会话中</p>
+        <h3>无需离开当前工具即可开始</h3>
+        <ol class="mini-steps">
+          <li>在支持 MCP 的 AI 客户端中，一次性注册本地 <code>randcomp mcp</code> 进程。</li>
+          <li>让当前 AI 会话使用 RandComp Studio 完成同一个宠物商店目标，并说明要参与的角色。</li>
+          <li>AI 客户端在本地调用 RandComp Studio；同一个任务和独立角色会话会出现在底层看板中。</li>
+          <li>在当前 AI 会话中询问进度摘要；需要查看任务图、完整记录、终端和文件时，再打开桌面应用。</li>
+        </ol>
+      </article>
+    </div>
+    <div class="walkthrough-result"><strong>两种入口，结果相同</strong><span>一个持久任务 → 独立角色会话 → 可见交接 → 集中的文件与结果。</span></div>
   </section>
 
   <section class="section-band section-tinted">
