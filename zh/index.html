@@ -3,729 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RandComp Studio｜你的本地 AI 团队控制台</title>
-<meta name="description" content="把多个命令行 AI 智能体会话组织成一支协同工作的团队，并在一个本地应用中查看和控制工作、交接与结果。">
+<title>RandComp Studio — 为每个任务组织合适的 AI 团队</title>
+<meta name="description" content="把专注的 AI 会话组织成一支看得见的团队。可通过桌面应用、SSH 命令行或支持 MCP 的 AI 会话控制同一个任务。">
 <link rel="alternate" hreflang="en" href="../index.html">
 <link rel="alternate" hreflang="zh-CN" href="index.html">
-
-<!--
-  This page is deliberately one file with nothing outside it except its
-  screenshots and the two downloads it offers, all of which sit beside it. The
-  button is the disk image — `RandCompStudio-<version>.dmg`, built by
-  packaging/dmg.sh — and the tarball is the secondary path further down. The
-  version, the size and the SHA-256 are marked `data-fact="..."` and rewritten
-  into dist/index.html by that same script, so the page and the file it offers
-  cannot disagree. No CDN, no
-  web font, no analytics, no tracker, no request to any host — so it opens
-  correctly from a file:// URL by double-clicking it, and it draws the same with
-  the network unplugged.
-
-  Nothing on this page is invented. There are no testimonials, no user counts,
-  no customer logos and no "trusted by", because this tool has one user and
-  saying otherwise would be a lie rather than a placeholder.
-
-  Its structure, order, headings and much of its copy were designed by Codex on
-  2026-08-13 and implemented here; see STATUS.md for the two places this
-  deviates from what it asked for, and why.
-
-  ==========================================================================
-  THE SCREENSHOTS — how to put the real ones in
-  ==========================================================================
-
-  Each screenshot frame stays empty until the file it names exists.
-  Drop the file in and it appears; nothing else has to be edited.
-
-      landing/screenshots/workspace-overview.png  the full desktop workspace
-      landing/screenshots/org-chart.png           the org chart of the roles
-      landing/screenshots/role-picker.png         roles available to one task
-      landing/screenshots/role-library.png        the reusable role library
-
-  Take them from the real window. Full-window captures and wide crops both scale
-  to the frame; the source dimensions are recorded in screenshots/README.md.
-
-  PNG is what the frames expect. To use a different format, change the one
-  `src` on the frame you are replacing.
-
-  Then run `make package` from app/, which refreshes dist/index.html and
-  dist/screenshots/ — dist/ is the copy to look at, because the download link
-  points at the archive sitting beside it.
-
-  How the swap works, in case it ever needs debugging: each frame shows its
-  placeholder by default and reveals the image only once the browser has
-  actually loaded it (`onload` adds `has-shot`). So a missing file shows the
-  placeholder rather than a broken-image icon, and a browser with JavaScript
-  switched off shows the placeholder too — which is the right default either
-  way.
--->
-
 <style>
-:root {
-  --bg: #ffffff;
-  --panel: #f7f7f5;
-  --panel-raised: #efefec;
-  --canvas: #f5f7f6;
-  --mint: #e7f6f1;
-  --ink: #171717;
-  --ink-soft: #5f6360;
-  --ink-faint: #8b8e8c;
-  --line: #e5e5e2;
-  --line-strong: #d1d1cd;
-  --signal: #10a37f;
-  --signal-dark: #ffffff;
-  --code-bg: #202123;
-  --code-ink: #f7f7f5;
-  --shadow: 0 22px 60px rgba(0, 0, 0, .09), 0 2px 8px rgba(0, 0, 0, .04);
-}
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  overflow-wrap: break-word;
-}
-code, pre, kbd {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-}
-a { color: var(--signal); }
-main { width: min(1120px, calc(100% - 48px)); margin: 0 auto; position: relative; }
-.early-banner { min-height: 34px; padding: 7px 18px; display: flex; align-items: center; justify-content: center; text-align: center; background: #f1faf7; border-bottom: 1px solid #d8eee7; color: #315d52; font-size: 12px; }
-.early-banner a { margin-left: 4px; color: #087f63; font-weight: 700; }
-section { position: relative; padding: 88px 0; border-top: 1px solid var(--line); }
-section:first-of-type, section.section-tinted { border-top: 0; }
-section.section-tinted::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 28px -40px;
-  border: 1px solid #edf0ee;
-  border-radius: 32px;
-  background: var(--canvas);
-}
-h1, h2, h3 { line-height: 1.05; letter-spacing: -.045em; margin: 0 0 22px; }
-h1 { font-size: clamp(48px, 5.4vw, 68px); max-width: 20ch; font-weight: 700; }
-h2 { font-size: clamp(34px, 3.6vw, 48px); max-width: 17ch; }
-h3 { font-size: 24px; }
-p { margin: 0 0 18px; max-width: 62ch; }
-.soft { color: var(--ink-soft); }
-
-.topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
-.brand { display: flex; gap: 12px; align-items: center; }
-.topnav { display: flex; gap: 22px; align-items: center; }
-.topnav a { color: var(--ink-soft); font-size: 13px; font-weight: 600; text-decoration: none; }
-.topnav a:hover { color: var(--ink); }
-.brand-mark { width: 26px; height: 26px; border-radius: 8px; background: var(--ink); position: relative; }
-.brand-mark::after { content: "R"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 12px; font-weight: 700; }
-.wordmark { margin: 0; color: var(--ink); font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
-.status { color: var(--ink-soft); font-size: 13px; }
-.status::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--signal); }
-
-.hero { padding: 36px 0 74px; }
-.hero > div > h1,
-.hero > div > .lede,
-.hero > div > .requirement,
-.hero > div > .download-facts { width: 100%; max-width: none; }
-.eyebrow { color: var(--signal); font-size: 13px; font-weight: 700; letter-spacing: .01em; margin-bottom: 18px; }
-.lede { color: var(--ink-soft); font-size: clamp(18px, 1.7vw, 21px); line-height: 1.48; max-width: 58ch; }
-.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 32px; }
-.hero .actions { margin-top: 18px; }
-/* The facts under the download button: what it runs on, how big it is, and the
-   hash to check it against. Small, because none of it is a reason to download —
-   it is what somebody wants after he has decided to. `dmg.sh` rewrites the
-   marked values into dist/index.html at build time, so they cannot go stale. */
-.download-facts { margin-top: 16px; font-size: 12px; line-height: 1.7; max-width: 72ch; }
-.download-facts code { word-break: break-all; }
-.entry-switch { margin-top: 26px; }
-.entry-switch > input { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); }
-.entry-tabs { display: flex; gap: 30px; width: 100%; border-bottom: 1px solid var(--line); }
-.entry-tabs label { min-height: 44px; display: grid; place-items: center; padding: 0 4px; border-bottom: 2px solid transparent; color: var(--ink-soft); font-size: 14px; font-weight: 650; cursor: pointer; }
-.entry-panel { display: none; margin-top: 20px; padding: 28px; border: 1px solid var(--line); border-radius: 24px; background: var(--canvas); box-shadow: 0 12px 38px rgba(0,0,0,.055); }
-.entry-panel p { font-size: 15px; }
-#entry-app:checked ~ .entry-tabs label[for="entry-app"],
-#entry-mcp:checked ~ .entry-tabs label[for="entry-mcp"] { color: var(--ink); border-bottom-color: var(--signal); }
-#entry-app:focus-visible ~ .entry-tabs label[for="entry-app"],
-#entry-mcp:focus-visible ~ .entry-tabs label[for="entry-mcp"] { outline: 2px solid var(--signal); outline-offset: 4px; }
-#entry-app:checked ~ .entry-app-panel, #entry-mcp:checked ~ .entry-mcp-panel { display: block; }
-.entry-panel pre { margin: 14px 0; padding: 17px; }
-.entry-app-layout { display: grid; grid-template-columns: minmax(0, .72fr) minmax(420px, 1.28fr); gap: 34px; align-items: center; }
-.entry-panel-copy { padding: 10px 2px; }
-.entry-panel-copy h3 { font-size: 26px; max-width: 13ch; }
-.entry-mcp-panel { width: 100%; }
-.entry-mcp-layout { display: grid; grid-template-columns: minmax(430px, 1.12fr) minmax(0, .88fr); gap: 34px; align-items: center; }
-.entry-mcp-layout > * { min-width: 0; }
-.entry-mcp-copy { padding: 6px 0; }
-.entry-mcp-copy .quiet-link { margin-top: 4px; }
-.actual-app-shot { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow); }
-.actual-app-shot a { display: block; background: #f4f5fb; }
-.actual-app-shot img { display: block; width: 100%; height: auto; }
-.actual-app-shot figcaption { background: #fff; text-transform: none; letter-spacing: 0; font-size: 11px; }
-.claude-session { margin: 0; overflow: hidden; border: 1px solid #353735; border-radius: 18px; background: #202123; color: #f7f7f5; box-shadow: var(--shadow); }
-.terminal-bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; border-bottom: 1px solid #343638; color: #aeb2af; font-size: 11px; }
-.terminal-bar i { width: 8px; height: 8px; border-radius: 50%; background: #6d706e; }
-.terminal-bar span { margin-left: 6px; }
-.terminal-body { padding: 18px; font: 12px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; }
-.terminal-body p { margin: 0 0 10px; max-width: none; font-size: inherit; }
-.terminal-prompt { color: #8bdac5; }
-.terminal-muted { color: #aeb2af; }
-.terminal-result { padding-left: 14px; border-left: 2px solid #10a37f; color: #f7f7f5; }
-.requirement { padding: 14px 16px; border-left: 3px solid var(--signal); background: #fff; border-radius: 0 10px 10px 0; }
-.hero > div > .requirement { margin-top: 16px; padding: 4px 0 4px 14px; border-left-width: 2px; background: transparent; color: var(--ink-soft); font-size: 13px; line-height: 1.5; }
-.button, .quiet-link { display: inline-flex; min-height: 50px; padding: 0 22px; align-items: center; justify-content: center; border: 1px solid var(--line-strong); border-radius: 12px; text-decoration: none; font-weight: 650; font-size: 14px; transition: transform .18s ease, background .18s ease, border-color .18s ease; }
-.button { background: var(--ink); border-color: var(--ink); color: #fff; }
-.quiet-link { color: var(--ink); background: #fff; }
-.button:hover, .quiet-link:hover { transform: translateY(-2px); border-color: var(--signal); }
-.button-disabled { background: var(--panel-raised); border-color: var(--line); color: var(--ink-faint); cursor: not-allowed; }
-.button-disabled:hover { transform: none; border-color: var(--line); }
-.section-intro { display: grid; grid-template-columns: .76fr 1.24fr; gap: 70px; margin-bottom: 46px; align-items: start; }
-.section-intro p { color: var(--ink-soft); font-size: 18px; }
-ol.steps { counter-reset: steps; list-style: none; padding: 0; margin: 34px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-ol.steps li { counter-increment: steps; min-height: 176px; padding: 26px; border: 1px solid var(--line); border-radius: 18px; background: #fff; color: var(--ink-soft); box-shadow: 0 1px 2px rgba(0,0,0,.025); }
-ol.steps li::before { content: counter(steps); display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 26px; border-radius: 50%; background: var(--mint); color: var(--signal); font-size: 13px; font-weight: 700; }
-ul.plain { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-ul.plain li { position: relative; border: 1px solid var(--line); background: #fff; border-radius: 18px; padding: 30px; color: var(--ink-soft); }
-ul.plain li::before { content: ""; position: absolute; top: 31px; left: 30px; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); }
-ul.plain strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 17px; }
-ul.plain li strong { padding-left: 17px; }
-
-figure.shot { margin: 34px 0 0; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
-figure.shot::before { content: "●  ●  ●     RandComp Studio"; display: block; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #f4f4f2; color: #9a9d9a; font-size: 10px; letter-spacing: .08em; }
-figure.shot img { display: none; width: 100%; height: auto; }
-figure.shot.has-shot img { display: block; }
-figure.shot.has-shot .placeholder { display: none; }
-.placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; margin: 10px; padding: 28px; min-height: 340px; border: 1px dashed var(--line-strong); border-radius: 14px; background: #fff; color: var(--ink-faint); }
-.placeholder::before { content: "Visual preview coming soon"; color: var(--signal); font-size: 13px; font-weight: 650; }
-html[lang="zh-CN"] .placeholder::before { content: "视觉预览即将推出"; }
-.placeholder .what { color: var(--ink-soft); font-size: 15px; font-weight: 600; }
-.placeholder .file { font: 12px/1.4 ui-monospace, monospace; }
-.shot-pane .placeholder { min-height: 300px; }
-figcaption { padding: 12px 16px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-dl.needs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin: 38px 0 0; }
-dl.needs > div { grid-column: span 3; padding: 30px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
-dl.needs > div:nth-child(n+3) { grid-column: span 2; }
-dl.needs dt { margin-bottom: 8px; color: var(--ink); font-weight: 650; }
-dl.needs dd { margin: 0; color: var(--ink-soft); }
-pre { margin: 26px 0 18px; padding: 24px; background: var(--code-bg); color: var(--code-ink); border-radius: 16px; font-size: 13px; line-height: 1.8; overflow-x: auto; }
-p code, li code, dd code { color: var(--ink); background: var(--panel-raised); border-radius: 5px; padding: 2px 6px; font-size: .86em; }
-footer { display: flex; justify-content: space-between; gap: 30px; padding: 42px 0 64px; color: var(--ink-faint); font-size: 13px; border-top: 1px solid var(--line); }
-footer::after { content: "Local · Inspectable · Your machine"; color: var(--ink-soft); font-size: 12px; }
-
-.section-band { padding-top: 76px; padding-bottom: 76px; }
-.walkthrough-section { padding-top: 76px; padding-bottom: 76px; }
-.walkthrough-section .section-intro { margin-bottom: 30px; }
-.example-goal { margin-top: 22px; padding: 18px 20px; border: 1px solid #cfe9df; border-radius: 14px; background: var(--mint); color: #264f45 !important; font-weight: 600; }
-.mcp-story { margin: 0 0 26px; padding: 30px; overflow: hidden; border: 1px solid #dcdedb; border-radius: 26px; background: linear-gradient(145deg, #fff 0%, #fbfcfb 52%, #f0f8f5 100%); box-shadow: 0 20px 54px rgba(31, 43, 38, .08); }
-.entry-mcp-panel .mcp-story { margin: 30px 0 0; }
-.mcp-story figcaption { padding: 0; border: 0; color: inherit; letter-spacing: 0; text-transform: none; }
-.story-heading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 25px; }
-.story-heading h3 { margin: 4px 0 0; font-size: clamp(27px, 3vw, 38px); max-width: 20ch; }
-.story-kicker { margin: 0; color: var(--signal); font-size: 11px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
-.story-heading-note { max-width: 34ch; margin: 0; color: var(--ink-soft); font-size: 13px; text-align: right; }
-.story-source, .story-hub { position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; width: min(760px, 100%); margin: 0 auto; padding: 18px 20px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
-.story-source { box-shadow: 0 8px 24px rgba(31, 43, 38, .06); }
-.story-avatar { display: grid; width: 42px; height: 42px; place-items: center; flex: 0 0 auto; border-radius: 13px; background: #eef1ff; color: #3d49a7; font-size: 14px; font-weight: 800; }
-.story-source strong, .story-hub strong, .story-role strong { display: block; color: var(--ink); font-size: 15px; }
-.story-source p, .story-hub p, .story-role p { max-width: none; margin: 3px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.42; }
-.story-specialty { padding: 5px 9px; border-radius: 999px; background: #eef1ff; color: #4653b4; font-size: 10px; font-weight: 750; white-space: nowrap; }
-.story-bridge { position: relative; display: grid; min-height: 68px; place-items: center; color: var(--ink-faint); font-size: 11px; font-weight: 650; }
-.story-bridge::before { content: ""; position: absolute; top: 7px; bottom: 7px; left: 50%; width: 1px; background: #b9c1bd; }
-.story-bridge::after { content: ""; position: absolute; bottom: 5px; left: calc(50% - 4px); width: 7px; height: 7px; border-right: 1px solid #7b8580; border-bottom: 1px solid #7b8580; transform: rotate(45deg); }
-.story-bridge span { position: relative; z-index: 1; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
-.story-hub { grid-template-columns: auto 1fr; border-color: #343735; background: #1d201f; box-shadow: 0 14px 30px rgba(25, 29, 27, .16); }
-.story-hub .story-avatar { background: #dff5ee; color: #087f63; }
-.story-hub strong { color: #fff; }
-.story-hub p { color: #bfc6c2; }
-.story-hub-tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 7px; padding-left: 58px; }
-.story-hub-tags span { padding: 5px 9px; border: 1px solid #3d4441; border-radius: 999px; color: #dce2df; font-size: 10px; }
-.story-branches { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding-top: 54px; }
-.story-branches::before { content: ""; position: absolute; top: 27px; left: 12.5%; right: 12.5%; height: 1px; background: #b9c1bd; }
-.story-role { position: relative; min-height: 148px; padding: 19px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.94); }
-.story-role::before { content: ""; position: absolute; top: -27px; left: 50%; width: 1px; height: 27px; background: #b9c1bd; }
-.story-role-icon { display: grid; width: 30px; height: 30px; margin-bottom: 17px; place-items: center; border-radius: 10px; background: var(--mint); color: var(--signal); font-size: 11px; font-weight: 800; }
-.story-role:nth-child(2) .story-role-icon { background: #eef1ff; color: #4653b4; }
-.story-role:nth-child(3) .story-role-icon { background: #fff3e7; color: #a75a14; }
-.story-role:nth-child(4) .story-role-icon { background: #e8f7f2; color: #087f63; }
-.story-return { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 14px; padding: 15px 18px; border: 1px solid #cfe9df; border-radius: 15px; background: var(--mint); color: #315d52; font-size: 13px; }
-.story-return strong { color: #173f35; }
-.story-return span:last-child { color: #087f63; font-weight: 750; white-space: nowrap; }
-.walkthrough-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.walkthrough-card { padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.025); }
-.walkthrough-card h3 { margin-bottom: 14px; font-size: 25px; }
-.path-label { margin-bottom: 10px; color: var(--signal); font-size: 12px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
-.mini-steps { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: mini-step; }
-.mini-steps li { position: relative; min-height: 52px; padding: 0 0 20px 44px; color: var(--ink-soft); }
-.mini-steps li:last-child { padding-bottom: 0; }
-.mini-steps li::before { counter-increment: mini-step; content: counter(mini-step); position: absolute; top: 0; left: 0; display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--mint); color: var(--signal); font-size: 12px; font-weight: 750; }
-.mini-steps code { font-size: .82em; }
-.walkthrough-result { display: flex; gap: 14px; align-items: center; margin-top: 18px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; color: var(--ink-soft); }
-.walkthrough-result strong { color: var(--ink); white-space: nowrap; }
-.showcase .shot + .shot { margin-top: 24px; }
-.process-section { padding-top: 84px; padding-bottom: 84px; }
-.process-section h2 { max-width: 12ch; }
-.compact-section { padding-top: 76px; padding-bottom: 76px; }
-.compact-section .section-intro { margin-bottom: 0; }
-.compact-section pre { margin-bottom: 0; }
-.requirements-section h2, .access-section h2, .install-section > h2 { max-width: none; }
-.install-section { padding-bottom: 78px; }
-.install-section > p:first-of-type { max-width: 74ch; font-size: 18px; color: var(--ink-soft); }
-.install-section h3 { margin-top: 52px; margin-bottom: 14px; }
-.install-section > h3:first-of-type { margin-top: 36px; }
-.install-section .steps { grid-template-columns: repeat(3, 1fr); }
-.install-section .steps li { min-height: 150px; }
-.download-card { margin: 30px 0 52px; padding: 26px; border: 1px solid #cfe9df; border-radius: 22px; background: var(--mint); }
-.download-card .actions { margin: 0; }
-.download-card .download-facts { margin-bottom: 0; color: #45635b; }
-.install-options { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.install-option { min-width: 0; padding: 30px; border: 1px solid var(--line); border-radius: 22px; background: var(--canvas); }
-.install-option h3 { margin-top: 0; }
-.install-option p { font-size: 15px; }
-.install-option pre { margin: 20px 0; padding: 18px; font-size: 12px; }
-.install-option .soft:last-child { margin-bottom: 0; }
-
-@media (max-width: 820px) {
-  main { width: min(100% - 28px, 680px); }
-  .section-intro { grid-template-columns: 1fr; }
-  .hero { padding: 48px 0 72px; }
-  .entry-app-layout, .entry-mcp-layout, .walkthrough-paths, .install-options { grid-template-columns: minmax(0, 1fr); }
-  .story-heading { align-items: start; flex-direction: column; }
-  .story-heading-note { text-align: left; }
-  .story-branches { grid-template-columns: 1fr 1fr; }
-  .story-branches::before { left: 25%; right: 25%; }
-  .story-role:nth-child(n+3) { margin-top: 20px; }
-  .story-role:nth-child(n+3)::before { top: -47px; height: 47px; }
-  .entry-panel-copy h3 { max-width: none; }
-  ol.steps { grid-template-columns: 1fr 1fr; }
-  section { padding: 72px 0; }
-  section.section-tinted::before { inset: 18px 0; }
-  dl.needs > div, dl.needs > div:nth-child(n+3) { grid-column: span 3; }
-}
-@media (max-width: 560px) {
-  h1 { font-size: clamp(42px, 12.5vw, 56px); }
-  h2 { font-size: clamp(32px, 10vw, 40px); }
-  .topbar .status { display: none; }
-  .hero { padding-top: 36px; }
-  .hero .actions { display: grid; grid-template-columns: 1fr 1fr; }
-  .hero .actions .button:first-child { grid-column: 1 / -1; }
-  .hero .actions:last-child { display: block; }
-  .hero .actions:last-child .quiet-link { width: auto; }
-  .actions { align-items: stretch; flex-direction: column; }
-  .button, .quiet-link { width: 100%; }
-  .button { padding: 0 14px; font-size: 13px; }
-  .entry-tabs { gap: 18px; }
-  .entry-tabs label { font-size: 13px; }
-  .entry-panel { padding: 18px; border-radius: 18px; }
-  .mcp-story { padding: 20px 16px; border-radius: 20px; }
-  .story-source { grid-template-columns: auto 1fr; }
-  .story-specialty { grid-column: 2; justify-self: start; }
-  .story-hub-tags { padding-left: 0; }
-  .story-branches { grid-template-columns: 1fr; gap: 12px; padding: 30px 0 0 20px; }
-  .story-branches::before { top: 0; bottom: 17px; left: 6px; right: auto; width: 1px; height: auto; }
-  .story-role, .story-role:nth-child(n+3) { min-height: 0; margin-top: 0; }
-  .story-role::before, .story-role:nth-child(n+3)::before { top: 26px; left: -14px; width: 14px; height: 1px; }
-  .story-return { align-items: flex-start; flex-direction: column; }
-  .story-return span:last-child { white-space: normal; }
-  .walkthrough-result { display: block; }
-  .walkthrough-result strong { display: block; margin-bottom: 5px; }
-  ol.steps, ul.plain, dl.needs { grid-template-columns: 1fr; }
-  dl.needs > div, dl.needs > div:nth-child(n+3) { grid-column: auto; }
-  ol.steps li { min-height: 160px; }
-  ol.steps li::before { margin-bottom: 24px; }
-  .install-section .steps { grid-template-columns: 1fr; }
-  .download-card { padding: 20px; }
-  footer { display: block; }
-  footer::after { display: block; margin-top: 18px; }
-}
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+:root{--bg:#fff;--soft:#f6f7f6;--card:#fff;--ink:#171817;--muted:#666b68;--faint:#929793;--line:#e2e5e2;--green:#0b8f70;--mint:#e7f6f1;--blue:#5856d6;--code:#1d1f1e;--shadow:0 22px 60px rgba(20,30,25,.10),0 2px 8px rgba(20,30,25,.04)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}a{color:var(--green)}code,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}main{width:min(1160px,calc(100% - 48px));margin:auto}.banner{padding:7px 18px;text-align:center;background:#f0faf6;border-bottom:1px solid #d8eee7;color:#315d52;font-size:12px}.banner a{margin-left:4px;font-weight:700}.topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 0}.brand{display:flex;align-items:center;gap:11px;font-weight:700}.mark{display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:var(--ink);color:#fff;font-size:12px}.nav{display:flex;gap:22px;align-items:center}.nav a{color:var(--muted);font-size:13px;font-weight:600;text-decoration:none}.nav a:hover{color:var(--ink)}
+section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-height:1.12;letter-spacing:-.035em}h1{max-width:14ch;font-size:clamp(46px,5.7vw,72px)}h2{max-width:14ch;font-size:clamp(34px,3.8vw,50px)}h3{font-size:clamp(24px,2.4vw,34px)}p{margin:0 0 18px}.eyebrow{margin-bottom:15px;color:var(--green);font-size:12px;font-weight:750;letter-spacing:.06em}.lede{max-width:64ch;color:var(--muted);font-size:clamp(18px,2vw,22px);line-height:1.65}.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}.button{display:inline-flex;min-height:50px;padding:0 21px;align-items:center;justify-content:center;border:1px solid var(--ink);border-radius:13px;background:var(--ink);color:#fff;font-size:14px;font-weight:700;text-decoration:none}.button.secondary{background:#fff;color:var(--ink);border-color:var(--line)}.button.disabled{background:#f0f1f0;color:var(--faint);border-color:var(--line);cursor:not-allowed}.hero{padding:44px 0 74px;border:0}.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,.78fr);gap:62px;align-items:center}.hero-note{margin-top:16px;color:var(--faint);font-size:12px}.task-card{padding:26px;border:1px solid #d7dfdb;border-radius:24px;background:linear-gradient(145deg,#fff,#f2f8f5);box-shadow:var(--shadow)}.task-card-head{display:flex;justify-content:space-between;gap:14px;margin-bottom:22px;color:var(--faint);font-size:12px}.live{color:var(--green);font-weight:750}.goal{margin-bottom:24px;font-size:20px;font-weight:700;line-height:1.45}.team-line{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding-top:24px}.team-line:before{content:"";position:absolute;top:8px;left:12%;right:12%;height:1px;background:#aeb7b2}.person{position:relative;padding:13px 8px;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:center;font-size:11px;font-weight:650}.person:before{content:"";position:absolute;top:-17px;left:50%;height:17px;border-left:1px solid #aeb7b2}.person span{display:block;margin-top:4px;color:var(--faint);font-size:9px;font-weight:600}.promise{display:flex;gap:18px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.promise strong{color:var(--ink)}
+.story-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:72px;align-items:end}.story-intro p{max-width:48ch;color:var(--muted);font-size:18px}.example{margin-top:25px;padding:19px 22px;border:1px solid #cfe8df;border-radius:16px;background:var(--mint);color:#285348;font-weight:650}.journey{padding-top:38px;border:0}.scene{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:52px;align-items:center;padding:62px 0}.scene+.scene{border-top:1px solid var(--line)}.scene.reverse{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr)}.scene.reverse .scene-copy{order:2}.scene-copy{padding:10px}.scene-number{display:grid;width:34px;height:34px;margin-bottom:24px;place-items:center;border-radius:50%;background:var(--mint);color:var(--green);font-size:13px;font-weight:800}.scene-copy p{max-width:46ch;color:var(--muted);font-size:17px}.surface{display:inline-flex;margin-top:8px;padding:6px 10px;border-radius:999px;background:#f0f1f0;color:var(--muted);font-size:11px;font-weight:700}.shot{margin:0;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:var(--soft);box-shadow:var(--shadow)}.shot img{display:block;width:100%;height:auto}.shot figcaption{padding:11px 14px;border-top:1px solid var(--line);background:#fff;color:var(--faint);font-size:11px}.window{overflow:hidden;border:1px solid #343735;border-radius:20px;background:var(--code);color:#f6f7f6;box-shadow:var(--shadow)}.window-bar{display:flex;gap:7px;align-items:center;padding:12px 15px;border-bottom:1px solid #343735;color:#aeb4b0;font-size:11px}.window-bar i{width:9px;height:9px;border-radius:50%;background:#6f7471}.window-bar span{margin-left:6px}.terminal{min-height:330px;padding:24px;font:13px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace}.terminal p{margin:0 0 13px}.prompt{color:#8addc6}.dim{color:#9da5a1}.ok{color:#fff}.terminal .answer{margin-top:22px;padding:15px;border-left:2px solid var(--green);background:#252827}.conversation{padding:24px;background:#f7f7fb}.bubble{width:88%;margin-bottom:14px;padding:15px 17px;border-radius:17px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:14px}.bubble.you{margin-left:auto;background:#ececff;border-color:#d8d7fb;color:#35336d}.mcp-result{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}.mcp-result div{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:11px}.mcp-result strong{display:block;margin-bottom:3px}.mcp-result span{color:var(--faint)}
+.right-size{background:var(--soft)}.right-size>div{width:min(1160px,calc(100% - 48px));margin:auto}.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}.choice{padding:29px;border:1px solid var(--line);border-radius:20px;background:#fff}.choice p{color:var(--muted)}.choice .label{color:var(--green);font-size:11px;font-weight:800;letter-spacing:.05em}.choice-flow{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}.choice-flow span{padding:7px 10px;border-radius:999px;background:var(--mint);color:#285348;font-size:11px;font-weight:650}.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}.proof-grid .shot{box-shadow:none}.proof-grid .shot:first-child{grid-column:1/-1}
+.context-section{padding-top:72px}.context-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:center}.context-copy p{max-width:46ch;color:var(--muted);font-size:17px}.context-flow{padding:27px;border:1px solid var(--line);border-radius:22px;background:var(--soft)}.context-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}.context-box{padding:18px;border:1px solid var(--line);border-radius:15px;background:#fff}.context-box strong{display:block;margin-bottom:5px;font-size:14px}.context-box span{color:var(--muted);font-size:12px}.context-arrow{color:var(--green);font-weight:800}.context-store{margin-top:14px;padding:16px;border-radius:14px;background:var(--mint);color:#285348;font-size:13px}.context-store strong{display:block;margin-bottom:4px}.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.principle{padding:25px;border:1px solid var(--line);border-radius:18px}.principle strong{display:block;margin-bottom:8px}.principle span{color:var(--muted);font-size:14px}.install{padding-bottom:74px}.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}.install-card{padding:28px;border:1px solid var(--line);border-radius:21px;background:var(--soft)}.install-card h3{margin-bottom:15px;font-size:24px}.install-card p{color:var(--muted);font-size:14px}.install-card pre{overflow:auto;padding:17px;border-radius:12px;background:var(--code);color:#fff;font-size:12px;line-height:1.7}.facts{margin-top:14px;color:var(--faint)!important;font-size:11px!important}.facts code{word-break:break-all}footer{display:flex;justify-content:space-between;gap:30px;padding:40px 0 62px;border-top:1px solid var(--line);color:var(--faint);font-size:12px}
+@media(max-width:820px){.hero-grid,.story-intro,.scene,.scene.reverse,.install-grid,.context-grid{grid-template-columns:1fr}.scene.reverse .scene-copy{order:0}.hero-grid{gap:36px}.story-intro{gap:26px}.scene{gap:28px;padding:46px 0}.principles{grid-template-columns:1fr}.proof-grid{grid-template-columns:1fr}.proof-grid .shot:first-child{grid-column:auto}.compare{grid-template-columns:1fr}.team-line{grid-template-columns:1fr 1fr}.team-line:before,.person:before{display:none}}
+@media(max-width:560px){main,.right-size>div{width:min(100% - 28px,680px)}.nav{gap:13px}.nav a{font-size:12px}section{padding:64px 0}.hero{padding-top:28px}.actions{display:grid;grid-template-columns:1fr 1fr}.actions .button:first-child{grid-column:1/-1}.button{padding:0 12px;font-size:12px}.task-card{padding:20px}.mcp-result{grid-template-columns:1fr}.terminal{min-height:0;padding:18px;font-size:11px}footer{display:block}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
-
 <body>
-<div class="early-banner" role="status">早期预览版，可能仍有一些问题。<a href="https://github.com/RandComAI">在 GitHub 查看 RandComAI →</a></div>
+<div class="banner">早期预览版，可能仍有一些问题。<a href="https://github.com/RandComAI/mission-control-site/issues/new">在 GitHub 提交反馈 →</a></div>
 <main>
+  <header class="topbar"><div class="brand"><span class="mark" aria-hidden="true">R</span>RandComp Studio</div><nav class="nav" aria-label="主导航"><a href="#story">使用方式</a><a href="docs.html">文档</a><a href="../index.html" lang="en">English</a></nav></header>
 
-  <header class="topbar">
-    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><p class="wordmark">RandComp Studio</p></div>
-    <nav class="topnav" aria-label="主导航"><a href="docs.html">文档</a><a href="../index.html" lang="en">English</a><span class="status">本地系统就绪</span></nav>
-  </header>
-
-  <!-- 1. Hero. What it is, and the download, with nothing competing. -->
   <section class="hero">
-    <div>
-      <p class="eyebrow">并行 AI 会话的本地控制中心</p>
-      <h1>协调多个 AI 会话，不再靠手工管理。</h1>
-      <p class="lede">一个越来越长的 AI 会话会把研究、决策、开发和评审混在同一份上下文里。拆成多个小会话可以让每项工作更专注，但你又不得不亲自分配工作、复制上下文、追踪进度、寻找结果。</p>
-      <p class="lede">RandComp Studio 把这些工作组织成一个任务，让不同角色在独立的命令行 AI 会话中运行，连接它们的交接，并在一个本地看板中显示所有会话、依赖、消息和结果。你可以随时检查或接管任何会话。</p>
-      <p class="requirement"><strong>同一个本地系统，两种操作方式。</strong>直接使用桌面看板，或从支持 MCP 的 AI 会话中操作。当前版本需要 Apple 芯片、macOS 11 或更高版本，以及一个已安装并登录的受支持命令行 AI 智能体。</p>
-      <div class="actions">
-        <a class="button" href="https://randcompstudioasia.z7.web.core.windows.net/RandCompStudio-0.1.0-e5fe0ab9.dmg" download>下载 macOS 版 ↓</a>
-        <span class="button button-disabled" aria-disabled="true">Windows · 即将推出</span>
-        <span class="button button-disabled" aria-disabled="true">Linux · 即将推出</span>
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">启动更多智能体很容易，高效使用它们才难</p>
+        <h1>用需要的团队，不背不需要的上下文。</h1>
+        <p class="lede">任何人都能一次启动一大群智能体，隐藏的陷阱却是 Token 成本：每个会话都要读取上下文，长对话会不断膨胀，协作本身也会继续消耗。RandComp Studio 把长期状态保存在对话之外，为当前任务启动专注会话，只在协作真正有价值时连接它们。</p>
+        <div class="actions"><a class="button" href="https://randcompstudioasia.z7.web.core.windows.net/RandCompStudio-0.1.0-e5fe0ab9.dmg" download>下载 macOS 版 ↓</a><span class="button disabled" aria-disabled="true">Windows · 即将推出</span><span class="button disabled" aria-disabled="true">Linux · 即将推出</span></div>
+        <p class="hero-note">本地优先 · 使用你已有的命令行 AI 智能体 · Apple 芯片，macOS 11+</p>
       </div>
-      <div class="entry-switch">
-        <input type="radio" name="entry" id="entry-app" checked>
-        <input type="radio" name="entry" id="entry-mcp">
-        <div class="entry-tabs" role="group" aria-label="选择 RandComp Studio 的使用方式">
-          <label for="entry-app">桌面应用</label>
-          <label for="entry-mcp">在 AI 会话中</label>
-        </div>
-        <div class="entry-panel entry-app-panel">
-          <div class="entry-app-layout">
-            <div class="entry-panel-copy">
-              <h3>同时看清每个任务、角色和实时会话。</h3>
-              <p>在左侧选择任务；它的协调员、角色会话、依赖和文件显示在中间。打开右侧的任意智能体，即可阅读实时会话、发送修正，或进入它的终端。</p>
-              <p class="soft">这是已经批准、正在实现的设计方向：更丰富的任务树、更易读的智能体工作内容，同时只需一次点击就能查看原始会话。</p>
-            </div>
-            <figure class="actual-app-shot">
-              <a href="../screenshots/workspace-overview.png?v=20260906-design"><img src="../screenshots/workspace-overview.png?v=20260906-design" alt="已批准的 RandComp Studio 任务工作区设计：左侧是任务，中间是信息丰富的智能体树，右侧是开发角色的可读工作视图。"></a>
-              <figcaption>已批准的设计方向 · 点击图片可查看完整尺寸</figcaption>
-            </figure>
-          </div>
-        </div>
-        <div class="entry-panel entry-mcp-panel">
-          <div class="entry-mcp-layout">
-            <div class="claude-session" aria-label="Example AI session using RandComp Studio over MCP">
-              <div class="terminal-bar"><i></i><i></i><i></i><span>AI 会话 · ~/code/storefront</span></div>
-              <div class="terminal-body">
-                <p class="terminal-prompt">› 使用 RandComp Studio 构建一个小型在线宠物商店，让产品、开发和 QA 分别使用独立会话。</p>
-                <p class="terminal-muted">正在通过 MCP 调用 RandComp Studio…</p>
-                <p class="terminal-result">任务 pet-store 已创建<br>产品经理 · 开发 · QA<br>可在这里或桌面应用中跟进</p>
-              </div>
-            </div>
-            <div class="entry-mcp-copy">
-              <h3>从你的 AI 会话指挥同一支团队。</h3>
-              <p>留在支持 MCP 的 AI 会话中，让它把应该独立完成的工作交给 RandComp Studio。RandComp Studio 会创建持久任务和角色会话；需要检查时，看板会展示它们的进度、终端、交接和文件。</p>
-              <p class="requirement"><strong>需要：</strong>能运行本地 MCP 服务器的 AI 客户端，以及 PATH 中的 <code>randcomp</code>。若使用下载的应用，请先选择 <em>RandComp Studio → Install the randcomp command in PATH</em>。</p>
-<pre>claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
-              <p class="soft">这是 Claude Code 的配置示例。其他 MCP 客户端也在各自设置中注册同一个本地 <code>randcomp mcp</code> 进程。</p>
-              <p class="soft">注册后还会加入四个斜杠命令。Claude Code 2.1.233 将其中一个显示为 <code>/mcp__randcomp-studio__catch-me-up</code>；其他客户端可能使用不同写法展示同样的四个名称。</p>
-              <a class="quiet-link" href="docs.html#mcp-guide">配置 MCP →</a>
-            </div>
-          </div>
-          <figure class="mcp-story" aria-labelledby="mcp-story-title">
-            <figcaption class="story-heading">
-              <div>
-                <p class="story-kicker">示例 · Codex + RandComp MCP</p>
-                <h3 id="mcp-story-title">你只和 Codex 对话，底层却有一整支团队。</h3>
-              </div>
-              <p class="story-heading-note">Codex 可以主导设计讨论，其他专业角色则把工作推进到规划、实现和验证。</p>
-            </figcaption>
-
-            <div class="story-source">
-              <span class="story-avatar" aria-hidden="true">CX</span>
-              <div>
-                <strong>你和 Codex 一起确定方向</strong>
-                <p>“让任务工作区更精致、更清楚，普通人也能轻松理解。”</p>
-              </div>
-              <span class="story-specialty">设计主导</span>
-            </div>
-
-            <div class="story-bridge"><span>Codex 通过本地 MCP 交给 RandComp</span></div>
-
-            <div class="story-hub">
-              <span class="story-avatar" aria-hidden="true">R</span>
-              <div>
-                <strong>RandComp Studio 建立一个可见的任务</strong>
-                <p>目标、团队、依赖、问题、实时工作与最终结果始终连接在一起。</p>
-              </div>
-              <div class="story-hub-tags" aria-label="RandComp 保持连接的内容"><span>目标</span><span>计划</span><span>分工</span><span>交接</span><span>结果</span></div>
-            </div>
-
-            <div class="story-branches" aria-label="在底层工作的专业团队">
-              <article class="story-role"><span class="story-role-icon" aria-hidden="true">CO</span><strong>协调员</strong><p>制定计划、分配角色，并持续推进各项依赖。</p></article>
-              <article class="story-role"><span class="story-role-icon" aria-hidden="true">PM</span><strong>产品经理</strong><p>把方向整理成清晰需求和可检查的验收标准。</p></article>
-              <article class="story-role"><span class="story-role-icon" aria-hidden="true">DV</span><strong>开发</strong><p>在专注的 AI 编程会话中实现已经批准的改动。</p></article>
-              <article class="story-role"><span class="story-role-icon" aria-hidden="true">QA</span><strong>质量检查</strong><p>实际使用产品、验证结果，并把发现的问题退回修复。</p></article>
-            </div>
-
-            <div class="story-return"><span><strong>决定权始终在你。</strong>你可以从 Codex 跟进问题和进度，也可以打开桌面应用查看任务图、可读会话、原始终端、交接和最终结果。</span><span>一个目标 · 团队可见</span></div>
-          </figure>
-        </div>
+      <div class="task-card" aria-label="RandComp 任务示例">
+        <div class="task-card-head"><span>上线在线商店</span><span class="live">● 3 个角色工作中</span></div>
+        <p class="goal">“做出最小可用的商店，并验证结账流程。”</p>
+        <div class="team-line"><div class="person">产品<span>确定范围</span></div><div class="person">设计<span>体验</span></div><div class="person">开发<span>实现</span></div><div class="person">质检<span>验证</span></div></div>
+        <div class="promise"><strong>角色会保留。</strong><span>上下文窗口可以保持精简，结束后再从任务记录中恢复。</span></div>
       </div>
-      <p class="soft download-facts">版本 <code data-fact="version">0.1.0</code> · <code data-fact="size">24M</code> · 已为 Apple 芯片签名并公证 · 内含 Python 和 tmux<br>SHA-256 <code data-fact="sha256">e5fe0ab98dbbf71408cb5c3b0f9537f89f59a15904139950102abe73dfd8d9b8</code></p>
-      <div class="actions"><a class="quiet-link" href="#how">了解运行方式</a></div>
     </div>
   </section>
 
-  <section id="walkthrough" class="walkthrough-section section-tinted">
-    <div class="section-intro">
-      <div>
-        <p class="eyebrow">60 秒完整示例</p>
-        <h2>示例：构建一个小型在线宠物商店。</h2>
-      </div>
-      <div>
-        <p>这是同一个具体任务，通过两种入口中的任意一种启动。两条路径都会创建同一个本地任务、角色会话、消息、文件和结果记录。</p>
-        <p class="example-goal">“构建一个带商品目录、购物车、结账和测试的小型在线宠物商店。让产品经理定义最小可用版本，开发负责实现，QA 负责验证。”</p>
-      </div>
-    </div>
-    <div class="walkthrough-paths">
-      <article class="walkthrough-card">
-        <p class="path-label">桌面应用</p>
-        <h3>从看板开始</h3>
-        <ol class="mini-steps">
-          <li>选择项目文件夹，在<strong>说出你想完成的工作</strong>中输入目标。</li>
-          <li>允许产品经理、开发和 QA 参与；协调员在这些角色之间拆分任务。</li>
-          <li>每个角色都在独立、专注的本地 AI 会话中工作。各自的指令和任务上下文保持分离，消息和依赖则保持连接。</li>
-          <li>查看任务图，打开实时会话，纠正智能体，并在同一任务视图中检查文件和最终结果。</li>
-        </ol>
+  <section id="story">
+    <div class="story-intro"><div><p class="eyebrow">跟随一个完整工作过程</p><h2>一个任务，三种控制方式。</h2></div><div><p>先在 Mac 上启动，离开桌面后继续检查，再从另一个 AI 会话中指挥。RandComp 不会因此复制出三个任务。</p><p class="example">示例目标：“上线一个小型在线商店。让产品确定范围，开发负责实现，质检独立验证。”</p></div></div>
+    <div class="journey">
+      <article class="scene">
+        <div class="scene-copy"><span class="scene-number">1</span><p class="eyebrow">在 Mac 前</p><h3>在桌面应用中看清整个任务。</h3><p>先描述结果，确认允许使用的角色，然后观察任务树形成。每个节点都说明这个角色正在做什么、在等待什么、产生了什么。选择节点即可阅读或纠正工作。</p><span class="surface">桌面应用 · 可视化控制</span></div>
+        <figure class="shot"><a href="../screenshots/task-tree-preview.png"><img src="../screenshots/task-tree-preview.png" alt="RandComp Studio 设计概念：任务树、每个智能体正在做的工作、网站预览和上线清单。"></a><figcaption>已批准的任务工作区方向：任务树、实时工作、预览与清单</figcaption></figure>
       </article>
-      <article class="walkthrough-card">
-        <p class="path-label">在你的 AI 会话中</p>
-        <h3>无需离开当前工具即可开始</h3>
-        <ol class="mini-steps">
-          <li>在支持 MCP 的 AI 客户端中，一次性注册本地 <code>randcomp mcp</code> 进程。</li>
-          <li>让当前 AI 会话使用 RandComp Studio 完成同一个宠物商店目标，并说明要参与的角色。</li>
-          <li>AI 客户端在本地调用 RandComp Studio；同一个任务和独立角色会话会出现在底层看板中。</li>
-          <li>在当前 AI 会话中询问进度摘要；需要查看任务图、完整记录、终端和文件时，再打开桌面应用。</li>
-        </ol>
+      <article class="scene reverse">
+        <div class="scene-copy"><span class="scene-number">2</span><p class="eyebrow">离开桌面后</p><h3>通过 SSH 检查同一支团队。</h3><p>会话继续在远程电脑上运行。使用轻量命令行查看哪里需要你、阅读智能体、回答问题或直接进入会话，无需传输整个桌面画面。</p><span class="surface">CLI · 低带宽远程控制</span></div>
+        <div class="window" aria-label="通过 SSH 控制 RandComp 的终端示例"><div class="window-bar"><i></i><i></i><i></i><span>ssh studio-mac · ~/store</span></div><div class="terminal"><p class="prompt">$ randcomp status</p><p class="ok">在线商店 · 3 个角色工作中 · 1 项需要你</p><p class="dim">开发询问：是否复用现有结账设计？</p><p class="prompt">$ randcomp agent send developer-2 "是，复用现有设计。"</p><p class="ok">已发送给开发。</p><div class="answer">这里控制的任务、团队、消息和结果，与桌面应用完全相同。</div></div></div>
+      </article>
+      <article class="scene">
+        <div class="scene-copy"><span class="scene-number">3</span><p class="eyebrow">在你的 AI 会话中</p><h3>让 Codex 通过 MCP 操作 RandComp。</h3><p>继续用自然语言和 AI 会话交流。请它检查 RandComp、总结团队状态，或把你的决定传给某个角色。MCP 把这段对话连接到同一个本地任务。</p><span class="surface">MCP · 对话式控制</span></div>
+        <div class="window" aria-label="Codex 通过 RandComp MCP 操作团队的对话示例"><div class="window-bar"><i></i><i></i><i></i><span>Codex · 已连接 RandComp MCP</span></div><div class="conversation"><div class="bubble you">问 RandComp，商店任务现在有什么需要我处理？</div><div class="bubble">质检正在等待结账版本。开发需要你确认是否复用现有设计。</div><div class="bubble you">告诉开发可以复用，然后让质检验证移动端结账。</div><div class="mcp-result"><div><strong>开发</strong><span>答案已送达</span></div><div><strong>质检</strong><span>验证已排队</span></div><div><strong>任务</strong><span>仍在应用中可见</span></div></div></div></div>
+      </article>
+      <article class="scene reverse">
+        <div class="scene-copy"><span class="scene-number">4</span><p class="eyebrow">工作返回时</p><h3>检查一个汇总后的成果。</h3><p>RandComp 把成功清单、交接材料、文件和最终结果带回任务。打开与成果类型匹配的预览，检查证据，只有在你认可后才结束任务。</p><span class="surface">成果 · 看证据，不看会话噪音</span></div>
+        <figure class="shot"><a href="../screenshots/outcome-preview.png"><img src="../screenshots/outcome-preview.png" alt="RandComp Studio 成果概念：网站预览、成功清单、交接材料、质检证据和输出文件。"></a><figcaption>自适应成果预览：网站、证据、交接与文件集中呈现</figcaption></figure>
       </article>
     </div>
-    <div class="walkthrough-result"><strong>两种入口，结果相同</strong><span>一个持久任务 → 独立角色会话 → 可见交接 → 集中的文件与结果。</span></div>
   </section>
+</main>
 
-  <section class="section-band section-tinted">
-    <div class="section-intro">
-      <h2>保留你的工具，只添加团队协作层。</h2>
-      <div>
-        <p>RandComp Studio 运行你已经在用的命令行 AI 智能体，为独立会话提供持久角色、清晰任务边界、可见协作和可检查的结果。它是协作管理层，而不是另一个 AI 智能体或聊天应用。</p>
-        <p class="soft">它也不替代 ChatGPT skills、Claude skills、插件或其他角色生态。你可以导入已有定义，检查转换结果，并只在确认后加入本地角色库。</p>
-      </div>
-    </div>
-    <ul class="plain">
-      <li><strong>继续使用你偏好的运行器</strong>每个角色都能使用你选择的命令行 AI 智能体、已有账户与审批设置。当前预览版内置 Claude Code 和 Codex 运行器；支持更多运行器是下一步兼容性工作。</li>
-      <li><strong>复用你已有的专业能力</strong>把 Agent Skill、Claude agent 或 skill、导出的 GPT 或普通 Markdown 定义转换成团队可复用的角色。</li>
-    </ul>
-  </section>
+<section class="right-size"><div>
+  <p class="eyebrow">智能体大军背后的隐藏成本</p><h2>一个智能体能完成，就只用一个。</h2>
+  <div class="compare">
+    <article class="choice"><p class="label">小而独立的工作</p><h3>美化这个 HTML 页面。</h3><p>一个全新的前端会话，可能比五个智能体重复读取同一个项目更快、更省。无需额外规划和无意义的交接。</p><div class="choice-flow"><span>前端</span><span>→ 成果</span></div></article>
+    <article class="choice"><p class="label">有关联、风险更高的工作</p><h3>加入订阅付费功能。</h3><p>只有当独立上下文、并行专业分工和独立验证确实值得额外 Token 与协调成本时，才使用更多角色。</p><div class="choice-flow"><span>产品</span><span>后端</span><span>前端</span><span>支付</span><span>质检</span></div></article>
+  </div>
+  <div class="proof-grid"><figure class="shot"><a href="../screenshots/org-chart.png"><img src="../screenshots/org-chart.png" alt="连接协调员与专业角色的 RandComp 任务图。"></a><figcaption>任务图让协作与依赖关系清晰可见</figcaption></figure><figure class="shot"><a href="../screenshots/role-picker.png"><img src="../screenshots/role-picker.png" alt="为一个任务选择允许使用的角色。"></a><figcaption>你决定每个任务可以使用哪些角色</figcaption></figure><figure class="shot"><a href="../screenshots/role-library.png"><img src="../screenshots/role-library.png" alt="可重复使用的 RandComp 角色库。"></a><figcaption>角色持续存在，单次任务会话无需永久保留</figcaption></figure></div>
+</div></section>
 
-  <!-- 2. The operating model. Makes "a team of agents" concrete.
-       SCREENSHOT 1 — the org chart of the roles. -->
-  <section id="how" class="showcase">
-    <div class="section-intro">
-      <h2>拆分上下文，同时让团队保持连接。</h2>
-      <div><p>一个全能会话不得不反复读取不断增长的历史，即使下一项工作只需要其中很小一部分。让研究、开发和评审分别使用只包含本职上下文的角色会话。RandComp Studio 把任务说明、依赖、消息和交接连接起来，同时由你掌控。</p><p class="soft">每个会话都通过你选择的运行器，在指定文件夹中工作。RandComp Studio 不保存任何模型凭据。</p></div>
-    </div>
-
-    <figure class="shot shot-wide">
-      <img src="../screenshots/org-chart.png" alt="真实的 RandComp Studio 任务图，显示协调员、专业智能体、状态和工作依赖关系。"
-           onload="this.closest('figure').classList.add('has-shot')">
-      <div class="placeholder">
-        <span class="what">一个实时任务及其智能体团队</span>
-        <span class="file">landing/screenshots/org-chart.png</span>
-      </div>
-      <figcaption>真实任务图：智能体、依赖与实时状态</figcaption>
-    </figure>
-
-  </section>
-
-  <!-- The task map shows agents working, but not the durable company they are
-       hired from or the founder's control over which roles a task may use. -->
-  <section class="showcase section-tinted">
-    <div class="section-intro">
-      <h2>角色只需定义一次，每个任务都能组建合适的团队。</h2>
-      <div>
-        <p>角色库就是可复用的团队：每个角色擅长什么、遵循哪些指令、以前做过什么。你可以在本地创建角色，也可以转换已在 ChatGPT、Claude 或其他智能体工具中使用的定义。只有任务雇用角色后，它才会成为运行中的智能体。</p>
-        <p class="soft">每个任务都可以由你亲自选角色，也可以让协调员从你允许的范围中选择。新会话开始和产生费用之前，决定权始终在你手中。</p>
-      </div>
-    </div>
-
-    <figure class="shot shot-wide">
-      <img src="../screenshots/role-library.png" alt="RandComp Studio 的可复用角色库，包括架构师、开发、设计、市场和 QA 等角色。"
-           onload="this.closest('figure').classList.add('has-shot')">
-      <div class="placeholder">
-        <span class="what">可复用角色库</span>
-        <span class="file">landing/screenshots/role-library.png</span>
-      </div>
-      <figcaption>你的可复用角色库</figcaption>
-    </figure>
-
-    <figure class="shot shot-wide">
-      <img src="../screenshots/role-picker.png" alt="用于选择协调员可在一个任务中使用哪些角色的角色选择器。"
-           onload="this.closest('figure').classList.add('has-shot')">
-      <div class="placeholder">
-        <span class="what">选择任务可以使用的角色</span>
-        <span class="file">landing/screenshots/role-picker.png</span>
-      </div>
-      <figcaption>为一个任务选择可用团队</figcaption>
-    </figure>
-  </section>
-
-  <!-- 3. What actually happens. The sequence, not a feature list. -->
-  <section class="process-section">
-    <p class="eyebrow">团队如何工作</p>
-    <h2>会话更专注，交接看得见，控制权在你。</h2>
-    <ol class="steps">
-      <li>用一个明确结果创建任务，并选择它可以使用哪些角色。</li>
-      <li>RandComp Studio 为每个被雇用的角色建立独立本地会话，并分配清晰职责。</li>
-      <li>团队可在角色之间传递工作和消息；你能从看板或 AI 会话查看实时状态。</li>
-      <li>需要时进入任何终端，最后检查记录的结果和任务产出的所有文件。</li>
-    </ol>
-  </section>
-
-  <!-- 4. The work stays inspectable. -->
-  <section class="compact-section section-tinted">
-    <div class="section-intro">
-      <h2>每个智能体都有自己的终端。</h2>
-      <div>
-        <p>
-          它们不是藏在后台的工作进程。每个智能体都是真实会话，
-          你可以观察、阅读、纠正，或完全接管。
-        </p>
-        <pre>randcomp agent list TASK_ID
-randcomp agent logs AGENT_ID
-randcomp agent send AGENT_ID "..."
-randcomp agent attach AGENT_ID</pre>
-        <p class="soft">
-          从命令输出中复制 <code>TASK_ID</code> 和 <code>AGENT_ID</code>。
-          会话不会随着启动命令结束而消失，所以关闭窗口不会终止工作。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="compact-section">
-    <div class="section-intro">
-      <h2>整个团队使用同一套命令界面。</h2>
-      <div>
-        <p><code>randcomp</code> 和 <code>randcomp-studio</code> 是同一个程序；<code>randcomp</code> 更短。每条命令先写对象，再写动作：名词本身用于列出对象，后面的词指定对象，再后面的词说明要做什么。</p>
-        <p class="soft">创建工作、读取结果、与智能体沟通、导入别人写的角色，或查看整个团队，都使用同一种命令结构。</p>
-      </div>
-    </div>
-    <pre>randcomp task create "发布落地页"
-randcomp task list
-randcomp task results TASK_ID
+<main>
+  <section class="context-section"><div class="context-grid">
+    <div class="context-copy"><p class="eyebrow">工作长期保存，上下文不必永久膨胀</p><h2>恢复角色，而不是恢复一段巨大的对话。</h2><p>持久状态是普通 Markdown：角色指令、任务目标、决定、消息、交接和成果。会话完成工作后可以停止。之后的新会话，甚至另一个受支持的 CLI，都能从保存的工作恢复，而不必继承每一个旧 Token。</p></div>
+    <div class="context-flow" aria-label="RandComp 保存持久状态并保持会话专注的方式"><div class="context-row"><div class="context-box"><strong>专注会话</strong><span>只读取当前需要的上下文</span></div><span class="context-arrow">→</span><div class="context-box"><strong>完成或停止</strong><span>上下文窗口可以结束</span></div></div><div class="context-store"><strong>保存为可阅读的 Markdown</strong>角色 · 任务 · 决定 · 消息 · 交接 · 成果</div><div class="context-row" style="margin-top:14px"><div class="context-box"><strong>随时恢复</strong><span>重新构建最小必要上下文</span></div><span class="context-arrow">→</span><div class="context-box"><strong>换一个 CLI 继续</strong><span>持久记录不锁在单个会话里</span></div></div></div>
+  </div></section>
+  <section><div class="principles"><div class="principle"><strong>沿用已有 AI 工具</strong><span>RandComp 协调你已经安装和付费的命令行 AI 智能体，不取代它们。</span></div><div class="principle"><strong>工作保留在本机</strong><span>任务、角色定义、消息和成果都以可阅读文件保存在你的电脑上。</span></div><div class="principle"><strong>原始内容始终可查</strong><span>可读摘要帮助快速浏览，原始终端与输出文件仍可随时打开。</span></div></div></section>
+  <section class="install"><p class="eyebrow">从本机开始</p><h2>选择你的第一个控制界面。</h2><div class="install-grid">
+    <article class="install-card"><h3>桌面应用</h3><p>下载并打开磁盘映像，把 RandComp Studio 拖入“应用程序”。首次运行时选择公司文件夹的位置。</p><div class="actions"><a class="button" href="https://randcompstudioasia.z7.web.core.windows.net/RandCompStudio-0.1.0-e5fe0ab9.dmg" download>下载 macOS 版 ↓</a></div><p class="facts">Apple 芯片 · macOS 11+ · 24M<br>SHA-256 <code>e5fe0ab98dbbf71408cb5c3b0f9537f89f59a15904139950102abe73dfd8d9b8</code></p></article>
+    <article class="install-card"><h3>CLI 与 MCP</h3><p>从应用菜单安装附带的 <code>randcomp</code> 命令。通过 SSH 直接使用，或把同一个本地进程注册到支持 MCP 的 AI 客户端。</p><pre>randcomp status
 randcomp agent list TASK_ID
 
-randcomp agent logs AGENT_ID
-randcomp role import ./some-claude-skill --add
-randcomp status</pre>
-  </section>
-
-  <!-- 5. Requirements, stated rather than discovered. -->
-  <section class="requirements-section section-tinted">
-    <h2>你需要什么</h2>
-    <dl class="needs">
-      <div>
-        <dt>macOS 11 或更高版本，Apple 芯片</dt>
-        <dd>
-          下载的是 <code>arm64</code> 版本，可在 M1 及更新芯片上运行。
-          暂不支持 Intel Mac。
-        </dd>
-      </div>
-      <div>
-        <dt>Windows 和 Linux</dt>
-        <dd>即将推出。在相应版本可用前，下载按钮保持禁用。</dd>
-      </div>
-      <div>
-        <dt>Python：已内置</dt>
-        <dd>
-          应用自带 Python 3.13，因为 macOS 在 <code>/usr/bin</code> 中提供的
-          Python 3.9 版本过旧。你无需另行安装，也不会影响现有 Python。
-        </dd>
-      </div>
-      <div>
-        <dt>tmux：已内置</dt>
-        <dd>
-          每个角色都在 tmux 会话中运行，会话不会随着启动命令结束。
-          应用已经带有 tmux，无需使用 Homebrew 安装。
-        </dd>
-      </div>
-      <div>
-        <dt>你已经在用的命令行 AI 智能体</dt>
-        <dd>
-          RandComp Studio 使用你已经安装并登录的运行器，本身不包含 AI
-          智能体。当前预览版内置 Claude Code（<code>claude</code>）和 Codex
-          CLI（<code>codex</code>）定义，下一步将支持更多命令行智能体。
-        </dd>
-      </div>
-    </dl>
-  </section>
-
-  <!-- 6. What it can access. Said before the download is asked for, not after. -->
-  <section class="access-section">
-    <h2>它能访问什么</h2>
-    <ul class="plain">
-      <li><strong>一个公司文件夹</strong>：首次运行时由你在文件选择器中指定。角色、任务和各智能体产出的内容都以普通文件保存在这里。</li>
-      <li><strong>你为工作指定的文件夹</strong>：智能体通过命令行 AI 工具读写它们，并遵循该 CLI 自己的审批设置，与单独运行该工具时完全相同。</li>
-      <li><strong>一个本地网页服务器</strong>：看板只绑定到 <code>127.0.0.1</code> 和操作系统提供的空闲端口，关闭窗口后停止。</li>
-      <li><strong>应用无需产品账户、没有遥测、没有托管服务</strong>：下载的应用无需注册，也不包含分析信标。这个公开网站使用注重隐私的 Cloudflare Web Analytics 统计访问量。你的命令行 AI 智能体仍按自身设置和隐私政策与其供应商通信。</li>
-    </ul>
-  </section>
-
-  <!-- 7. Install. The last thing on the page, with nothing after it. -->
-  <section class="install-section">
-    <h2>安装并开始使用</h2>
-    <p>需要独立窗口中的看板时，打开桌面应用；希望在现有 AI 工具中操作同一组任务和团队时，连接本地 MCP 服务器。</p>
-    <h3>桌面应用</h3>
-    <p>只需三步，不用输入命令。</p>
-    <ol class="steps">
-      <li><strong>下载</strong> <code data-fact="dmg">RandCompStudio-0.1.0-e5fe0ab9.dmg</code>。</li>
-      <li><strong>打开文件。</strong>窗口中会显示应用和 Applications 文件夹快捷方式。</li>
-      <li><strong>拖动</strong> RandComp Studio 到 Applications，然后从那里打开。</li>
-    </ol>
-    <p class="soft">
-      首次运行时，普通文件选择器会询问一次公司文件夹的位置，之后不再询问。
-      要移除应用，只需拖到废纸篓；你的公司文件夹属于你，不会被删除。
-    </p>
-    <p class="soft">
-      <strong><code>randcomp</code> 命令通过菜单安装。</strong>
-      窗口中的每项操作都有终端等价方式。选择
-      <em>RandComp Studio → Install the randcomp command in PATH</em> 后，应用会把
-      <code>randcomp</code> 和 <code>randcomp-studio</code> 写入 <code>~/.local/bin</code>，
-      并在该文件夹尚未加入 PATH 时提醒你。只有你主动选择后才会写入。
-    </p>
-    <div class="download-card">
-      <div class="actions">
-        <a class="button" href="https://randcompstudioasia.z7.web.core.windows.net/RandCompStudio-0.1.0-e5fe0ab9.dmg" download>下载 macOS 版 ↓</a>
-        <span class="button button-disabled" aria-disabled="true">Windows · 即将推出</span>
-        <span class="button button-disabled" aria-disabled="true">Linux · 即将推出</span>
-      </div>
-      <p class="download-facts">
-        Apple 芯片，macOS 11 或更高版本。版本
-        <code data-fact="version">0.1.0</code>, <code data-fact="size">24M</code>,
-        SHA-256 <code data-fact="sha256">e5fe0ab98dbbf71408cb5c3b0f9537f89f59a15904139950102abe73dfd8d9b8</code>。打开前可使用
-        <code>shasum -a 256 ~/Downloads/RandCompStudio-0.1.0-e5fe0ab9.dmg</code> 检查。
-      </p>
-    </div>
-
-    <div class="install-options">
-      <div class="install-option">
-        <h3>通过 MCP 在 AI 会话中使用</h3>
-        <p class="soft">AI 客户端必须支持本地 MCP 服务器，并且 <code>randcomp</code> 必须在 PATH 中。若从磁盘映像安装，请打开 RandComp Studio 并选择 <em>RandComp Studio → Install the randcomp command in PATH</em>。Claude Code 的注册命令是：</p>
-<pre>claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
-        <p class="soft">MCP 服务器就是通过标准输入和标准输出通信的本地 <code>randcomp mcp</code> 进程。它与应用操作同样的任务、角色、智能体、会话、消息和结果文件。它不是托管服务，也不需要 RandComp Studio API 密钥。</p>
-      </div>
-
-      <div class="install-option">
-        <h3>或者从命令行安装</h3>
-        <p class="soft">
-          这是同一个工具，但没有应用程序包。如果你希望运行前阅读每一行代码，可以选择这种方式。
-          它需要你自行准备 Python 3.11 或更高版本和 tmux；磁盘映像版本则已经内置这些依赖。
-        </p>
-<pre>tar -xzf randcomp-studio.tar.gz
-cd randcomp-studio
-./install.sh</pre>
-        <p class="soft">
-          <code>install.sh</code> 会把 <code>randcomp</code> 放进 <code>~/.local/bin</code>；
-          macOS 默认不会把这个目录加入 <code>PATH</code>。如果安装脚本提示，请把它输出的那一行加入
-          <code>~/.zshrc</code>，打开新终端，再运行 <code>randcomp</code>。
-        </p>
-        <p class="soft">
-          <a href="https://missioncontroldl.z5.web.core.windows.net/randcomp-studio.tar.gz" download>randcomp-studio.tar.gz</a> —
-          建议先在文本编辑器中打开 <code>install.sh</code>；它很短，并包含全部安装步骤。
-          它只创建 <code>~/.local/bin/randcomp</code> 和 <code>~/.local/bin/randcomp-studio</code>
-          两个脚本，指向你解压的文件夹和找到的 Python。它不会安装软件包、不会向其他位置复制文件，也不会启动后台服务。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>
-      RandComp Studio 在你的机器上运行，只访问你选择的文件夹，并使用你已经登录的命令行 AI 智能体。
-      <a href="docs.html">阅读中文文档</a>。
-    </p>
-  </footer>
-
+# MCP 客户端运行：
+randcomp mcp</pre><p><a href="docs.html">打开完整设置与 CLI 指南 →</a></p></article>
+  </div></section>
+  <footer><span>RandComp Studio · 本地 AI 团队协调<br>这个网站使用注重隐私的 Cloudflare Web Analytics 统计访问量；下载的应用不包含分析信标。</span><span><a href="docs.html">文档</a> · <a href="https://github.com/RandComAI/mission-control-site/issues/new">反馈</a></span></footer>
 </main>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
 </body>
