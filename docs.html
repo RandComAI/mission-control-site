@@ -115,12 +115,12 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
       <p>One all-purpose session accumulates every job and an ever-growing context. RandComp Studio lets you split research, product, implementation, and review into focused role sessions, then keeps their tasks, messages, dependencies, and results connected. It does not replace your AI agent or skill ecosystem.</p>
     </section>
 
-    <nav class="on-this-page" aria-label="On this page"><strong>Start here:</strong> <a href="#quick-start">Quick start</a> · <a href="#mcp-guide">AI session over MCP</a> · <a href="#first-task">First task</a> · <a href="#ui-guide">UI</a> · <a href="#cli-reference">CLI</a></nav>
+    <nav class="on-this-page" aria-label="On this page"><strong>Start here:</strong> <a href="#quick-start">Quick start</a> · <a href="#mcp-guide">AI session over MCP</a> · <a href="#first-task">First project</a> · <a href="#ui-guide">UI</a> · <a href="#cli-reference">CLI</a></nav>
 
     <section class="doc-section" id="quick-start">
       <p class="eyebrow">Get started</p>
       <h2>Quick start</h2>
-      <p>Install the RandComp Studio app first. Then operate the same local team from its desktop board or from an MCP-capable AI session. Both paths require a supported command-line AI agent installed and signed in. Runner support is extensible; the <a href="#roles">roles and runners</a> section explains the bundled definitions and how to add your own.</p>
+      <p>RandComp Studio works with the AI tools you choose. Install the app, then operate the same local team from its desktop board or from an MCP-capable AI session. Claude Code, Codex, and Kimi Code are the bundled preview integrations, not the product boundary. Other configured runners are listed honestly when present, but their presence is not a claim of verified support.</p>
 
       <div class="start-paths">
         <article class="start-path">
@@ -149,34 +149,35 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
       <h3>First-run questions</h3>
       <p>The company folder holds roles, tasks, decisions, status, messages, and results as ordinary files. It is not necessarily the codebase where agents work. You choose project folders separately for each task.</p>
       <p>If more than one configured runner is available, RandComp Studio asks which one should run coordinators. It checks whether the selected runner appears signed in, but never reads or stores the credential value and never signs in for you.</p>
+      <p>When creating a v2 project, you can keep the machine default, choose another available configured runner as the project default, and optionally override individual roles. The order is role override, project default, then machine default; changing a live agent in its inspector remains an explicit session override.</p>
     </section>
 
     <section class="doc-section" id="first-task">
       <p class="eyebrow">Five minutes</p>
-      <h2>Run your first task</h2>
+      <h2>Run your first project</h2>
       <h3>From the UI</h3>
       <ol>
         <li>Run <code>randcomp</code> to open the company window.</li>
-        <li>Describe the outcome in the main input.</li>
-        <li>Choose where the work should happen. This is the project folder agents may edit.</li>
-        <li>Review the roles. Let the coordinator choose, or narrow the available set yourself.</li>
-        <li>Leave unattended spending off unless you intentionally want sessions to run without approval prompts.</li>
-        <li>Send the task. RandComp Studio creates the task, starts its coordinator, and hires the matching specialist roles.</li>
+        <li>Choose <strong>Start a project</strong> and describe what you want in one sentence.</li>
+        <li>RandComp Studio opens the project and tells its coordinator what you asked.</li>
+        <li>Your coordinator turns the sentence into a plan of focused tasks and hires the helpers to do them.</li>
+        <li>Watch each task: who is on it, what it produced, and what needs you. Send the next request from the composer whenever you want.</li>
       </ol>
 
       <h3>From the CLI</h3>
-<pre>randcomp task create "Review the checkout flow and fix the highest-risk defect" --in ~/code/storefront
-randcomp task list
-randcomp agent list TASK_ID
-randcomp task results TASK_ID</pre>
-      <p>Copy <code>TASK_ID</code> from <code>randcomp task list</code>. <code>randcomp task results TASK_ID</code> lists the files it produced; it does not print them. Give the same command a file path instead — <code>randcomp task show RESULT_FILE_PATH</code> — and it prints that one file whole.</p>
+<pre>randcomp project create "Launch a small online store with a checkout" --runner kimi
+randcomp project list
+randcomp project ask PROJECT_ID "Add a gift-card page to the checkout"
+randcomp project show PROJECT_ID</pre>
+      <p>Copy <code>PROJECT_ID</code> from <code>randcomp project list</code>. The ask is handed to the project's real coordinator session; planning the tasks is its judgment, not the CLI's. The same project commands work over SSH on the machine where the company lives.</p>
+      <p>The classic task-centric surface (<code>randcomp task create</code> and friends) is unchanged and still works for the company-level task board.</p>
 
       <h3>From an AI session over MCP</h3>
-      <p>After registering the server, ask your AI session to create and manage the work through RandComp Studio rather than its own temporary subagents. The AI client chooses the MCP tools, while RandComp Studio owns the durable task, role agents, sessions, messages, and results underneath.</p>
-<pre>Use RandComp Studio to open a task for this work.
-Have Developer implement it and QA review the result.
-Keep the task and agents visible on the RandComp Studio board.</pre>
-      <p>Asking in your own words like this is still the main path, and everything RandComp Studio can do is reachable that way. The four commands below are shortcuts for the sentences you would otherwise retype.</p>
+      <p>After registering the server, ask your AI session to create and manage the work through RandComp Studio rather than its own temporary subagents. The AI client chooses the MCP tools, while RandComp Studio owns the durable project, coordinator, helper agents, sessions, messages, and results underneath.</p>
+<pre>Use RandComp Studio to open a project for this work.
+Have the coordinator plan it and Developer implement it with QA reviewing.
+Keep the project and its helpers visible on the RandComp Studio board.</pre>
+      <p>The MCP server publishes the project tools as <code>v2_project_create</code>, <code>v2_project_list</code>, <code>v2_project_show</code>, <code>v2_project_ask</code>, <code>v2_project_finish</code>, and <code>v2_project_reopen</code>, plus <code>v2_task_*</code>, <code>v2_agent_*</code>, and <code>v2_result_*</code> tools — alongside the classic company-level tools. Asking in your own words like above is still the main path. The four commands below are shortcuts for the sentences you would otherwise retype.</p>
 
       <h3 id="mcp-prompts">Slash commands</h3>
       <p>RandComp Studio publishes four prompts. Your client turns each one into a command you can pick at the start of a message. Claude Code 2.1.233 spells them like this, and lists every connected server’s commands under <code>/mcp</code>:</p>
@@ -202,11 +203,12 @@ Keep the task and agents visible on the RandComp Studio board.</pre>
         <tbody>
           <tr><td>Company</td><td>The durable folder containing your roles, tasks, decisions, messages, status, and produced artifacts.</td></tr>
           <tr><td>Project folder</td><td>The codebase or working folder an agent operates in. It is selected per task and can be outside the company.</td></tr>
-          <tr><td>Role</td><td>A reusable definition such as Developer, QA, or Market Analyst. Roles live in the library; they do not run by themselves.</td></tr>
+          <tr><td>Project</td><td>The primary unit of work in the current app: one sentence about what you want, a coordinator that plans it into focused tasks, and the helpers hired to do them. Projects persist on disk and survive restarts.</td></tr>
+          <tr><td>Task</td><td>One focused piece of a project's plan, with its assigned helpers, live state, outcome, and files. The company-level classic task board also exists for work you dispatch directly.</td></tr>
           <tr><td>Agent</td><td>One hired instance of a role on exactly one task. Two tasks using Developer get two different Developer agents.</td></tr>
           <tr><td>Session</td><td>One running terminal for an agent. Sessions cost money; agents and their history remain when sessions stop.</td></tr>
-          <tr><td>Task</td><td>One piece of work, its assigned agents, live state, outcome, and files. Every dispatched task has its own coordinator.</td></tr>
-          <tr><td>Runner</td><td>The installed command-line AI agent that executes an agent. Claude Code and Codex are the bundled definitions in this preview, not the limit of the runner model.</td></tr>
+          <tr><td>Role</td><td>A reusable definition such as Developer, QA, or Market Analyst. Roles live in the helper library; they do not run by themselves.</td></tr>
+          <tr><td>Runner</td><td>The installed command-line AI agent that executes an agent. Claude Code, Codex, and Kimi Code are the bundled definitions in this preview, not the limit of the runner model — any CLI that runs in a terminal can be one.</td></tr>
         </tbody>
       </table>
       <div class="callout"><strong>Roles are the company; agents are the people on the work.</strong><p>The role library has no live graph. Relationships and arrows only make sense inside one task, between the agent instances hired onto it.</p></div>
@@ -217,10 +219,10 @@ Keep the task and agents visible on the RandComp Studio board.</pre>
       <h2>Use the UI</h2>
       <p>Run <code>randcomp</code> with nothing after it. It opens your company in a window of its own, served only to <code>127.0.0.1</code>.</p>
       <div class="cards">
-        <article class="card"><h3>Tasks</h3><p>Create work, see its project folder and current state, open the task map, inspect every agent, and read what came out.</p></article>
-        <article class="card"><h3>Roles</h3><p>Browse the reusable role library, read role definitions, inspect track records, import a definition, or start a task with one role.</p></article>
-        <article class="card"><h3>Agent detail</h3><p>Read reported progress and live scrollback, send a message, open the terminal, or stop the session without deleting the agent.</p></article>
-        <article class="card"><h3>History</h3><p>Review recorded company activity and artifacts without pretending that old work is still running.</p></article>
+        <article class="card"><h3>Projects</h3><p>Start a project with one sentence, send requests to its coordinator, and watch the plan of focused tasks form — every task shows who is on it and what it produced.</p></article>
+        <article class="card"><h3>Library</h3><p>Browse the reusable helper library, read role definitions, and import a definition you already have.</p></article>
+        <article class="card"><h3>Agent sessions</h3><p>Open a helper's live session, read its terminal, change which AI tool it runs on, or stop the session without deleting the agent.</p></article>
+        <article class="card"><h3>History and settings</h3><p>Review recorded company activity, choose light or dark appearance, pick your language, and replay the first-run tour.</p></article>
       </div>
 
       <h3>Read task state</h3>
@@ -266,6 +268,16 @@ randcomp --company ~/Companies/new-company</pre>
 
       <h3>MCP server</h3>
       <div class="command"><pre>randcomp mcp [--company PATH]</pre><p>Speak Model Context Protocol over stdin and stdout so a local MCP client can read and drive the company. Register it with <code>claude mcp add -s user randcomp-studio -- randcomp mcp</code> rather than running it by hand. It publishes tools the client calls and the four <a href="#mcp-prompts">prompts</a> the client shows as slash commands. <code>--company</code> selects a company other than the remembered default. There is no network listener, hosted service, RandComp Studio account, or API key.</p></div>
+
+      <h3>Projects</h3>
+      <p>The project surface is the current app's primary model: a project holds one sentence of intent, a coordinator, and the plan of focused tasks the coordinator made. The commands below are the complete project grammar; every one also accepts <code>--company PATH</code>.</p>
+      <div class="command"><pre>randcomp project create TEXT... [--title WORDS] [--runner NAME]</pre><p>Open a project for that sentence. <code>--runner</code> sets the project's default AI tool (for example <code>kimi</code>, <code>claude</code>, or <code>codex</code>); otherwise the machine default is used.</p></div>
+      <div class="command"><pre>randcomp project list [--json]</pre><p>Every project, its state, and how many tasks it holds.</p></div>
+      <div class="command"><pre>randcomp project show PROJECT_ID</pre><p>One project's detail: its request history, the coordinator's state, and its plan.</p></div>
+      <div class="command"><pre>randcomp project ask PROJECT_ID TEXT...</pre><p>Write a request against the project. Its coordinator session is woken — or hired and launched — and reads it; planning the tasks is the coordinator's own judgment.</p></div>
+      <div class="command"><pre>randcomp project finish PROJECT_ID
+randcomp project reopen PROJECT_ID</pre><p><code>finish</code> closes the project and stops its agents; <code>reopen</code> opens it again without starting anything.</p></div>
+      <p>Inside a project, tasks and agents answer to <code>randcomp task create --project PROJECT_ID</code>, <code>randcomp task list --project PROJECT_ID</code>, and <code>randcomp agent list --project PROJECT_ID</code>; the singular verbs with a project flag are the v2 grammar, while their plural legacy spellings keep their classic meaning.</p>
 
       <h3>Tasks</h3>
       <div class="command"><pre>randcomp task create TEXT... [OPTIONS]</pre><p>Open a task, start its coordinator, and let the coordinator hire the roles it needs.</p><ul>
@@ -364,7 +376,7 @@ randcomp role coordinator --use NAME
 randcomp role runs-on AGENT_ID --use NAME
 randcomp role at-once NUMBER</pre>
       <p><code>coordinator --use</code> changes the runner for coordinators started from then on. <code>runs-on</code> moves one agent to a runner. <code>at-once</code> controls how many specialist agents on each task run simultaneously; extra agents remain hired and wait their turn.</p>
-      <p>RandComp Studio ships its first runner definitions for Claude Code and Codex CLI. They are initial integrations, not the product definition. Advanced users can add or override runners in <code>~/.config/mission-control/runners.json</code> without modifying the product, and additional built-in runners are the next compatibility step.</p>
+      <p>RandComp Studio ships its first runner definitions for Claude Code, Codex CLI, and Kimi Code. They are initial integrations, not the product definition. Advanced users can add or override runners in <code>~/.config/mission-control/runners.json</code> without modifying the product, and additional built-in runners are the next compatibility step.</p>
       <h3>Reuse existing skills and agents</h3>
       <p>RandComp Studio is not a replacement marketplace. Its importer accepts a role definition you already have—such as an Agent Skill, Claude agent or skill, exported GPT, or plain Markdown—and translates it into the local role-package contract.</p>
 <pre>randcomp role import ROLE_SOURCE_PATH
@@ -377,7 +389,7 @@ randcomp role import ROLE_SOURCE_PATH --add</pre>
       <h2>Files, privacy, and boundaries</h2>
       <ul>
         <li>The UI server binds only to <code>127.0.0.1</code>.</li>
-        <li>RandComp Studio has no hosted account, product telemetry, or model API key of its own. This public documentation page counts visits with privacy-first Cloudflare Web Analytics; the downloaded application does not contain that beacon.</li>
+        <li>RandComp Studio has no hosted account, telemetry service, or model API key of its own.</li>
         <li>Your command-line AI agent still communicates with its own vendor under that tool’s settings and privacy policy.</li>
         <li>The company folder contains readable roles, task files, status, messages, and artifacts.</li>
         <li>Local application state lives under <code>~/.config/mission-control</code> by default. Set <code>MISSION_CONTROL_HOME</code> to override it.</li>
@@ -435,6 +447,5 @@ rm ~/.local/bin/randcomp-studio</pre>
     <footer>RandComp Studio documentation · derived from the current command surface and product contracts.</footer>
   </main>
 </div>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
 </body>
 </html>

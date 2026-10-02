@@ -92,7 +92,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
     <a href="#overview">概览</a>
       <a href="#quick-start">快速开始</a>
       <a href="#mcp-guide">通过 MCP 使用 AI 会话</a>
-    <a href="#first-task">运行第一个任务</a>
+    <a href="#first-task">运行第一个项目</a>
     <div class="group"><p>使用 RandComp Studio</p>
       <a href="#mental-model">基本概念</a>
       <a href="#ui-guide">UI 指南</a>
@@ -115,7 +115,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
       <p>一个全能会话会累积所有工作和不断增长的上下文。RandComp Studio 让你把研究、产品、开发和评审拆成专注的角色会话，再把任务、消息、依赖与结果连接起来。它不会替代你的 AI 智能体或 skill 生态。</p>
     </section>
 
-    <nav class="on-this-page" aria-label="本页内容"><strong>从这里开始：</strong> <a href="#quick-start">快速开始</a> · <a href="#mcp-guide">通过 MCP 使用 AI 会话</a> · <a href="#first-task">第一个任务</a> · <a href="#ui-guide">UI</a> · <a href="#cli-reference">CLI</a></nav>
+    <nav class="on-this-page" aria-label="本页内容"><strong>从这里开始：</strong> <a href="#quick-start">快速开始</a> · <a href="#mcp-guide">通过 MCP 使用 AI 会话</a> · <a href="#first-task">第一个项目</a> · <a href="#ui-guide">UI</a> · <a href="#cli-reference">CLI</a></nav>
 
     <section class="doc-section" id="quick-start">
       <p class="eyebrow">开始使用</p>
@@ -153,30 +153,30 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
 
     <section class="doc-section" id="first-task">
       <p class="eyebrow">五分钟</p>
-      <h2>运行第一个任务</h2>
+      <h2>运行第一个项目</h2>
       <h3>从 UI 开始</h3>
       <ol>
         <li>运行 <code>randcomp</code> 打开公司窗口。</li>
-        <li>在主输入框描述你需要的结果。</li>
-        <li>选择工作位置，也就是智能体可以编辑的项目文件夹。</li>
-        <li>检查角色：让协调员选择，或由你缩小可用范围。</li>
-        <li>除非你明确希望会话不经审批提示自行运行，否则不要启用无人值守支出。</li>
-        <li>发送任务。RandComp Studio 会创建任务、启动协调员并雇用匹配的专业角色。</li>
+        <li>选择 <strong>Start a project（开始一个项目）</strong>，用一句话描述你想要什么。</li>
+        <li>RandComp Studio 打开项目，并把请求交给项目的协调员。</li>
+        <li>协调员把这句话拆成一组具体任务，并雇佣帮手完成它们。</li>
+        <li>观察每个任务：谁在负责、产出了什么、哪里需要你。想继续推进时，在输入框里发送下一个请求。</li>
       </ol>
 
       <h3>从 CLI 开始</h3>
-<pre>randcomp task create "评审结账流程并修复风险最高的问题" --in ~/code/storefront
-randcomp task list
-randcomp agent list TASK_ID
-randcomp task results TASK_ID</pre>
-      <p>从 <code>randcomp task list</code> 复制 <code>TASK_ID</code>。<code>randcomp task results TASK_ID</code> 只列出产出文件，不打印内容；使用 <code>randcomp task show RESULT_FILE_PATH</code> 可完整打印指定文件。</p>
+<pre>randcomp project create "上线一个带结账功能的小型在线商店" --runner kimi
+randcomp project list
+randcomp project ask PROJECT_ID "增加一个礼品卡页面"
+randcomp project show PROJECT_ID</pre>
+      <p>从 <code>randcomp project list</code> 复制 <code>PROJECT_ID</code>。ask 会唤醒项目的真实协调员会话并把请求交给它；如何规划任务是协调员自己的判断。同一组项目命令也可以在公司的所在机器上通过 SSH 使用。</p>
+      <p>经典的以任务为中心的命令（如 <code>randcomp task create</code>）保持不变，仍可用于公司级任务板。</p>
 
       <h3>从通过 MCP 连接的 AI 会话开始</h3>
-      <p>注册服务器后，让 AI 会话通过 RandComp Studio 创建和管理工作，而不是使用客户端自己的临时子智能体。AI 客户端选择 MCP 工具；RandComp Studio 则负责底层持久任务、角色智能体、会话、消息和结果。</p>
-<pre>使用 RandComp Studio 为这项工作创建任务。
-让开发角色实现，并由 QA 评审结果。
-让任务和智能体始终显示在 RandComp Studio 看板上。</pre>
-      <p>用自然语言提出请求仍是主要方式，RandComp Studio 的所有能力都可由此调用。下面四个命令只是常用句子的快捷方式。</p>
+      <p>注册服务器后，让 AI 会话通过 RandComp Studio 创建和管理工作，而不是使用客户端自己的临时子智能体。AI 客户端选择 MCP 工具；RandComp Studio 则负责底层的持久项目、协调员、帮手智能体、会话、消息和结果。</p>
+<pre>使用 RandComp Studio 为这项工作创建一个项目。
+让协调员规划任务，由开发实现，QA 独立评审。
+让项目及其帮手始终显示在 RandComp Studio 看板上。</pre>
+      <p>MCP 服务器以 <code>v2_project_create</code>、<code>v2_project_list</code>、<code>v2_project_show</code>、<code>v2_project_ask</code>、<code>v2_project_finish</code>、<code>v2_project_reopen</code> 等形式发布项目工具，另有 <code>v2_task_*</code>、<code>v2_agent_*</code> 和 <code>v2_result_*</code> 工具，与经典公司级工具并存。用自然语言提出请求仍是主要方式；下面四个命令只是常用句子的快捷方式。</p>
 
       <h3 id="mcp-prompts">斜杠命令</h3>
       <p>RandComp Studio 发布四个 prompt，客户端会把它们转换成可在消息开头选择的命令。Claude Code 2.1.233 使用以下写法，并在 <code>/mcp</code> 下列出所有已连接服务器的命令：</p>
@@ -202,11 +202,12 @@ randcomp task results TASK_ID</pre>
         <tbody>
           <tr><td>公司</td><td>持久保存角色、任务、决策、消息、状态和产出文件的文件夹。</td></tr>
           <tr><td>项目文件夹</td><td>智能体实际操作的代码库或工作文件夹。每个任务单独选择，可以位于公司文件夹之外。</td></tr>
-          <tr><td>角色</td><td>可复用定义，例如开发、QA 或市场分析。角色位于角色库中，本身不会运行。</td></tr>
+          <tr><td>项目</td><td>当前应用的主要工作单元：一句你想要的话、一位负责规划的协调员，以及由协调员拆出的一组具体任务。项目持久保存在磁盘上，重启后依然存在。</td></tr>
+          <tr><td>任务</td><td>项目计划中的一个具体工作项，有其帮手、实时状态、结果和文件。公司级经典任务板也仍然存在，可直接派发工作。</td></tr>
           <tr><td>智能体</td><td>一个角色在一个任务中被雇用的实例。两个任务使用开发角色时，会得到两个不同的开发智能体。</td></tr>
           <tr><td>会话</td><td>智能体正在运行的一个终端。会话会产生费用；会话停止后，智能体及其历史仍会保留。</td></tr>
-          <tr><td>任务</td><td>一项工作及其智能体、实时状态、结果和文件。每个已派发任务都有自己的协调员。</td></tr>
-          <tr><td>运行器</td><td>执行智能体的已安装命令行 AI 工具。Claude Code 和 Codex 是当前预览版内置的首批定义，不是运行器模型的边界。</td></tr>
+          <tr><td>角色</td><td>可复用定义，例如开发、QA 或市场分析。角色位于帮手库中，本身不会运行。</td></tr>
+          <tr><td>运行器</td><td>执行智能体的已安装命令行 AI 工具。Claude Code、Codex 与 Kimi Code 是当前预览版内置的首批定义，不是运行器模型的边界——任何能在终端中运行的 CLI 都可以成为运行器。</td></tr>
         </tbody>
       </table>
       <div class="callout"><strong>角色构成公司；智能体是参与具体工作的成员。</strong><p>角色库没有实时关系图。关系与箭头只存在于一个任务内部，连接该任务雇用的智能体实例。</p></div>
@@ -217,10 +218,10 @@ randcomp task results TASK_ID</pre>
       <h2>使用 UI</h2>
       <p>直接运行 <code>randcomp</code>，不加其他参数。它会在独立窗口中打开公司，服务只绑定到 <code>127.0.0.1</code>。</p>
       <div class="cards">
-        <article class="card"><h3>任务</h3><p>创建工作，查看项目文件夹与当前状态，打开任务图，检查每个智能体并读取产出。</p></article>
-        <article class="card"><h3>角色</h3><p>浏览可复用角色库，阅读定义和历史记录，导入定义，或使用一个角色启动任务。</p></article>
-        <article class="card"><h3>智能体详情</h3><p>读取汇报进度和实时终端内容，发送消息、打开终端，或停止会话而不删除智能体。</p></article>
-        <article class="card"><h3>历史</h3><p>查看已记录的公司活动和产出，不把旧工作误报为仍在运行。</p></article>
+        <article class="card"><h3>项目</h3><p>用一句话开始项目，向协调员发送请求，观看具体任务的计划成形——每个任务都显示谁在负责、产出了什么。</p></article>
+        <article class="card"><h3>帮手库</h3><p>浏览可复用的帮手角色库，阅读定义，或导入你已有的定义。</p></article>
+        <article class="card"><h3>智能体会话</h3><p>打开帮手的实时会话，阅读终端内容，更改它运行的 AI 工具，或停止会话而不删除智能体。</p></article>
+        <article class="card"><h3>历史与设置</h3><p>查看已记录的公司活动，切换浅色或深色外观，选择界面语言，或重播首次使用向导。</p></article>
       </div>
 
       <h3>读取任务状态</h3>
@@ -364,7 +365,7 @@ randcomp role coordinator --use NAME
 randcomp role runs-on AGENT_ID --use NAME
 randcomp role at-once NUMBER</pre>
       <p><code>coordinator --use</code> 更改之后启动的协调员运行器。<code>runs-on</code> 把一个智能体迁移到另一运行器。<code>at-once</code> 控制每个任务同时运行的专业智能体数量；多余成员保持已雇用并等待轮次。</p>
-      <p>RandComp Studio 首批自带 Claude Code 和 Codex CLI 的运行器定义。它们是初始集成，而不是产品定义。高级用户可在 <code>~/.config/mission-control/runners.json</code> 中新增或覆盖运行器，无需修改产品；下一步也会加入更多内置运行器。</p>
+      <p>RandComp Studio 首批自带 Claude Code、Codex CLI 与 Kimi Code 的运行器定义。它们是初始集成，而不是产品定义。高级用户可在 <code>~/.config/mission-control/runners.json</code> 中新增或覆盖运行器，无需修改产品；下一步也会加入更多内置运行器。</p>
       <h3>复用已有 skills 和 agents</h3>
       <p>RandComp Studio 不是替代型 marketplace。导入器接受你已有的角色定义，例如 Agent Skill、Claude agent 或 skill、导出的 GPT 或普通 Markdown，并转换为本地角色包规范。</p>
 <pre>randcomp role import ROLE_SOURCE_PATH
@@ -377,7 +378,7 @@ randcomp role import ROLE_SOURCE_PATH --add</pre>
       <h2>文件、隐私与边界</h2>
       <ul>
         <li>UI 服务器只绑定到 <code>127.0.0.1</code>。</li>
-        <li>RandComp Studio 没有托管账户、产品遥测或自己的模型 API 密钥。这个公开文档页面使用注重隐私的 Cloudflare Web Analytics 统计访问量；下载的应用不包含该分析信标。</li>
+        <li>RandComp Studio 没有托管账户、遥测服务或自己的模型 API 密钥。</li>
         <li>命令行 AI 智能体仍按该工具的设置和隐私政策与其供应商通信。</li>
         <li>公司文件夹包含可读的角色、任务文件、状态、消息和产出。</li>
         <li>本地应用状态默认位于 <code>~/.config/mission-control</code>。设置 <code>MISSION_CONTROL_HOME</code> 可覆盖。</li>
@@ -435,6 +436,5 @@ rm ~/.local/bin/randcomp-studio</pre>
     <footer>RandComp Studio 中文文档 · 根据当前命令面和产品规范编写。</footer>
   </main>
 </div>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
 </body>
 </html>
