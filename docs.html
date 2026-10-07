@@ -389,7 +389,8 @@ randcomp role import ROLE_SOURCE_PATH --add</pre>
       <h2>Files, privacy, and boundaries</h2>
       <ul>
         <li>The UI server binds only to <code>127.0.0.1</code>.</li>
-        <li>RandComp Studio has no hosted account, telemetry service, or model API key of its own.</li>
+        <li>RandComp Studio has no hosted account or model API key of its own.</li>
+        <li>Anonymous usage statistics — event counts only, no content. Each event is just its type, a UTC time and a random install ID; no IP address, project names, messages or identity. Turn it off in Settings → Usage statistics.</li>
         <li>Your command-line AI agent still communicates with its own vendor under that tool’s settings and privacy policy.</li>
         <li>The company folder contains readable roles, task files, status, messages, and artifacts.</li>
         <li>Local application state lives under <code>~/.config/mission-control</code> by default. Set <code>MISSION_CONTROL_HOME</code> to override it.</li>

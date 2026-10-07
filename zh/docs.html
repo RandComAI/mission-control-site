@@ -378,7 +378,8 @@ randcomp role import ROLE_SOURCE_PATH --add</pre>
       <h2>文件、隐私与边界</h2>
       <ul>
         <li>UI 服务器只绑定到 <code>127.0.0.1</code>。</li>
-        <li>RandComp Studio 没有托管账户、遥测服务或自己的模型 API 密钥。</li>
+        <li>RandComp Studio 没有托管账户或自己的模型 API 密钥。</li>
+        <li>匿名使用统计——仅记录事件次数，不含任何内容。每条事件只有类型、UTC 时间和随机安装 ID；不含 IP 地址、项目名称、消息或身份信息。可在“设置 → 使用统计”中关闭。</li>
         <li>命令行 AI 智能体仍按该工具的设置和隐私政策与其供应商通信。</li>
         <li>公司文件夹包含可读的角色、任务文件、状态、消息和产出。</li>
         <li>本地应用状态默认位于 <code>~/.config/mission-control</code>。设置 <code>MISSION_CONTROL_HOME</code> 可覆盖。</li>
