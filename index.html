@@ -30,16 +30,16 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
 
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">Local control center for AI agent teams</p>
-      <h1>Run multiple AI sessions as one team.</h1>
-      <p class="lede">RandComp Studio works with the command-line AI tools you choose, organizing their separate sessions around a project. See what every role is doing, follow handoffs, answer questions, and review what the team produced—all in one local app.</p>
+      <p class="eyebrow">Your own company of AI agents</p>
+      <h1>Say what you want. Your team gets it done.</h1>
+      <p class="lede">RandComp Studio is your own company of AI agents, living on your Mac. Tell it the goal — launch a website, research an idea, ship a feature — and your coordinator breaks it into tasks and hires the right specialists to do them. You watch progress, answer questions, and approve the results.</p>
       <div class="actions">
         <a class="button" href="https://missioncontroldl.blob.core.windows.net/$web/RandCompStudio-0.1.1.dmg" download>Download for macOS ↓</a>
         <span class="button disabled" aria-disabled="true">Windows · Coming soon</span>
         <span class="button disabled" aria-disabled="true">Linux · Coming soon</span>
       </div>
       <p class="offer"><strong>Early preview</strong><span>Free right now · No task limit · No subscription</span></p>
-      <p class="hero-note">Choose one AI tool for a project—or a different one for each role. · Apple silicon, macOS 11+</p>
+      <p class="hero-note">Works with the AI you already use — Claude, Codex, Kimi, or any other. · Apple silicon, macOS 11+</p>
     </div>
     <figure class="shot hero-shot"><a href="screenshots/task-tree-preview.png"><img src="screenshots/task-tree-preview.png" alt="RandComp Studio showing a project: the request its owner sent, and the coordinator's plan of focused tasks with their state."></a><figcaption><strong>One project, from a sentence to a plan.</strong><span>Describe what you want; your coordinator plans the tasks and hires the helpers.</span></figcaption></figure>
   </section>
@@ -57,7 +57,7 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
       </article>
 
       <article class="scene reverse">
-        <div class="scene-copy"><span class="scene-number">2</span><p class="eyebrow">Away from the desk</p><h3>Check the same team over SSH.</h3><p>The sessions continue on the remote computer. Use the lightweight CLI — <code>randcomp project list</code>, <code>randcomp project ask</code> — to see what needs you, read an agent, answer a question, or attach directly—without streaming the desktop.</p><span class="surface">CLI · low-bandwidth remote control</span></div>
+        <div class="scene-copy"><span class="scene-number">2</span><p class="eyebrow">Away from the desk</p><h3>Check on your team from anywhere.</h3><p>Your team keeps working even when you're away. From any computer, a couple of simple commands show what needs you and let you answer. Rather not touch commands at all? Just ask your AI assistant to check in — it can see your whole team and pass your answers along.</p><span class="surface">Remote check-in · low bandwidth</span></div>
         <div class="window" aria-label="Example SSH terminal controlling RandComp">
           <div class="window-bar"><i></i><i></i><i></i><span>ssh studio-mac · ~/store</span></div>
           <div class="terminal">
@@ -72,7 +72,7 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
       </article>
 
       <article class="scene">
-        <div class="scene-copy"><span class="scene-number">3</span><p class="eyebrow">Inside your AI session</p><h3>Use RandComp from your AI session through MCP.</h3><p>Keep talking naturally to your AI session. Ask it to check RandComp, summarize the team, or pass a decision to an agent. MCP connects that conversation to the same local task underneath.</p><span class="surface">MCP · conversational control</span></div>
+        <div class="scene-copy"><span class="scene-number">3</span><p class="eyebrow">Inside your AI chat</p><h3>Ask your AI assistant about the team.</h3><p>Keep talking to your AI assistant like you already do. Ask "what needs me?" — it checks on your team, summarizes the progress, and delivers your decisions. No new tools to learn.</p><span class="surface">Conversational check-in · nothing new to install</span></div>
         <div class="window" aria-label="Example AI session using RandComp MCP">
           <div class="window-bar"><i></i><i></i><i></i><span>AI session · connected to RandComp MCP</span></div>
           <div class="conversation">
@@ -112,7 +112,7 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
 <main>
   <section class="context-section">
     <div class="context-grid">
-      <div class="context-copy"><p class="eyebrow">Long-lived work, short-lived context</p><h2>Resume the role—not an enormous conversation.</h2><p>The durable state is ordinary Markdown: the role’s instructions, task goal, decisions, messages, handoffs, and results. Stop a session when its job is done. A later session—or another supported CLI—can resume from the saved work without inheriting every old token.</p></div>
+      <div class="context-copy"><p class="eyebrow">Long-lived work, short-lived chats</p><h2>Pick up where you left off — no giant chat history needed.</h2><p>Everything your team learns is saved as plain, readable notes on your computer: the plan, the decisions, the messages, the results. Close the app and come back next week — your team remembers the work, not just the chat.</p></div>
       <div class="context-flow" aria-label="How RandComp keeps durable state while sessions stay focused">
         <div class="context-row"><div class="context-box"><strong>Focused session</strong><span>only the context needed now</span></div><span class="context-arrow">→</span><div class="context-box"><strong>Finish or stop</strong><span>the context window can end</span></div></div>
         <div class="context-store"><strong>Saved as readable Markdown</strong>Role · task · decisions · messages · handoffs · outcomes</div>
@@ -123,7 +123,7 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
 
   <section>
     <div class="principles">
-      <div class="principle"><strong>Bring your AI tools</strong><span>Claude Code, Codex, and Kimi Code work out of the box today — or point a role at any CLI that runs in a terminal. Your team is not locked to one provider or one model.</span></div>
+      <div class="principle"><strong>Use the AI you already have</strong><span>Claude, Codex, Kimi — or any other AI tool. Your team is never locked to one company or one model.</span></div>
       <div class="principle"><strong>Keep the work local</strong><span>Tasks, role definitions, messages, and results remain as readable files on your machine.</span></div>
       <div class="principle"><strong>Keep raw access</strong><span>Readable summaries help you scan, while the original terminal and produced files remain available.</span></div>
     </div>

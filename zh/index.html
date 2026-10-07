@@ -26,12 +26,12 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
 
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">本地 AI 智能体团队控制中心</p>
-      <h1>把多个 AI 会话作为一支团队运行。</h1>
-      <p class="lede">RandComp Studio 配合你选择的命令行 AI 工具，围绕同一个项目组织它们的独立会话。用一句话描述想要的结果，项目的协调员会把它拆成具体任务并雇佣帮手。在一款本地应用中查看每个任务由谁负责、产生了什么、哪里需要你。</p>
+      <p class="eyebrow">属于你自己的 AI agent 公司</p>
+      <h1>说出你想要什么，你的团队负责完成。</h1>
+      <p class="lede">RandComp Studio 是一家住在你 Mac 上的 AI 公司。说出目标——做个网站、调研一个想法、上线一个功能——协调员会把它拆成任务，雇佣合适的专员去完成。你随时查看进度、回答问题、验收成果。</p>
       <div class="actions"><a class="button" href="https://randcompstudioasia.blob.core.windows.net/$web/RandCompStudio-0.1.1.dmg" download>下载 macOS 版 ↓</a><span class="button disabled" aria-disabled="true">Windows · 即将推出</span><span class="button disabled" aria-disabled="true">Linux · 即将推出</span></div>
       <p class="offer"><strong>早期预览版</strong><span>当前完全免费 · 不限任务数 · 无订阅</span></p>
-      <p class="hero-note">一个项目可使用同一种 AI 工具，也可以为不同角色分别指定。 · Apple 芯片，macOS 11+</p>
+      <p class="hero-note">配合你已在使用的 AI——Claude、Codex、Kimi 或任意其他。 · Apple 芯片，macOS 11+</p>
     </div>
     <figure class="shot hero-shot"><a href="../screenshots/task-tree-preview.png"><img src="../screenshots/task-tree-preview.png" alt="RandComp Studio 展示一个项目：所有者发送的请求，以及协调员规划出的具体任务及其状态。"></a><figcaption><strong>一个项目，从一句话到一个计划。</strong><span>说出你想要什么，协调员负责规划任务、雇佣帮手。</span></figcaption></figure>
   </section>
@@ -44,11 +44,11 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
         <figure class="shot"><a href="../screenshots/workspace-overview.png"><img src="../screenshots/workspace-overview.png" alt="RandComp Studio 的项目工作区（深色模式）：已发送的请求、协调员规划的具体任务和实时状态。"></a><figcaption>浅色与深色皆清爽可读——无需面对原始终端噪音</figcaption></figure>
       </article>
       <article class="scene reverse">
-        <div class="scene-copy"><span class="scene-number">2</span><p class="eyebrow">离开桌面后</p><h3>通过 SSH 检查同一支团队。</h3><p>会话继续在远程电脑上运行。使用轻量命令行——<code>randcomp project list</code>、<code>randcomp project ask</code>——查看哪里需要你、阅读智能体、回答问题或直接进入会话，无需传输整个桌面画面。</p><span class="surface">CLI · 低带宽远程控制</span></div>
+        <div class="scene-copy"><span class="scene-number">2</span><p class="eyebrow">离开桌面后</p><h3>在任何地方查看你的团队。</h3><p>即使你不在电脑前，团队也会继续工作。从任何一台电脑输入几条简单命令，就能知道哪里需要你、并作出回复。完全不想碰命令？直接问你的 AI 助手——它能看到整个团队，并替你传话。</p><span class="surface">远程查看 · 低带宽</span></div>
         <div class="window" aria-label="通过 SSH 控制 RandComp 的终端示例"><div class="window-bar"><i></i><i></i><i></i><span>ssh studio-mac · ~/store</span></div><div class="terminal"><p class="prompt">$ randcomp status</p><p class="ok">在线商店项目 · 3 个角色工作中 · 1 项需要你</p><p class="dim">开发询问：是否复用现有结账设计？</p><p class="prompt">$ randcomp agent send developer-2 "是，复用现有设计。"</p><p class="ok">已发送给开发。</p><div class="answer">这里控制的项目、团队、消息和结果，与桌面应用完全相同。</div></div></div>
       </article>
       <article class="scene">
-        <div class="scene-copy"><span class="scene-number">3</span><p class="eyebrow">在你的 AI 会话中</p><h3>通过 MCP，在你的 AI 会话中使用 RandComp。</h3><p>继续用自然语言和 AI 会话交流。请它检查 RandComp、总结团队状态，或把你的决定传给某个角色。MCP 把这段对话连接到同一个本地任务。</p><span class="surface">MCP · 对话式控制</span></div>
+        <div class="scene-copy"><span class="scene-number">3</span><p class="eyebrow">在你的 AI 对话里</p><h3>向你的 AI 助手询问团队进展。</h3><p>像平常一样和 AI 助手聊天。问一句“有什么需要我处理的？”——它会查看你的团队、总结进度、传达你的决定。不需要学习任何新工具。</p><span class="surface">对话式查看 · 无需安装新东西</span></div>
         <div class="window" aria-label="AI 会话通过 RandComp MCP 操作团队的对话示例"><div class="window-bar"><i></i><i></i><i></i><span>AI 会话 · 已连接 RandComp MCP</span></div><div class="conversation"><div class="bubble you">问 RandComp，商店项目现在有什么需要我处理？</div><div class="bubble">质检正在等待结账版本。开发需要你确认是否复用现有设计。</div><div class="bubble you">告诉开发可以复用，然后让质检验证移动端结账。</div><div class="mcp-result"><div><strong>开发</strong><span>答案已送达</span></div><div><strong>质检</strong><span>验证已排队</span></div><div><strong>项目</strong><span>仍在应用中可见</span></div></div></div></div>
       </article>
       <article class="scene reverse">
@@ -70,10 +70,10 @@ section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-h
 
 <main>
   <section class="context-section"><div class="context-grid">
-    <div class="context-copy"><p class="eyebrow">工作长期保存，上下文不必永久膨胀</p><h2>恢复角色，而不是恢复一段巨大的对话。</h2><p>持久状态是普通 Markdown：角色指令、任务目标、决定、消息、交接和成果。会话完成工作后可以停止。之后的新会话，甚至另一个受支持的 CLI，都能从保存的工作恢复，而不必继承每一个旧 Token。</p></div>
+    <div class="context-copy"><p class="eyebrow">工作长期保存，聊天不必堆积</p><h2>随时从上次停下的地方继续——不需要翻漫长的聊天记录。</h2><p>团队学到的一切都保存为你电脑上可阅读的笔记：计划、决定、消息、成果。关掉应用，下周再打开——你的团队记得的是工作本身，而不只是一段对话。</p></div>
     <div class="context-flow" aria-label="RandComp 保存持久状态并保持会话专注的方式"><div class="context-row"><div class="context-box"><strong>专注会话</strong><span>只读取当前需要的上下文</span></div><span class="context-arrow">→</span><div class="context-box"><strong>完成或停止</strong><span>上下文窗口可以结束</span></div></div><div class="context-store"><strong>保存为可阅读的 Markdown</strong>角色 · 任务 · 决定 · 消息 · 交接 · 成果</div><div class="context-row" style="margin-top:14px"><div class="context-box"><strong>随时恢复</strong><span>重新构建最小必要上下文</span></div><span class="context-arrow">→</span><div class="context-box"><strong>换一个 CLI 继续</strong><span>持久记录不锁在单个会话里</span></div></div></div>
   </div></section>
-  <section><div class="principles"><div class="principle"><strong>选择你的 AI 工具</strong><span>目前开箱支持 Claude Code、Codex 与 Kimi Code——也可以把任意终端 CLI 指定给角色。团队不会被锁定在单一服务商或单一模型。</span></div><div class="principle"><strong>工作保留在本机</strong><span>任务、角色定义、消息和成果都以可阅读文件保存在你的电脑上。</span></div><div class="principle"><strong>原始内容始终可查</strong><span>可读摘要帮助快速浏览，原始终端与输出文件仍可随时打开。</span></div></div></section>
+  <section><div class="principles"><div class="principle"><strong>使用你已有的 AI</strong><span>Claude、Codex、Kimi 或任意其他 AI 工具。你的团队永远不会被锁定在某一家公司或某一个模型。</span></div><div class="principle"><strong>工作保留在本机</strong><span>任务、角色定义、消息和成果都以可阅读文件保存在你的电脑上。</span></div><div class="principle"><strong>原始内容始终可查</strong><span>可读摘要帮助快速浏览，原始终端与输出文件仍可随时打开。</span></div></div></section>
   <section class="install"><p class="eyebrow">从本机开始</p><h2>选择你的第一个控制界面。</h2><div class="install-grid">
     <article class="install-card"><h3>桌面应用</h3><p>下载并打开磁盘映像，把 RandComp Studio 拖入“应用程序”。</p><p class="offer"><strong>早期预览版</strong><span>当前完全免费 · 不限任务数 · 无订阅</span></p><div class="actions"><a class="button" href="https://randcompstudioasia.blob.core.windows.net/$web/RandCompStudio-0.1.1.dmg" download>下载 macOS 版 ↓</a></div><p class="facts">Apple 芯片 · macOS 11+ · 33M<br>SHA-256 <code>744187411367d69c2471deb1e7f5929f9d8f4376de751e68348200c20eaee5e1</code></p></article>
     <article class="install-card"><h3>CLI 与 MCP</h3><p>从应用菜单安装附带的 <code>randcomp</code> 命令。通过 SSH 直接使用，或把同一个本地进程注册到支持 MCP 的 AI 客户端。</p><pre>randcomp project list
