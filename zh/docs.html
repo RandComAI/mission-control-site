@@ -98,6 +98,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
       <a href="#ui-guide">UI 指南</a>
       <a href="#cli-guide">CLI 指南</a>
       <a href="#cli-reference">CLI 参考</a>
+      <a href="#moving-from-v1">从 v1 迁移</a>
       <a href="#roles">角色与运行器</a>
     </div>
     <div class="group"><p>安全运行</p>
@@ -169,14 +170,27 @@ randcomp project list
 randcomp project ask PROJECT_ID "增加一个礼品卡页面"
 randcomp project show PROJECT_ID</pre>
       <p>从 <code>randcomp project list</code> 复制 <code>PROJECT_ID</code>。ask 会唤醒项目的真实协调员会话并把请求交给它；如何规划任务是协调员自己的判断。同一组项目命令也可以在公司的所在机器上通过 SSH 使用。</p>
-      <p>经典的以任务为中心的命令（如 <code>randcomp task create</code>）保持不变，仍可用于公司级任务板。</p>
+      <p>任务和帮手都在项目里：<code>randcomp task create --project PROJECT_ID "..."</code>、<code>randcomp task list --project PROJECT_ID</code>、<code>randcomp agent list --project PROJECT_ID</code>、<code>randcomp result list --project PROJECT_ID</code>。旧写法（<code>randcomp tasks ls</code>、<code>randcomp tasks new</code>、<code>randcomp agents</code>、<code>randcomp finish ID</code>）仍照旧运行，并会打印一行提示现在的叫法，见 <a href="#cli-reference">旧写法</a>。</p>
 
       <h3>从通过 MCP 连接的 AI 会话开始</h3>
       <p>注册服务器后，让 AI 会话通过 RandComp Studio 创建和管理工作，而不是使用客户端自己的临时子智能体。AI 客户端选择 MCP 工具；RandComp Studio 则负责底层的持久项目、协调员、帮手智能体、会话、消息和结果。</p>
 <pre>使用 RandComp Studio 为这项工作创建一个项目。
 让协调员规划任务，由开发实现，QA 独立评审。
 让项目及其帮手始终显示在 RandComp Studio 看板上。</pre>
-      <p>MCP 服务器以 <code>v2_project_create</code>、<code>v2_project_list</code>、<code>v2_project_show</code>、<code>v2_project_ask</code>、<code>v2_project_finish</code>、<code>v2_project_reopen</code> 等形式发布项目工具，另有 <code>v2_task_*</code>、<code>v2_agent_*</code> 和 <code>v2_result_*</code> 工具，与经典公司级工具并存。用自然语言提出请求仍是主要方式；下面四个命令只是常用句子的快捷方式。</p>
+      <p>MCP 服务器发布 24 个工具，分四组，名字与模型一致：一个<strong>项目</strong>（project）包含若干<strong>任务</strong>（task），任务上有<strong>帮手</strong>（helper），任务产出<strong>成果</strong>（result）。</p>
+      <table>
+        <thead><tr><th>组</th><th>工具</th></tr></thead>
+        <tbody>
+          <tr><td><code>project_*</code></td><td><code>project_create</code>, <code>project_list</code>, <code>project_show</code>, <code>project_ask</code>, <code>project_finish</code>, <code>project_reopen</code>, <code>project_outcome_update</code></td></tr>
+          <tr><td><code>task_*</code></td><td><code>task_create</code>, <code>task_list</code>, <code>task_show</code>, <code>task_assign</code>, <code>task_depend</code>, <code>task_result_add</code>, <code>task_finish</code>, <code>task_reopen</code></td></tr>
+          <tr><td><code>helper_*</code></td><td><code>helper_list</code>, <code>helper_logs</code>, <code>helper_send</code>, <code>helper_start</code>, <code>helper_stop</code>, <code>helper_attach</code></td></tr>
+          <tr><td><code>result_*</code></td><td><code>result_list</code>, <code>result_show</code></td></tr>
+          <tr><td><code>role_library</code></td><td><code>role_library</code></td></tr>
+        </tbody>
+      </table>
+      <p>会花钱的工具会在自己的说明里写明，客户端调用前也会询问：<code>task_assign</code> 和 <code>helper_start</code> 会启动真实会话；<code>task_create</code> 被标为会花钱，是因为它的旧式公司级写法会派出协调员。其余只读取或记录。</p>
+      <p>旧名字仍然有效，只是不再列出：所有 <code>v2_*</code> 工具（<code>v2_project_create</code>、<code>v2_agent_list</code> 等；凡接受 <code>helper_id</code> 的地方仍接受 <code>agent_id</code>），以及旧的公司级工具（<code>task_results</code>、<code>task_delete</code>、<code>agent_*</code>、<code>role_add</code>）。<code>task_list</code>、<code>task_create</code>、<code>task_finish</code> 是唯一一处两种含义共用一个名字：带 <code>project_id</code>（<code>task_finish</code> 则带 <code>task_id</code>）调用就是项目模型；不带则是旧的公司级调用，需要先选定公司。每个工具的说明都有英文和中文两个部分。</p>
+      <p>用自然语言提出请求仍是主要方式；下面四个命令只是常用句子的快捷方式。</p>
 
       <h3 id="mcp-prompts">斜杠命令</h3>
       <p>RandComp Studio 发布四个 prompt，客户端会把它们转换成可在消息开头选择的命令。Claude Code 2.1.233 使用以下写法，并在 <code>/mcp</code> 下列出所有已连接服务器的命令：</p>
@@ -203,7 +217,7 @@ randcomp project show PROJECT_ID</pre>
           <tr><td>公司</td><td>持久保存角色、任务、决策、消息、状态和产出文件的文件夹。</td></tr>
           <tr><td>项目文件夹</td><td>智能体实际操作的代码库或工作文件夹。每个任务单独选择，可以位于公司文件夹之外。</td></tr>
           <tr><td>项目</td><td>当前应用的主要工作单元：一句你想要的话、一位负责规划的协调员，以及由协调员拆出的一组具体任务。项目持久保存在磁盘上，重启后依然存在。</td></tr>
-          <tr><td>任务</td><td>项目计划中的一个具体工作项，有其帮手、实时状态、结果和文件。公司级经典任务板也仍然存在，可直接派发工作。</td></tr>
+          <tr><td>任务</td><td>项目计划中的一个具体工作项，有其帮手、实时状态、结果和文件。</td></tr>
           <tr><td>智能体</td><td>一个角色在一个任务中被雇用的实例。两个任务使用开发角色时，会得到两个不同的开发智能体。</td></tr>
           <tr><td>会话</td><td>智能体正在运行的一个终端。会话会产生费用；会话停止后，智能体及其历史仍会保留。</td></tr>
           <tr><td>角色</td><td>可复用定义，例如开发、QA 或市场分析。角色位于帮手库中，本身不会运行。</td></tr>
@@ -234,18 +248,21 @@ randcomp project show PROJECT_ID</pre>
     <section class="doc-section" id="cli-guide">
       <p class="eyebrow">命令行</p>
       <h2>使用 CLI</h2>
-      <p><code>randcomp</code> 与 <code>randcomp-studio</code> 是同一个程序，前者更短。每条命令先写对象，再写动作，例如 <code>randcomp task list</code>、<code>randcomp task results TASK_ID</code>、<code>randcomp task finish TASK_ID</code>。复数旧写法仍会继续工作；<code>randcomp help</code> 讲解的是单数新写法。</p>
+      <p><code>randcomp</code> 与 <code>randcomp-studio</code> 是同一个程序，前者更短。每条命令先写对象，再写动作，分四组，与 MCP 工具一一对应：<code>randcomp project …</code>（你想完成的事）、<code>randcomp task …</code>（项目的一部分）、<code>randcomp agent …</code>（在任务上干活的帮手）、<code>randcomp result …</code>（任务的产出）。旧写法（<code>randcomp tasks ls</code>、<code>randcomp agents ID logs</code>）仍会继续工作；<code>randcomp help</code> 讲解的是新写法。</p>
 
-      <h3>查看整个公司</h3>
+      <h3>查看进度</h3>
 <pre>randcomp status
-randcomp task list
-randcomp agent list</pre>
-      <p><code>status</code> 是简洁的公司摘要：使用哪个程序运行智能体、是否已登录、任务与智能体数量，以及每项的一行摘要。<code>randcomp task list</code> 解释每个任务为什么处于当前状态；<code>randcomp agent list</code> 说明每个智能体正在做什么。</p>
+randcomp project list
+randcomp agent list --project PROJECT_ID</pre>
+      <p><code>status</code> 是简洁的公司摘要：使用哪个程序运行智能体、是否已登录、任务与智能体数量，以及每项的一行摘要。<code>randcomp project list</code> 列出所有项目及其进度；<code>randcomp agent list</code> 说明每个帮手正在做什么。</p>
+
+      <h3>读懂输出</h3>
+      <p>project、task、agent、result 命令输出 JSON，可以直接接 <code>jq</code> 或脚本。ID 形如 <code>project-47e1a136b134</code>、<code>task-0c1d69cc7b85</code>，请从 list 命令里复制。</p>
 
       <h3>使用另一家公司</h3>
-<pre>randcomp task list --company ~/Companies/acme
+<pre>randcomp status --company ~/Companies/acme
 randcomp --company ~/Companies/new-company</pre>
-      <p><code>--company PATH</code> 适用于整个命令面。指定不存在的路径会在该处创建公司；它不会改变智能体工作的项目文件夹。</p>
+      <p><code>--company PATH</code> 适用于 <code>status</code>、<code>role</code>、经典公司级命令和打开窗口的裸命令。<code>project</code>、<code>task --project</code>、<code>result</code>、<code>agent --project</code> 命令读取本机主目录下的项目库，不接受该参数。它不会改变智能体工作的项目文件夹。</p>
     </section>
 
     <section class="doc-section" id="cli-reference">
@@ -257,19 +274,47 @@ randcomp --company ~/Companies/new-company</pre>
       <table>
         <thead><tr><th>值</th><th>来源</th></tr></thead>
         <tbody>
-          <tr><td><code>TASK_ID</code></td><td><code>randcomp task list</code> 中任务旁的短标识，或足以唯一匹配一个任务的长名称片段。</td></tr>
-          <tr><td><code>AGENT_ID</code></td><td><code>randcomp agent list</code> 中角色后括号内的 ID。若只有一个该角色智能体，也可使用角色名。</td></tr>
-          <tr><td><code>RESULT_FILE_PATH</code></td><td><code>randcomp task results TASK_ID</code> 在“产出”下打印的完整路径。</td></tr>
+          <tr><td><code>PROJECT_ID</code></td><td><code>randcomp project list</code> 打印的 <code>id</code>，例如 <code>project-47e1a136b134</code>。</td></tr>
+          <tr><td><code>TASK_ID</code></td><td><code>randcomp task list --project PROJECT_ID</code> 打印的 <code>id</code>，例如 <code>task-0c1d69cc7b85</code>。在经典公司级命令里，它是旧的 <code>randcomp tasks ls</code> 中任务旁的短标识。</td></tr>
+          <tr><td><code>AGENT_ID</code></td><td><code>randcomp agent list</code> 打印的 ID。在经典命令里，若只有一个该角色的智能体，也可使用角色名。</td></tr>
+          <tr><td><code>RESULT_ID</code></td><td><code>randcomp result list --project PROJECT_ID</code> 打印的 <code>id</code>，也出现在 <code>randcomp task show TASK_ID</code> 中。</td></tr>
+          <tr><td><code>RESULT_FILE_PATH</code></td><td>经典的 <code>randcomp tasks TASK_ID</code> 在“产出”下打印的完整路径。项目模型里请用 <code>randcomp result show RESULT_ID</code>。</td></tr>
                     <tr><td><code>ADDRESS</code></td><td>已雇用智能体 ID，或不会产生歧义的角色名。</td></tr>
         </tbody>
       </table>
-      <p>task、agent、role、status 和打开窗口的裸命令都接受 <code>--company PATH</code>。它选择包含 <code>roles/</code> 与 <code>coordination/</code> 的公司文件夹，而不是智能体的项目文件夹。默认使用首次运行时记住的公司；不存在的指定路径会被初始化为公司。对 <code>role</code> 命令，该参数可放在动作前或后。</p>
+      <p>经典公司级命令、<code>role</code>、<code>status</code> 和打开窗口的裸命令都接受 <code>--company PATH</code>。它选择包含 <code>roles/</code> 与 <code>coordination/</code> 的公司文件夹，而不是智能体的项目文件夹。默认使用首次运行时记住的公司；不存在的指定路径会被初始化为公司。对 <code>role</code> 命令，该参数可放在动作前或后。<code>project</code>、<code>task --project</code>、<code>agent --project</code>、<code>result</code> 命令作用于 <code>~/.config/mission-control</code>（或 <code>MISSION_CONTROL_HOME</code>）下的项目库，不接受该参数。</p>
 
       <h3>MCP 服务器</h3>
       <div class="command"><pre>randcomp mcp [--company PATH]</pre><p>通过标准输入和标准输出使用 Model Context Protocol，让本地 MCP 客户端读取和控制公司。请用 <code>claude mcp add -s user randcomp-studio -- randcomp mcp</code> 注册，不要手动运行。它发布客户端可调用的工具，以及客户端显示为斜杠命令的四个 <a href="#mcp-prompts">prompt</a>。<code>--company</code> 可选择非默认公司。没有网络监听、托管服务、RandComp Studio 账户或 API 密钥。</p></div>
 
+      <h3>项目</h3>
+      <p>项目是主要模型：一个项目包含一句话的目标、一个协调员，以及协调员做出的具体任务计划。下面每条命令在 MCP 里都有同名的对应工具（<code>project create</code> 对应 <code>project_create</code>）。所有命令都输出 JSON，且都不接受 <code>--company</code>。</p>
+      <div class="command"><pre>randcomp project create TEXT... [--title WORDS] [--runner NAME]</pre><p>为这句话新建项目。<code>--runner</code> 设置项目默认的 AI 工具（如 <code>kimi</code>、<code>claude</code>、<code>codex</code>），省略则用本机默认。</p></div>
+      <div class="command"><pre>randcomp project list</pre><p>所有项目、状态和包含的任务。输出 JSON。</p></div>
+      <div class="command"><pre>randcomp project show PROJECT_ID</pre><p>一个项目的详情：请求历史、协调员状态和计划。</p></div>
+      <div class="command"><pre>randcomp project ask PROJECT_ID TEXT...</pre><p>给项目写一条请求。它的协调员会话会被唤醒（或雇用并启动）并读取；如何规划任务是协调员自己的判断。</p></div>
+      <div class="command"><pre>randcomp project outcome PROJECT_ID TEXT...</pre><p>改写项目的一句话目标，例如改成实际交付的内容。</p></div>
+      <div class="command"><pre>randcomp project finish PROJECT_ID
+randcomp project reopen PROJECT_ID</pre><p><code>finish</code> 把项目标记为已完成，<code>reopen</code> 重新打开；两者都不会启动任何东西。</p></div>
+
       <h3>任务</h3>
-      <div class="command"><pre>randcomp task create TEXT... [OPTIONS]</pre><p>创建任务、启动协调员，并让协调员雇用所需角色。</p><ul>
+      <p>任务、帮手和成果都在项目里。下面的命令在 MCP 里有对应工具（<code>task create</code> 对应 <code>task_create</code>，<code>agent list</code> 对应 <code>helper_list</code>），并输出 JSON。</p>
+      <div class="command"><pre>randcomp task create --project PROJECT_ID TEXT...</pre><p>给项目添加一个任务。它本身不花钱：你派人上去之前不会雇用任何帮手。</p></div>
+      <div class="command"><pre>randcomp task list --project PROJECT_ID
+randcomp task show TASK_ID</pre><p>项目里所有进行中的任务；或一个任务的状态、依赖、帮手和成果。</p></div>
+      <div class="command"><pre>randcomp task assign TASK_ID --role ROLE --brief TEXT [--let-it-work-without-asking]</pre><p>派一个真实的帮手到任务上。<strong>这会启动真实的、要花钱的会话。</strong><code>--let-it-work-without-asking</code> 请求运行器的无人值守权限模式，会降低审批边界。</p></div>
+      <div class="command"><pre>randcomp task depend TASK_ID --on OTHER_TASK_ID</pre><p>同一项目里的另一个任务完成之前，该任务不能开始。</p></div>
+      <div class="command"><pre>randcomp task result-add TASK_ID --kind KIND --path-or-url WHERE</pre><p>记录一项成果：文件路径，或在线链接（kind 为 <code>website</code>）。</p></div>
+      <div class="command"><pre>randcomp task finish TASK_ID
+randcomp task reopen TASK_ID</pre><p><code>finish</code> 把任务标记为已完成，其帮手和历史保留在名册上；<code>reopen</code> 移回进行中。</p></div>
+
+      <h3>成果</h3>
+      <div class="command"><pre>randcomp result list --project PROJECT_ID [--task TASK_ID]</pre><p>项目各任务产出的所有成果，或某一个任务的成果。</p></div>
+      <div class="command"><pre>randcomp result show RESULT_ID</pre><p>一项成果；如果是本地文件，则完整打印。</p></div>
+
+      <h3>经典公司级任务</h3>
+      <p>不带 <code>--project</code> 时，<code>task create</code>、<code>task list</code>、<code>task results</code>、<code>task show RESULT_FILE_PATH</code>、<code>task finish</code>、<code>task reopen</code> 是项目出现之前就有的公司级任务板。它们行为不变，需要公司，并会打印一行提示取代它们的项目命令。项目与经典任务是两套独立的数据：经典任务不会出现在 <code>project list</code> 里。</p>
+      <div class="command"><pre>randcomp task create TEXT... [OPTIONS]</pre><p>创建经典任务、启动协调员，并让协调员雇用所需角色。</p><ul>
         <li><code>--name WORDS</code> 设置显示名称和短任务标识的基础，默认使用请求文本。</li>
         <li><code>--in PATH</code> 设置每个智能体打开的项目文件夹，默认使用上次选择的项目文件夹。</li>
         <li><code>--only ROLE,ROLE</code> 限制协调员可考虑的角色并记住该范围；<code>--only all</code> 清除限制。</li>
@@ -284,8 +329,9 @@ randcomp --company ~/Companies/new-company</pre>
       <div class="command"><pre>randcomp task reopen TASK_ID [--company PATH]</pre><p>重新打开已完成任务，但不会自动启动会话。请列出旧智能体，并仅对需要继续工作的对象运行 <code>randcomp agent start AGENT_ID</code>。</p></div>
 
       <h3>智能体</h3>
-      <div class="command"><pre>randcomp agent list TASK_ID [--json] [--company PATH]
-randcomp agent list [--json] [--company PATH]</pre><p>列出一个任务的智能体；省略任务时列出公司全部智能体。<code>--json</code> 返回结构化输出。</p></div>
+      <p>智能体就是在一个任务上干活的帮手。它在 MCP 里对应 <code>helper_*</code> 工具。</p>
+      <div class="command"><pre>randcomp agent list [--project PROJECT_ID] [--task TASK_ID]</pre><p>列出所有帮手，或限定到一个项目、一个任务。输出 JSON。</p></div>
+      <div class="command"><pre>randcomp agent list TASK_ID [--json] [--company PATH]</pre><p>经典写法：一个经典任务上的智能体。</p></div>
       <div class="command"><pre>randcomp agent logs AGENT_ID [--company PATH]</pre><p>读取智能体自己的话：运行中读取完整实时回滚内容，停止后读取保存的对话。这不是可复用角色定义。</p></div>
       <div class="command"><pre>randcomp agent send AGENT_ID TEXT... [--company PATH]</pre><p>向智能体发送一行。会话运行时直接进入会话；未运行时等待在智能体收件箱中。</p></div>
       <div class="command"><pre>randcomp agent attach AGENT_ID [--print-the-command] [--company PATH]</pre><p>在当前终端加入 tmux 会话；按 <code>Ctrl-B</code>，再按 <code>D</code> 脱离。<code>--print-the-command</code> 只打印加入命令，供其他终端或脚本使用。</p></div>
@@ -340,20 +386,44 @@ randcomp COMMAND --help</pre><p>打印完整命令图，或某一命令的解析
       <div class="command"><pre>randcomp COMMAND --no-color</pre><p>只有人在终端读取时，命令才会为状态、可复制值、标题和弱化的上下文行着色。通过管道、重定向或智能体读取时，输出是逐字节纯文本。所有命令都支持 <code>--no-color</code>，也遵循 <code>NO_COLOR</code> 和 <code>FORCE_COLOR</code>。</p></div>
 
       <h3>旧写法</h3>
-      <p>建议学习上面的语法。工具过去支持的所有写法仍会原样运行，因此已有脚本不会失效：</p>
+      <p>建议学习上面的语法。工具过去支持的所有写法仍会原样运行，因此已有脚本不会失效。每一种旧写法会在 stderr 打印一行提示它现在的叫法（例如 <code>`tasks ls` 是 `project list` 的旧写法。它仍然可用,行为不变。</code>），然后照旧执行。<code>--help</code> 不打印提示；没有新名字的命令（<code>tasks ID delete</code>、<code>todo</code>、<code>note</code>、<code>done</code>、<code>status</code>）也不打印。提示语言由 <code>MCTL_LANG=en|zh</code> 决定，否则看系统语言。</p>
+      <p>旧写法不会被改道：它读写的是经典公司级数据，不是项目库，所以 <code>tasks new</code> 创建的东西不会出现在 <code>project list</code> 里。</p>
       <table><tbody>
-        <tr><td><code>task create</code>, <code>do</code>, <code>dispatch</code></td><td><code>tasks new</code></td></tr>
-        <tr><td><code>task list</code></td><td><code>tasks ls</code></td></tr>
-        <tr><td><code>task results</code>, <code>results</code></td><td><code>tasks TASK_ID</code></td></tr>
-        <tr><td><code>task show</code>, <code>show</code></td><td><code>tasks RESULT_FILE_PATH</code></td></tr>
-        <tr><td><code>task finish</code>, <code>finish</code>, <code>reopen</code></td><td><code>tasks TASK_ID finish</code> / <code>reopen</code></td></tr>
-        <tr><td><code>agent list</code></td><td><code>tasks TASK_ID agents</code></td></tr>
-        <tr><td><code>agent logs/send/attach/start/stop</code>, <code>read</code>, <code>say</code>, <code>attach</code>, <code>start</code>, <code>stop</code></td><td><code>agents AGENT_ID logs</code> 及其余动作</td></tr>
+        <tr><td><code>project create</code></td><td><code>tasks new</code>, <code>do</code>, <code>dispatch</code></td></tr>
+        <tr><td><code>project list</code></td><td><code>tasks ls</code>, <code>task list</code>（不带 <code>--project</code>）</td></tr>
+        <tr><td><code>project show</code>, <code>result list</code></td><td><code>tasks TASK_ID</code>, <code>task results</code>, <code>results</code></td></tr>
+        <tr><td><code>result show</code></td><td><code>tasks RESULT_FILE_PATH</code>, <code>task show RESULT_FILE_PATH</code>, <code>show</code></td></tr>
+        <tr><td><code>project finish</code> / <code>reopen</code></td><td><code>tasks TASK_ID finish</code> / <code>reopen</code>, <code>finish</code>, <code>reopen</code></td></tr>
+        <tr><td><code>agent list</code></td><td><code>tasks TASK_ID agents</code>, <code>agents</code></td></tr>
+        <tr><td><code>agent logs/send/attach/start/stop</code></td><td><code>agents AGENT_ID logs</code> 及其余动作, <code>read</code>, <code>say</code>, <code>talk</code>, <code>attach</code>, <code>start</code>, <code>stop</code></td></tr>
         <tr><td><code>role library</code>, <code>roles</code></td><td>并入 <code>role list</code> 与 <code>role import</code></td></tr>
         <tr><td><code>role add</code></td><td><code>role hire</code></td></tr>
         <tr><td><code>app</code>, <code>ui</code></td><td>直接运行 <code>randcomp</code></td></tr>
         <tr><td><code>inbox</code>, <code>handoff</code>, <code>todo add/note/done</code></td><td>不再出现在教学界面中，但仍可运行</td></tr>
       </tbody></table>
+    </section>
+
+    <section class="doc-section" id="moving-from-v1">
+      <p class="eyebrow">过渡</p>
+      <h2>从 v1 迁移</h2>
+      <p>v1 看板——本地窗口中 <code>/v1.html</code> 提供的“有什么需要我？”单页——是旧版界面。它只为过渡期保留，并将在后续版本中移除。新版界面位于 <code>/app/v2.html</code>，v1 页面顶部的横幅带有指向它的链接。</p>
+      <p>旧的任务命令与新的项目、任务、智能体和结果命令一一对应。旧写法会先打印一行提示，例如 <code>`tasks ls` 是 `project list` 的旧写法。它仍然可用,行为不变。</code>，然后照旧执行。</p>
+      <table>
+        <thead><tr><th>旧命令（v1）</th><th>新命令</th></tr></thead><tbody>
+        <tr><td><code>randcomp tasks new</code></td><td><code>randcomp project create</code></td></tr>
+        <tr><td><code>randcomp tasks ls</code></td><td><code>randcomp project list</code></td></tr>
+        <tr><td><code>randcomp tasks ID</code></td><td><code>randcomp project show</code></td></tr>
+        <tr><td><code>randcomp tasks ID agents</code></td><td><code>randcomp agent list --project</code></td></tr>
+        <tr><td><code>randcomp tasks ID finish</code></td><td><code>randcomp project finish</code></td></tr>
+        <tr><td><code>randcomp tasks ID reopen</code></td><td><code>randcomp project reopen</code></td></tr>
+        <tr><td><code>randcomp agents</code></td><td><code>randcomp agent list</code></td></tr>
+        <tr><td><code>randcomp agents ID logs</code></td><td><code>randcomp agent logs</code></td></tr>
+        <tr><td><code>randcomp agents ID send</code></td><td><code>randcomp agent send</code></td></tr>
+        <tr><td><code>randcomp agents ID attach</code></td><td><code>randcomp agent attach</code></td></tr>
+        <tr><td><code>randcomp agents ID start</code></td><td><code>randcomp agent start</code></td></tr>
+        <tr><td><code>randcomp agents ID stop</code></td><td><code>randcomp agent stop</code></td></tr>
+      </tbody></table>
+      <p>旧写法读写的是经典公司级数据，不是项目库，所以用 <code>tasks new</code> 创建的内容不会出现在 <code>project list</code> 里。新的工作请用 <code>randcomp project create</code> 开始。</p>
     </section>
 
     <section class="doc-section" id="roles">

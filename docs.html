@@ -98,6 +98,7 @@ footer{padding:36px 0;color:var(--faint);font-size:13px}
       <a href="#ui-guide">UI guide</a>
       <a href="#cli-guide">CLI guide</a>
       <a href="#cli-reference">CLI reference</a>
+      <a href="#moving-from-v1">Moving from v1</a>
       <a href="#roles">Roles and runners</a>
     </div>
     <div class="group"><p>Operate safely</p>
@@ -170,14 +171,27 @@ randcomp project list
 randcomp project ask PROJECT_ID "Add a gift-card page to the checkout"
 randcomp project show PROJECT_ID</pre>
       <p>Copy <code>PROJECT_ID</code> from <code>randcomp project list</code>. The ask is handed to the project's real coordinator session; planning the tasks is its judgment, not the CLI's. The same project commands work over SSH on the machine where the company lives.</p>
-      <p>The classic task-centric surface (<code>randcomp task create</code> and friends) is unchanged and still works for the company-level task board.</p>
+      <p>Tasks and helpers live inside a project: <code>randcomp task create --project PROJECT_ID "..."</code>, <code>randcomp task list --project PROJECT_ID</code>, <code>randcomp agent list --project PROJECT_ID</code>, <code>randcomp result list --project PROJECT_ID</code>. The older spellings (<code>randcomp tasks ls</code>, <code>randcomp tasks new</code>, <code>randcomp agents</code>, <code>randcomp finish ID</code>) still run exactly as before and print one line naming what they are called now; see <a href="#cli-reference">Older spellings</a>.</p>
 
       <h3>From an AI session over MCP</h3>
       <p>After registering the server, ask your AI session to create and manage the work through RandComp Studio rather than its own temporary subagents. The AI client chooses the MCP tools, while RandComp Studio owns the durable project, coordinator, helper agents, sessions, messages, and results underneath.</p>
 <pre>Use RandComp Studio to open a project for this work.
 Have the coordinator plan it and Developer implement it with QA reviewing.
 Keep the project and its helpers visible on the RandComp Studio board.</pre>
-      <p>The MCP server publishes the project tools as <code>v2_project_create</code>, <code>v2_project_list</code>, <code>v2_project_show</code>, <code>v2_project_ask</code>, <code>v2_project_finish</code>, and <code>v2_project_reopen</code>, plus <code>v2_task_*</code>, <code>v2_agent_*</code>, and <code>v2_result_*</code> tools — alongside the classic company-level tools. Asking in your own words like above is still the main path. The four commands below are shortcuts for the sentences you would otherwise retype.</p>
+      <p>The MCP server publishes 24 tools in four families, named after the model: a <strong>project</strong> holds <strong>tasks</strong>, a task has <strong>helpers</strong> on it, and the tasks produce <strong>results</strong>.</p>
+      <table>
+        <thead><tr><th>Family</th><th>Tools</th></tr></thead>
+        <tbody>
+          <tr><td><code>project_*</code></td><td><code>project_create</code>, <code>project_list</code>, <code>project_show</code>, <code>project_ask</code>, <code>project_finish</code>, <code>project_reopen</code>, <code>project_outcome_update</code></td></tr>
+          <tr><td><code>task_*</code></td><td><code>task_create</code>, <code>task_list</code>, <code>task_show</code>, <code>task_assign</code>, <code>task_depend</code>, <code>task_result_add</code>, <code>task_finish</code>, <code>task_reopen</code></td></tr>
+          <tr><td><code>helper_*</code></td><td><code>helper_list</code>, <code>helper_logs</code>, <code>helper_send</code>, <code>helper_start</code>, <code>helper_stop</code>, <code>helper_attach</code></td></tr>
+          <tr><td><code>result_*</code></td><td><code>result_list</code>, <code>result_show</code></td></tr>
+          <tr><td><code>role_library</code></td><td><code>role_library</code></td></tr>
+        </tbody>
+      </table>
+      <p>The two that spend money say so in their own descriptions, and your client asks before calling them: <code>task_assign</code> and <code>helper_start</code> start a real session, and <code>task_create</code> is marked as spending because its older company-level form dispatches a coordinator. Everything else reads or records.</p>
+      <p>The earlier names still answer, though they are no longer listed: every <code>v2_*</code> tool (<code>v2_project_create</code>, <code>v2_agent_list</code> and the rest; <code>agent_id</code> is still accepted wherever <code>helper_id</code> is) and the older company tools (<code>task_results</code>, <code>task_delete</code>, <code>agent_*</code>, <code>role_add</code>). <code>task_list</code>, <code>task_create</code> and <code>task_finish</code> are the one place two meanings share a name: call them with <code>project_id</code> (or <code>task_id</code> for <code>task_finish</code>) and you get the project model; without it you get the older company-level call, which needs a company chosen. Each tool’s description is in English and Chinese.</p>
+      <p>Asking in your own words like above is still the main path. The four commands below are shortcuts for the sentences you would otherwise retype.</p>
 
       <h3 id="mcp-prompts">Slash commands</h3>
       <p>RandComp Studio publishes four prompts. Your client turns each one into a command you can pick at the start of a message. Claude Code 2.1.233 spells them like this, and lists every connected server’s commands under <code>/mcp</code>:</p>
@@ -204,7 +218,7 @@ Keep the project and its helpers visible on the RandComp Studio board.</pre>
           <tr><td>Company</td><td>The durable folder containing your roles, tasks, decisions, messages, status, and produced artifacts.</td></tr>
           <tr><td>Project folder</td><td>The codebase or working folder an agent operates in. It is selected per task and can be outside the company.</td></tr>
           <tr><td>Project</td><td>The primary unit of work in the current app: one sentence about what you want, a coordinator that plans it into focused tasks, and the helpers hired to do them. Projects persist on disk and survive restarts.</td></tr>
-          <tr><td>Task</td><td>One focused piece of a project's plan, with its assigned helpers, live state, outcome, and files. The company-level classic task board also exists for work you dispatch directly.</td></tr>
+          <tr><td>Task</td><td>One focused piece of a project's plan, with its assigned helpers, live state, outcome, and files.</td></tr>
           <tr><td>Agent</td><td>One hired instance of a role on exactly one task. Two tasks using Developer get two different Developer agents.</td></tr>
           <tr><td>Session</td><td>One running terminal for an agent. Sessions cost money; agents and their history remain when sessions stop.</td></tr>
           <tr><td>Role</td><td>A reusable definition such as Developer, QA, or Market Analyst. Roles live in the helper library; they do not run by themselves.</td></tr>
@@ -235,18 +249,21 @@ Keep the project and its helpers visible on the RandComp Studio board.</pre>
     <section class="doc-section" id="cli-guide">
       <p class="eyebrow">Command line</p>
       <h2>Use the CLI</h2>
-      <p><code>randcomp</code> and <code>randcomp-studio</code> are the same program; <code>randcomp</code> is shorter to type. Every command names the thing first and the action after — <code>randcomp task list</code>, <code>randcomp task results TASK_ID</code>, <code>randcomp task finish TASK_ID</code>. The plural spellings (<code>randcomp tasks ls</code>, <code>randcomp agents ID logs</code>) still work and always will; the singular ones are what <code>randcomp help</code> teaches.</p>
+      <p><code>randcomp</code> and <code>randcomp-studio</code> are the same program; <code>randcomp</code> is shorter to type. Every command names the thing first and the action after, in four groups that match the MCP tools: <code>randcomp project …</code> (what you want done), <code>randcomp task …</code> (one piece of a project), <code>randcomp agent …</code> (a helper working on a task) and <code>randcomp result …</code> (what the tasks produced). The older spellings (<code>randcomp tasks ls</code>, <code>randcomp agents ID logs</code>) still work and always will; <code>randcomp help</code> teaches the new ones.</p>
 
-      <h3>Inspect the whole company</h3>
+      <h3>See where things stand</h3>
 <pre>randcomp status
-randcomp task list
-randcomp agent list</pre>
-      <p><code>status</code> is the concise company summary: which program runs your agents and whether it is signed in, how many tasks and agents there are, and one line for each. <code>randcomp task list</code> says why each task is in the state it is in; <code>randcomp agent list</code> says what each agent is doing.</p>
+randcomp project list
+randcomp agent list --project PROJECT_ID</pre>
+      <p><code>status</code> is the concise company summary: which program runs your agents and whether it is signed in, how many tasks and agents there are, and one line for each. <code>randcomp project list</code> prints every project and where it stands; <code>randcomp agent list</code> says what each helper is doing.</p>
+
+      <h3>Read the output</h3>
+      <p>The project, task, agent and result commands print JSON, so they pipe straight into <code>jq</code> or a script. Ids look like <code>project-47e1a136b134</code> and <code>task-0c1d69cc7b85</code>; copy them from the list commands.</p>
 
       <h3>Use another company</h3>
-<pre>randcomp task list --company ~/Companies/acme
+<pre>randcomp status --company ~/Companies/acme
 randcomp --company ~/Companies/new-company</pre>
-      <p><code>--company PATH</code> works across the command surface. Naming a path that does not exist creates a company there. It does not change the project folder agents work in.</p>
+      <p><code>--company PATH</code> works on <code>status</code>, <code>role</code>, the classic company commands and the bare command that opens the window. The <code>project</code>, <code>task --project</code>, <code>result</code> and <code>agent --project</code> commands read the project store of the machine’s home and do not take it. It does not change the project folder agents work in.</p>
     </section>
 
     <section class="doc-section" id="cli-reference">
@@ -258,29 +275,47 @@ randcomp --company ~/Companies/new-company</pre>
       <table>
         <thead><tr><th>Value</th><th>Where it comes from</th></tr></thead>
         <tbody>
-          <tr><td><code>TASK_ID</code></td><td>The short slug beside a task in <code>randcomp task list</code>, or enough of its long name to match exactly one task.</td></tr>
-          <tr><td><code>AGENT_ID</code></td><td>The ID in brackets after a role in <code>randcomp agent list</code>. A role name also works when only one agent has that role.</td></tr>
-          <tr><td><code>RESULT_FILE_PATH</code></td><td>The complete path printed under “what it produced” by <code>randcomp task results TASK_ID</code>.</td></tr>
+          <tr><td><code>PROJECT_ID</code></td><td>The <code>id</code> printed by <code>randcomp project list</code>, such as <code>project-47e1a136b134</code>.</td></tr>
+          <tr><td><code>TASK_ID</code></td><td>The <code>id</code> printed by <code>randcomp task list --project PROJECT_ID</code>, such as <code>task-0c1d69cc7b85</code>. In the classic company commands it is the short slug beside a task in the older <code>randcomp tasks ls</code>.</td></tr>
+          <tr><td><code>AGENT_ID</code></td><td>The id printed by <code>randcomp agent list</code>. In the classic commands a role name also works when only one agent has that role.</td></tr>
+          <tr><td><code>RESULT_ID</code></td><td>The <code>id</code> printed by <code>randcomp result list --project PROJECT_ID</code> or shown on <code>randcomp task show TASK_ID</code>.</td></tr>
+          <tr><td><code>RESULT_FILE_PATH</code></td><td>The complete path printed under “what it produced” by the classic <code>randcomp tasks TASK_ID</code>. In the project model use <code>randcomp result show RESULT_ID</code>.</td></tr>
                     <tr><td><code>ADDRESS</code></td><td>A hired agent ID or an unambiguous role name.</td></tr>
         </tbody>
       </table>
-      <p><code>--company PATH</code> is accepted by the task, agent, role and status commands, and by the bare command that opens the window. It selects the folder holding <code>roles/</code> and <code>coordination/</code>; it does not select an agent’s project folder. The remembered first-run company is the default. A named path that does not exist is initialized as a company. On <code>role</code> commands the flag may appear before or after the verb.</p>
+      <p><code>--company PATH</code> is accepted by the classic company commands, <code>role</code>, <code>status</code> and the bare command that opens the window. It selects the folder holding <code>roles/</code> and <code>coordination/</code>; it does not select an agent’s project folder. The remembered first-run company is the default. A named path that does not exist is initialized as a company. On <code>role</code> commands the flag may appear before or after the verb. The <code>project</code>, <code>task --project</code>, <code>agent --project</code> and <code>result</code> commands act on the project store under <code>~/.config/mission-control</code> (or <code>MISSION_CONTROL_HOME</code>) and do not take it.</p>
 
       <h3>MCP server</h3>
       <div class="command"><pre>randcomp mcp [--company PATH]</pre><p>Speak Model Context Protocol over stdin and stdout so a local MCP client can read and drive the company. Register it with <code>claude mcp add -s user randcomp-studio -- randcomp mcp</code> rather than running it by hand. It publishes tools the client calls and the four <a href="#mcp-prompts">prompts</a> the client shows as slash commands. <code>--company</code> selects a company other than the remembered default. There is no network listener, hosted service, RandComp Studio account, or API key.</p></div>
 
       <h3>Projects</h3>
-      <p>The project surface is the current app's primary model: a project holds one sentence of intent, a coordinator, and the plan of focused tasks the coordinator made. The commands below are the complete project grammar; every one also accepts <code>--company PATH</code>.</p>
+      <p>The project surface is the primary model: a project holds one sentence of intent, a coordinator, and the plan of focused tasks the coordinator made. Each command below has an MCP twin of the same name (<code>project create</code> is <code>project_create</code>). Every command prints JSON and none of them take <code>--company</code>.</p>
       <div class="command"><pre>randcomp project create TEXT... [--title WORDS] [--runner NAME]</pre><p>Open a project for that sentence. <code>--runner</code> sets the project's default AI tool (for example <code>kimi</code>, <code>claude</code>, or <code>codex</code>); otherwise the machine default is used.</p></div>
-      <div class="command"><pre>randcomp project list [--json]</pre><p>Every project, its state, and how many tasks it holds.</p></div>
+      <div class="command"><pre>randcomp project list</pre><p>Every project, its state, and the tasks it holds. Prints JSON.</p></div>
       <div class="command"><pre>randcomp project show PROJECT_ID</pre><p>One project's detail: its request history, the coordinator's state, and its plan.</p></div>
       <div class="command"><pre>randcomp project ask PROJECT_ID TEXT...</pre><p>Write a request against the project. Its coordinator session is woken — or hired and launched — and reads it; planning the tasks is the coordinator's own judgment.</p></div>
+      <div class="command"><pre>randcomp project outcome PROJECT_ID TEXT...</pre><p>Rewrite the project’s one-line outcome, for example to what was actually delivered.</p></div>
       <div class="command"><pre>randcomp project finish PROJECT_ID
-randcomp project reopen PROJECT_ID</pre><p><code>finish</code> closes the project and stops its agents; <code>reopen</code> opens it again without starting anything.</p></div>
-      <p>Inside a project, tasks and agents answer to <code>randcomp task create --project PROJECT_ID</code>, <code>randcomp task list --project PROJECT_ID</code>, and <code>randcomp agent list --project PROJECT_ID</code>; the singular verbs with a project flag are the v2 grammar, while their plural legacy spellings keep their classic meaning.</p>
+randcomp project reopen PROJECT_ID</pre><p><code>finish</code> marks the project completed and <code>reopen</code> opens it again; neither starts anything.</p></div>
 
       <h3>Tasks</h3>
-      <div class="command"><pre>randcomp task create TEXT... [OPTIONS]</pre><p>Open a task, start its coordinator, and let the coordinator hire the roles it needs.</p><ul>
+      <p>Tasks, helpers and results live inside a project. The commands below have MCP twins (<code>task create</code> is <code>task_create</code>, <code>agent list</code> is <code>helper_list</code>) and print JSON.</p>
+      <div class="command"><pre>randcomp task create --project PROJECT_ID TEXT...</pre><p>Add a task to a project. It costs nothing by itself: no helper is hired until you assign one.</p></div>
+      <div class="command"><pre>randcomp task list --project PROJECT_ID
+randcomp task show TASK_ID</pre><p>Every active task in a project, or one task with its state, dependencies, helpers and results.</p></div>
+      <div class="command"><pre>randcomp task assign TASK_ID --role ROLE --brief TEXT [--let-it-work-without-asking]</pre><p>Put a real helper on a task. <strong>This starts a real, paid session.</strong> <code>--let-it-work-without-asking</code> requests the runner’s unattended permission mode and lowers an approval boundary.</p></div>
+      <div class="command"><pre>randcomp task depend TASK_ID --on OTHER_TASK_ID</pre><p>The task cannot start before the other one, in the same project, finishes.</p></div>
+      <div class="command"><pre>randcomp task result-add TASK_ID --kind KIND --path-or-url WHERE</pre><p>Record one result: a file path, or a live URL (kind <code>website</code>).</p></div>
+      <div class="command"><pre>randcomp task finish TASK_ID
+randcomp task reopen TASK_ID</pre><p><code>finish</code> marks a task done; its helpers stay on the roster with their history. <code>reopen</code> moves it back to active.</p></div>
+
+      <h3>Results</h3>
+      <div class="command"><pre>randcomp result list --project PROJECT_ID [--task TASK_ID]</pre><p>Everything the project’s tasks produced, or one task’s.</p></div>
+      <div class="command"><pre>randcomp result show RESULT_ID</pre><p>One result, printed whole when it is a local file.</p></div>
+
+      <h3>Classic company tasks</h3>
+      <p>Without <code>--project</code>, <code>task create</code>, <code>task list</code>, <code>task results</code>, <code>task show RESULT_FILE_PATH</code>, <code>task finish</code> and <code>task reopen</code> are the company-level task board that existed before projects. They keep their old behaviour, need a company, and print a line naming the project command that replaced them. Projects and classic tasks are separate data: a classic task does not appear in <code>project list</code>.</p>
+      <div class="command"><pre>randcomp task create TEXT... [OPTIONS]</pre><p>Open a classic task, start its coordinator, and let the coordinator hire the roles it needs.</p><ul>
         <li><code>--name WORDS</code> sets the display name and the basis of the short task slug. The request text is the default.</li>
         <li><code>--in PATH</code> sets the project folder every agent opens. The last project folder used is the default.</li>
         <li><code>--only ROLE,ROLE</code> limits which roles the coordinator may consider and remembers that narrowing. <code>--only all</code> clears it.</li>
@@ -295,8 +330,9 @@ randcomp project reopen PROJECT_ID</pre><p><code>finish</code> closes the projec
       <div class="command"><pre>randcomp task reopen TASK_ID [--company PATH]</pre><p>Open a finished task again. It deliberately starts no sessions; list the old agents and run <code>randcomp agent start AGENT_ID</code> only for those you want working.</p></div>
 
       <h3>Agents</h3>
-      <div class="command"><pre>randcomp agent list TASK_ID [--json] [--company PATH]
-randcomp agent list [--json] [--company PATH]</pre><p>List the agents on one task, or every agent in the company when no task is named. <code>--json</code> returns structured output.</p></div>
+      <p>An agent is a helper working on one task. Its MCP twins are the <code>helper_*</code> tools.</p>
+      <div class="command"><pre>randcomp agent list [--project PROJECT_ID] [--task TASK_ID]</pre><p>List every helper, or narrow to one project or one task. Prints JSON.</p></div>
+      <div class="command"><pre>randcomp agent list TASK_ID [--json] [--company PATH]</pre><p>The classic form: the agents on one classic task.</p></div>
       <div class="command"><pre>randcomp agent logs AGENT_ID [--company PATH]</pre><p>Read the agent’s words: full live scrollback while it runs, or its saved conversation after it stops. This is not the reusable role definition.</p></div>
       <div class="command"><pre>randcomp agent send AGENT_ID TEXT... [--company PATH]</pre><p>Write a line to an agent. It enters the live session, or waits in the agent’s inbox when no session is running.</p></div>
       <div class="command"><pre>randcomp agent attach AGENT_ID [--print-the-command] [--company PATH]</pre><p>Join the tmux session in this terminal; detach with <code>Ctrl-B</code>, then <code>D</code>. <code>--print-the-command</code> prints the join command without running it, for another terminal or script.</p></div>
@@ -351,20 +387,44 @@ randcomp COMMAND --help</pre><p>Print the complete command map, or the parser he
       <div class="command"><pre>randcomp COMMAND --no-color</pre><p>Every command paints four things when — and only when — a person is reading it: the state a piece of work is in, the words you copy off the screen, the headings, and the context lines it dims to make the rest findable. Piped, redirected, or read by an agent, the output is plain text byte for byte. <code>--no-color</code> works on every command; <code>NO_COLOR</code> and <code>FORCE_COLOR</code> are honoured as well.</p></div>
 
       <h3>Older spellings</h3>
-      <p>The grammar above is the one to learn. Every spelling this tool has ever answered to still runs, unchanged, so nothing already written down breaks:</p>
+      <p>The grammar above is the one to learn. Every spelling this tool has ever answered to still runs, unchanged, so nothing already written down breaks. Each one prints a single line on stderr naming what it is called now (for example <code>`tasks ls` is the older name for `project list`. It still works, unchanged.</code>) and then does what it always did. <code>--help</code> prints no hint, and commands with no new name (<code>tasks ID delete</code>, <code>todo</code>, <code>note</code>, <code>done</code>, <code>status</code>) print none. Hints follow <code>MCTL_LANG=en|zh</code>, else your locale.</p>
+      <p>An older spelling is not rerouted: it reads and writes the classic company data, not the project store, so <code>tasks new</code> does not create something <code>project list</code> shows.</p>
       <table><tbody>
-        <tr><td><code>task create</code>, <code>do</code>, <code>dispatch</code></td><td><code>tasks new</code></td></tr>
-        <tr><td><code>task list</code></td><td><code>tasks ls</code></td></tr>
-        <tr><td><code>task results</code>, <code>results</code></td><td><code>tasks TASK_ID</code></td></tr>
-        <tr><td><code>task show</code>, <code>show</code></td><td><code>tasks RESULT_FILE_PATH</code></td></tr>
-        <tr><td><code>task finish</code>, <code>finish</code>, <code>reopen</code></td><td><code>tasks TASK_ID finish</code> / <code>reopen</code></td></tr>
-        <tr><td><code>agent list</code></td><td><code>tasks TASK_ID agents</code></td></tr>
-        <tr><td><code>agent logs/send/attach/start/stop</code>, <code>read</code>, <code>say</code>, <code>attach</code>, <code>start</code>, <code>stop</code></td><td><code>agents AGENT_ID logs</code> and the rest</td></tr>
+        <tr><td><code>project create</code></td><td><code>tasks new</code>, <code>do</code>, <code>dispatch</code></td></tr>
+        <tr><td><code>project list</code></td><td><code>tasks ls</code>, <code>task list</code> (no <code>--project</code>)</td></tr>
+        <tr><td><code>project show</code>, <code>result list</code></td><td><code>tasks TASK_ID</code>, <code>task results</code>, <code>results</code></td></tr>
+        <tr><td><code>result show</code></td><td><code>tasks RESULT_FILE_PATH</code>, <code>task show RESULT_FILE_PATH</code>, <code>show</code></td></tr>
+        <tr><td><code>project finish</code> / <code>reopen</code></td><td><code>tasks TASK_ID finish</code> / <code>reopen</code>, <code>finish</code>, <code>reopen</code></td></tr>
+        <tr><td><code>agent list</code></td><td><code>tasks TASK_ID agents</code>, <code>agents</code></td></tr>
+        <tr><td><code>agent logs/send/attach/start/stop</code></td><td><code>agents AGENT_ID logs</code> and the rest, <code>read</code>, <code>say</code>, <code>talk</code>, <code>attach</code>, <code>start</code>, <code>stop</code></td></tr>
         <tr><td><code>role library</code>, <code>roles</code></td><td>Folded into <code>role list</code> and <code>role import</code></td></tr>
         <tr><td><code>role add</code></td><td><code>role hire</code></td></tr>
         <tr><td><code>app</code>, <code>ui</code></td><td>Bare <code>randcomp</code></td></tr>
         <tr><td><code>inbox</code>, <code>handoff</code>, <code>todo add/note/done</code></td><td>No longer part of the taught surface; still runnable</td></tr>
       </tbody></table>
+    </section>
+
+    <section class="doc-section" id="moving-from-v1">
+      <p class="eyebrow">Transition</p>
+      <h2>Moving from v1</h2>
+      <p>The v1 board — the single “what needs me?” page served at <code>/v1.html</code> on your local window — is the old interface. It is kept only for the transition, and it will be removed in a later release. The new interface is at <code>/app/v2.html</code>, and a banner on the v1 page links to it.</p>
+      <p>The old task commands map to the new project, task, agent and result commands one to one. An old spelling prints a line such as <code>`tasks ls` is the older name for `project list`. It still works, unchanged.</code> and then runs as it always did.</p>
+      <table>
+        <thead><tr><th>Old command (v1)</th><th>New command</th></tr></thead><tbody>
+        <tr><td><code>randcomp tasks new</code></td><td><code>randcomp project create</code></td></tr>
+        <tr><td><code>randcomp tasks ls</code></td><td><code>randcomp project list</code></td></tr>
+        <tr><td><code>randcomp tasks ID</code></td><td><code>randcomp project show</code></td></tr>
+        <tr><td><code>randcomp tasks ID agents</code></td><td><code>randcomp agent list --project</code></td></tr>
+        <tr><td><code>randcomp tasks ID finish</code></td><td><code>randcomp project finish</code></td></tr>
+        <tr><td><code>randcomp tasks ID reopen</code></td><td><code>randcomp project reopen</code></td></tr>
+        <tr><td><code>randcomp agents</code></td><td><code>randcomp agent list</code></td></tr>
+        <tr><td><code>randcomp agents ID logs</code></td><td><code>randcomp agent logs</code></td></tr>
+        <tr><td><code>randcomp agents ID send</code></td><td><code>randcomp agent send</code></td></tr>
+        <tr><td><code>randcomp agents ID attach</code></td><td><code>randcomp agent attach</code></td></tr>
+        <tr><td><code>randcomp agents ID start</code></td><td><code>randcomp agent start</code></td></tr>
+        <tr><td><code>randcomp agents ID stop</code></td><td><code>randcomp agent stop</code></td></tr>
+      </tbody></table>
+      <p>An older spelling reads and writes the classic company data, not the project store, so something created with <code>tasks new</code> does not appear in <code>project list</code>. Start new work with <code>randcomp project create</code>.</p>
     </section>
 
     <section class="doc-section" id="roles">
@@ -389,7 +449,7 @@ randcomp role import ROLE_SOURCE_PATH --add</pre>
       <h2>Files, privacy, and boundaries</h2>
       <ul>
         <li>The UI server binds only to <code>127.0.0.1</code>.</li>
-        <li>RandComp Studio has no hosted account or model API key of its own.</li>
+        <li>RandComp Studio has no hosted account or model API key of its own. This public documentation page counts visits with privacy-first Cloudflare Web Analytics.</li>
         <li>Anonymous usage statistics — event counts only, no content. Each event is just its type, a UTC time and a random install ID; no IP address, project names, messages or identity. Turn it off in Settings → Usage statistics.</li>
         <li>Your command-line AI agent still communicates with its own vendor under that tool’s settings and privacy policy.</li>
         <li>The company folder contains readable roles, task files, status, messages, and artifacts.</li>
@@ -448,5 +508,8 @@ rm ~/.local/bin/randcomp-studio</pre>
     <footer>RandComp Studio documentation · derived from the current command surface and product contracts.</footer>
   </main>
 </div>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"a81b93c8c90445b3b2a635f2731be8f9"}'></script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>
