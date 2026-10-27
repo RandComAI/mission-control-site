@@ -135,7 +135,7 @@ pre .m{color:#9aa19c}
 footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
-/* 糯米 (Nuomi), the app's mascot — same artwork as the app. Motion is CSS only and stops under reduced motion. */
+/* The app's mascot — same artwork as the app. Motion is CSS only and stops under reduced motion. */
 .nuomi-defs{position:absolute;width:0;height:0;overflow:hidden}
 .nuomi{display:block;height:auto;overflow:visible;flex:none;filter:drop-shadow(0 4px 12px rgba(124,92,255,.28))}
 .nuomi *{transform-box:fill-box;transform-origin:center}
@@ -192,7 +192,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   </nav>
 
   <header class="hero">
-    <div class="hello"><svg class="nuomi " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#nuomi-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#nuomi-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#nuomi-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><g class="n-eye"><circle cx="36" cy="70" r="5.2" fill="#241f3d"/><circle cx="37.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g><g class="n-eye"><circle cx="64" cy="70" r="5.2" fill="#241f3d"/><circle cx="65.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg><p class="bubble"><strong>Hi, I’m Nuomi.</strong> I live on your Mac — and so does everything your team makes.</p></div>
+    <div class="hello"><svg class="nuomi " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#nuomi-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#nuomi-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#nuomi-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><g class="n-eye"><circle cx="36" cy="70" r="5.2" fill="#241f3d"/><circle cx="37.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g><g class="n-eye"><circle cx="64" cy="70" r="5.2" fill="#241f3d"/><circle cx="65.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg><p class="bubble"><strong>Hi there!</strong> I live on your Mac — and so does everything your team makes.</p></div>
     <div class="eyebrow">Early preview · free · a local-only Mac app</div>
     <h1>Say one sentence.<br>Get a team of experts.</h1>
     <p class="lede">RandComp Studio plans the work, builds it, and has an independent checker verify it — all on your own Mac, using the AI tools you already have: Claude&nbsp;Code, Codex, Kimi, or a model on your Mac.</p>
@@ -437,7 +437,7 @@ team.querySelectorAll('.role').forEach((card, i) => { card.dataset.i = i; });
 stage.classList.add('go');
 </script>
 <script>
-/* Nuomi's eyes drift a little toward the cursor, as in the app. Nothing happens under reduced motion. */
+/* The mascot's eyes drift a little toward the cursor, as in the app. Nothing happens under reduced motion. */
 (function () {
   if (!window.matchMedia || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const faces = document.querySelectorAll('.nuomi');
