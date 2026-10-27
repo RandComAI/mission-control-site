@@ -70,6 +70,13 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 .way .foot{font-size:14px;margin-top:auto}
 .way .look{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px}
 .ways+.hint{margin-top:18px}
+.next{margin-top:28px;border:1px dashed var(--line);border-radius:var(--r);padding:18px 20px;background:var(--card)}
+.next h3{margin:0 0 10px;font-size:17px}
+.next ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.next li{color:var(--muted);font-size:15px}
+.next li strong{color:var(--ink)}
+.next .paid{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600;background:var(--amber-soft);color:var(--amber);vertical-align:1px}
+.next .when{margin:12px 0 0;font-size:13px;color:var(--faint)}
 
 /* Local section */
 .split{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
@@ -218,6 +225,15 @@ claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
     </article>
   </div>
   <p class="hint">All three talk only to the RandComp process on your Mac — no extra cloud in between.</p>
+  <div class="next" id="next">
+    <h3>What's next</h3>
+    <ul>
+      <li><strong>📱 Connect from your phone.</strong> Check on your team and answer what needs you while you are away from your desk. The work itself stays on your Mac.</li>
+      <li><strong>☁️ Deploy it to your own cloud.</strong><span class="paid">Paid</span> Run the same team in a cloud account you own, so it keeps working while your Mac sleeps. Your cloud, not ours — and this one will have a price.</li>
+      <li><strong>💻 Windows and Linux.</strong> After the one-person army has had some sleep.</li>
+    </ul>
+    <p class="when">No dates yet — they ship when they work. Tell us which one you want first: <a href="https://github.com/RandComAI/mission-control-site/issues/new">Feedback →</a></p>
+  </div>
 </div></section>
 
 <section id="local"><div class="wrap">
