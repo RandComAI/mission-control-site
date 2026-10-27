@@ -3,108 +3,460 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RandComp Studio — 在你 Mac 上，运行你自己的 AI 团队</title>
-<meta name="description" content="把你已有的 AI 工具——Claude Code、Codex、Kimi——组建成一支协调员带领的团队，就在你的 Mac 上：规划任务、动手实现、独立 QA 验收。没有云端、没有锁定，全部是可阅读的本地文件。">
+<title>RandComp Studio — 说一句话，得到一支专家团队</title>
+<meta name="description" content="RandComp Studio 负责规划、制作，并由独立的检查员核对——全部在你自己的 Mac 上，使用你已有的 AI 工具。免费早期预览，无需账号。">
+<link rel="canonical" href="https://randcomp.io/mission-control-site/zh/">
 <link rel="alternate" hreflang="en" href="../index.html">
 <link rel="alternate" hreflang="zh-CN" href="index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f2857'/%3E%3Cg transform='translate%283.5 2.4%29 scale%28.25%29'%3E%3Cpath d='M50 26 C50 20 50.5 15 52 10' stroke='%233ecfb9' stroke-width='5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z' fill='%232dd4bf'/%3E%3Cellipse cx='50' cy='68' rx='45' ry='41' fill='%239d86ff'/%3E%3Ccircle cx='36' cy='70' r='6' fill='%23241f3d'/%3E%3Ccircle cx='64' cy='70' r='6' fill='%23241f3d'/%3E%3Cpath d='M43 80 Q50 87 57 80' stroke='%23241f3d' stroke-width='3.5' stroke-linecap='round' fill='none'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RandComp Studio">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="RandComp Studio — 说一句话，得到一支专家团队">
+<meta property="og:description" content="协调员、专员和独立检查员，全部在你自己的 Mac 上，使用你已有的 AI 工具。">
+<meta property="og:url" content="https://randcomp.io/mission-control-site/zh/">
+<meta property="og:image" content="https://randcomp.io/mission-control-site/screenshots/zh/task-tree-preview.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-:root{--bg:#fff;--soft:#f6f7f6;--card:#fff;--ink:#171817;--muted:#666b68;--faint:#929793;--line:#e2e5e2;--green:#0b8f70;--mint:#e7f6f1;--blue:#5856d6;--code:#1d1f1e;--shadow:0 22px 60px rgba(20,30,25,.10),0 2px 8px rgba(20,30,25,.04)}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}a{color:var(--green)}code,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}main{width:min(1160px,calc(100% - 48px));margin:auto}.banner{padding:7px 18px;text-align:center;background:#f0faf6;border-bottom:1px solid #d8eee7;color:#315d52;font-size:12px}.banner a{margin-left:4px;font-weight:700}.topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 0}.brand{display:flex;align-items:center;gap:11px;font-weight:700}.mark{display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:var(--ink);color:#fff;font-size:12px}.nav{display:flex;gap:22px;align-items:center}.nav a{color:var(--muted);font-size:13px;font-weight:600;text-decoration:none}.nav a:hover{color:var(--ink)}
-section{padding:84px 0;border-top:1px solid var(--line)}h1,h2,h3{margin:0;line-height:1.12;letter-spacing:-.035em}h1{max-width:14ch;font-size:clamp(46px,5.7vw,72px)}h2{max-width:14ch;font-size:clamp(34px,3.8vw,50px)}h3{font-size:clamp(24px,2.4vw,34px)}p{margin:0 0 18px}.eyebrow{margin-bottom:15px;color:var(--green);font-size:12px;font-weight:750;letter-spacing:.06em}.lede{max-width:64ch;color:var(--muted);font-size:clamp(18px,2vw,22px);line-height:1.65}.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}.button{display:inline-flex;min-height:50px;padding:0 21px;align-items:center;justify-content:center;border:1px solid var(--ink);border-radius:13px;background:var(--ink);color:#fff;font-size:14px;font-weight:700;text-decoration:none}.button.secondary{background:#fff;color:var(--ink);border-color:var(--line)}.button.disabled{background:#f0f1f0;color:var(--faint);border-color:var(--line);cursor:not-allowed}.hero{padding:36px 0 54px;border:0}.hero-copy{max-width:900px}.hero h1{max-width:13ch}.hero .lede{max-width:58ch;margin-top:24px}.hero-shot{margin-top:34px}.hero-shot figcaption{display:flex;justify-content:space-between;gap:18px;align-items:center}.hero-shot figcaption strong{color:var(--ink);font-size:12px}.hero-note{margin-top:16px;color:var(--faint);font-size:12px}
-.offer{display:flex;max-width:max-content;margin:14px 0 0;padding:10px 13px;gap:9px;align-items:center;border:1px solid #cfe8df;border-radius:12px;background:var(--mint);color:#285348;font-size:13px}.offer strong{white-space:nowrap}.offer span{color:#42685e}.story-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:72px;align-items:end}.story-intro p{max-width:48ch;color:var(--muted);font-size:18px}.example{margin-top:25px;padding:19px 22px;border:1px solid #cfe8df;border-radius:16px;background:var(--mint);color:#285348;font-weight:650}.journey{padding-top:38px;border:0}.scene{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:52px;align-items:center;padding:62px 0}.scene+.scene{border-top:1px solid var(--line)}.scene.reverse{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr)}.scene.reverse .scene-copy{order:2}.scene-copy{padding:10px}.scene-number{display:grid;width:34px;height:34px;margin-bottom:24px;place-items:center;border-radius:50%;background:var(--mint);color:var(--green);font-size:13px;font-weight:800}.scene-copy p{max-width:46ch;color:var(--muted);font-size:17px}.surface{display:inline-flex;margin-top:8px;padding:6px 10px;border-radius:999px;background:#f0f1f0;color:var(--muted);font-size:11px;font-weight:700}.shot{margin:0;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:var(--soft);box-shadow:var(--shadow)}.shot img,.shot video{display:block;width:100%;height:auto}.shot figcaption{padding:11px 14px;border-top:1px solid var(--line);background:#fff;color:var(--faint);font-size:11px}.window{overflow:hidden;border:1px solid #343735;border-radius:20px;background:var(--code);color:#f6f7f6;box-shadow:var(--shadow)}.window-bar{display:flex;gap:7px;align-items:center;padding:12px 15px;border-bottom:1px solid #343735;color:#aeb4b0;font-size:11px}.window-bar i{width:9px;height:9px;border-radius:50%;background:#6f7471}.window-bar span{margin-left:6px}.terminal{min-height:330px;padding:24px;font:13px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace}.terminal p{margin:0 0 13px}.prompt{color:#8addc6}.dim{color:#9da5a1}.ok{color:#fff}.terminal .answer{margin-top:22px;padding:15px;border-left:2px solid var(--green);background:#252827}.conversation{padding:24px;background:#f7f7fb}.bubble{width:88%;margin-bottom:14px;padding:15px 17px;border-radius:17px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:14px}.bubble.you{margin-left:auto;background:#ececff;border-color:#d8d7fb;color:#35336d}.mcp-result{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}.mcp-result div{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:11px}.mcp-result strong{display:block;margin-bottom:3px}.mcp-result span{color:var(--faint)}
-.right-size{background:var(--soft)}.right-size>div{width:min(1160px,calc(100% - 48px));margin:auto}.vs{background:#fff}.vs>div{width:min(1160px,calc(100% - 48px));margin:auto}.choice.pick{border-color:#46d39a;background:#f0faf6}.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}.choice{padding:29px;border:1px solid var(--line);border-radius:20px;background:#fff}.choice p{color:var(--muted)}.choice .label{color:var(--green);font-size:11px;font-weight:800;letter-spacing:.05em}.choice-flow{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}.choice-flow span{padding:7px 10px;border-radius:999px;background:var(--mint);color:#285348;font-size:11px;font-weight:650}.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}.proof-grid .shot{box-shadow:none}.proof-grid .shot:first-child{grid-column:1/-1}
-.context-section{padding-top:72px}.context-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:center}.context-copy p{max-width:46ch;color:var(--muted);font-size:17px}.context-flow{padding:27px;border:1px solid var(--line);border-radius:22px;background:var(--soft)}.context-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}.context-box{padding:18px;border:1px solid var(--line);border-radius:15px;background:#fff}.context-box strong{display:block;margin-bottom:5px;font-size:14px}.context-box span{color:var(--muted);font-size:12px}.context-arrow{color:var(--green);font-weight:800}.context-store{margin-top:14px;padding:16px;border-radius:14px;background:var(--mint);color:#285348;font-size:13px}.context-store strong{display:block;margin-bottom:4px}.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.principle{padding:25px;border:1px solid var(--line);border-radius:18px}.principle strong{display:block;margin-bottom:8px}.principle span{color:var(--muted);font-size:14px}.origin{padding-bottom:74px}.origin-copy{max-width:62ch;margin-top:18px;color:var(--muted);font-size:17px;line-height:1.75}.install{padding-bottom:74px}.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}.install-card{min-width:0;padding:28px;border:1px solid var(--line);border-radius:21px;background:var(--soft)}.install-card h3{margin-bottom:15px;font-size:24px}.install-card p{color:var(--muted);font-size:14px}.install-card pre{overflow:auto;padding:17px;border-radius:12px;background:var(--code);color:#fff;font-size:12px;line-height:1.7}.facts{margin-top:14px;color:var(--faint)!important;font-size:11px!important}.facts code{word-break:break-all}footer{display:flex;justify-content:space-between;gap:30px;padding:40px 0 62px;border-top:1px solid var(--line);color:var(--faint);font-size:12px}
-@media(max-width:820px){.story-intro,.scene,.scene.reverse,.install-grid,.context-grid{grid-template-columns:1fr}.scene.reverse .scene-copy{order:0}.story-intro{gap:26px}.scene{gap:28px;padding:46px 0}.principles{grid-template-columns:1fr}.proof-grid{grid-template-columns:1fr}.proof-grid .shot:first-child{grid-column:auto}.compare{grid-template-columns:1fr}}
-@media(max-width:560px){main,.right-size>div,.vs>div{width:min(100% - 28px,680px)}.nav{gap:13px}.nav a{font-size:12px}section{padding:64px 0}.hero{padding-top:28px}.hero-shot{margin-top:36px}.hero-shot figcaption{display:block}.hero-shot figcaption span{display:block;margin-top:3px}.actions{display:grid;grid-template-columns:1fr 1fr}.actions .button:first-child{grid-column:1/-1}.button{padding:0 12px;font-size:12px}.mcp-result{grid-template-columns:1fr}.terminal{min-height:0;padding:18px;font-size:11px}footer{display:block}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Tokens. Light first, then dark for people whose system prefers it. */
+:root{--bg:#fff;--soft:#f6f7f6;--card:#fff;--ink:#171817;--muted:#5d625f;--faint:#6f7571;--line:#e2e5e2;--green:#087a60;--mint:#e7f6f1;--blue:#5856d6;--blue-soft:#eeeefb;--amber:#a05300;--amber-soft:#fff3e0;--banner:#f0faf6;--banner-line:#d8eee7;--r:16px}
+@media (prefers-color-scheme:dark){:root{--bg:#121413;--soft:#1a1d1b;--card:#1a1d1b;--ink:#f1f3f1;--muted:#a3aaa6;--faint:#8a908c;--line:#2e332f;--green:#3ec9a4;--mint:#12332b;--blue:#9a98ff;--blue-soft:#25254a;--amber:#ffb454;--amber-soft:#3a2a10;--banner:#12332b;--banner-line:#1d4a3e}}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif}
+a{color:var(--green)}
+code,pre{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* Top banner + nav */
+.banner{padding:7px 18px;text-align:center;background:var(--banner);border-bottom:1px solid var(--banner-line);color:var(--muted);font-size:13px}
+.banner a{margin-left:4px;font-weight:700}
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 0}
+nav .links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+nav .links a{color:var(--muted);font-size:14px;font-weight:600;text-decoration:none}
+nav .links a:hover{color:var(--ink)}
+.logo{font-weight:700;display:flex;gap:10px;align-items:center}
+.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--green));display:block}
+
+/* Type + buttons */
+.btn{display:inline-block;background:var(--ink);color:var(--bg)!important;border-radius:999px;padding:12px 22px;font-weight:600;text-decoration:none;border:0;font-size:16px;cursor:pointer;font-family:inherit}
+.btn.ghost{background:transparent;color:var(--ink)!important;border:1px solid var(--line)}
+.btn.disabled{background:var(--soft);color:var(--faint)!important;border:1px solid var(--line);cursor:not-allowed}
+.eyebrow{font-size:13px;letter-spacing:.04em;color:var(--green);font-weight:700}
+h1{font-size:clamp(34px,5.6vw,60px);line-height:1.15;margin:10px 0 14px;letter-spacing:-.025em}
+h2{font-size:clamp(28px,4vw,40px);line-height:1.2;margin:8px 0 12px;letter-spacing:-.01em}
+.lede{font-size:19px;color:var(--muted);max-width:660px}
+section{padding:64px 0;border-top:1px solid var(--line)}
+.hero{padding:28px 0 56px;border:0}
+.risk{font-weight:700;margin:6px 0 0}
+.hint{font-size:14px;color:var(--muted);margin-top:16px}
+
+/* Hero: sentence box */
+.ask{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 12px}
+.ask input{flex:1 1 320px;min-width:0;font:inherit;padding:14px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted);align-items:center}
+.chip{border:1px solid var(--line);background:var(--soft);color:var(--ink);padding:5px 12px;border-radius:999px;cursor:pointer;font:inherit;font-size:14px}
+.chip:hover{border-color:var(--blue)}
+.get-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.offer{margin:0;color:var(--muted);font-size:14px}
+
+/* Hero: the stage (a scripted illustration) */
+.stage{margin-top:28px;background:var(--soft);border:1px solid var(--line);border-radius:24px;padding:22px;overflow:hidden}
+.stagebar{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.stagetitle{overflow-wrap:anywhere}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--mint);color:var(--green);padding:3px 10px;border-radius:999px;font-weight:600;font-size:13px;white-space:nowrap}
+.pill.off{background:var(--amber-soft);color:var(--amber)}
+.illustration-note{display:inline-block;border:1px dashed var(--faint);border-radius:8px;padding:1px 8px;font-size:12px;margin-right:8px}
+.coord{display:flex;justify-content:center}
+.node{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:12px 14px;transition:.4s;min-width:0}
+.coord .node{border-color:var(--blue);display:flex;gap:10px;align-items:center;max-width:480px}
+.coord .sub{font-size:14px;color:var(--muted)}
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px;position:relative}
+.team:before{content:"";position:absolute;left:12.5%;right:12.5%;top:-18px;height:18px;border:2px dashed var(--green);border-bottom:0;border-radius:14px 14px 0 0;opacity:.6}
+.role h3{margin:0;font-size:16px}
+.role p{margin:4px 0 10px;font-size:14px;color:var(--muted);line-height:1.4}
+.ico{font-size:22px}
+.model{width:100%;text-align:left;font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--blue-soft);color:var(--blue);border-radius:10px;padding:7px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:6px}
+.model:after{content:"⇄";opacity:.7}
+.model[data-kind=local]{background:var(--mint);color:var(--green)}
+.state{font-size:12px;margin-top:8px;color:var(--muted);min-height:18px}
+.role.working{border-color:var(--green)}
+.role.working .state{color:var(--green)}
+.role.waiting{border-color:var(--amber)}
+.role.waiting .state{color:var(--amber)}
+/* Roles slide in one after another — only when JS is running. */
+.js .role{opacity:0;transform:translateY(14px)}
+.js .stage.go .role{opacity:1;transform:none}
+.js .stage.go .role:nth-child(1){transition-delay:.5s}
+.js .stage.go .role:nth-child(2){transition-delay:.9s}
+.js .stage.go .role:nth-child(3){transition-delay:1.3s}
+.js .stage.go .role:nth-child(4){transition-delay:1.7s}
+
+/* Local section */
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.mac{border:2px solid var(--ink);border-radius:20px;padding:22px 18px 18px;background:var(--card);position:relative;margin-top:12px}
+.mac>b{position:absolute;top:-13px;left:18px;background:var(--bg);padding:0 8px;font-size:13px}
+.mac .row{display:flex;flex-wrap:wrap;gap:8px}
+.tag{border:1px solid var(--line);background:var(--soft);padding:6px 12px;border-radius:10px;font-size:14px}
+.tag.g{background:var(--mint);border-color:transparent;color:var(--green);font-weight:600}
+.switch{display:flex;gap:12px;align-items:center;margin:18px 0 0}
+.switch button{width:52px;height:30px;border-radius:99px;border:0;background:var(--green);position:relative;cursor:pointer;flex:none}
+.switch button:after{content:"";position:absolute;top:3px;left:25px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
+.switch button[aria-pressed=true]{background:var(--faint)}
+.switch button[aria-pressed=true]:after{left:3px}
+
+/* Cards, files, screenshots */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:var(--card)}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+pre{background:#1d1f1e;color:#d8ded9;border-radius:14px;padding:16px;font-size:14px;line-height:1.6;overflow:auto;margin:0}
+pre .d{color:#7fd8bd}
+pre .m{color:#9aa19c}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.shots figure{margin:0}
+.shots img{width:100%;height:auto;border:1px solid var(--line);border-radius:14px;display:block}
+.shots figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+
+/* Developers, download, story */
+.dev{background:var(--soft)}
+.facts{margin-top:18px;color:var(--muted);font-size:13px}
+.facts code{word-break:break-all}
+.origin-copy{max-width:64ch;color:var(--muted);font-size:17px;line-height:1.75}
+.cta{text-align:center}
+.cta .lede{margin:0 auto 22px}
+.need{max-width:620px;margin:28px auto 0;text-align:left;border:1px solid var(--line);border-radius:var(--r);padding:18px 22px;background:var(--card)}
+.need h3{margin:0 0 8px;font-size:18px}
+.need ul{margin:0;padding-left:20px;color:var(--muted);font-size:15px}
+.need li{margin:6px 0}
+.need li strong{color:var(--ink)}
+.need p{margin:12px 0 0;font-size:15px}
+footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* 糯米 (Nuomi), the app's mascot — same artwork as the app. Motion is CSS only and stops under reduced motion. */
+.nuomi-defs{position:absolute;width:0;height:0;overflow:hidden}
+.nuomi{display:block;height:auto;overflow:visible;flex:none;filter:drop-shadow(0 4px 12px rgba(124,92,255,.28))}
+.nuomi *{transform-box:fill-box;transform-origin:center}
+.n-float{animation:nuomi-bob 3.6s ease-in-out infinite}
+.n-body{transform-origin:50% 100%;animation:nuomi-breathe 4.4s ease-in-out infinite}
+.n-eyes{transform:translate(calc(var(--look-x,0)*1px),calc(var(--look-y,0)*1px));transition:transform .18s ease-out}
+.n-eye{animation:nuomi-blink 5.6s infinite}
+.n-mouth{transition:transform .2s ease-out}
+.nuomi:hover .n-mouth,.hello:hover .n-mouth{transform:scale(1.3,1.6)}
+@keyframes nuomi-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes nuomi-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.015,1.03)}}
+@keyframes nuomi-blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.logo .nuomi{width:28px;filter:none}
+.logo .nuomi .n-float{animation:none}
+.hello{display:flex;align-items:center;gap:16px;margin:4px 0 18px}
+.hello .nuomi{width:86px}
+.bubble{position:relative;margin:0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 16px;font-size:15px;color:var(--muted);max-width:420px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.bubble:before{content:"";position:absolute;left:-7px;top:50%;width:12px;height:12px;background:var(--card);border-left:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateY(-50%) rotate(45deg)}
+.bubble strong{color:var(--ink)}
+.local-only{margin:20px 0 0;max-width:720px;border:1.5px solid var(--green);background:var(--mint);border-radius:var(--r);padding:14px 18px}
+.local-only p{margin:0}
+.local-only+.risk{margin-top:14px}
+.local-only .say{font-size:17px;color:var(--ink)}
+.local-only .badge{display:inline-block;background:var(--green);color:var(--bg);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 10px;margin-right:8px;vertical-align:2px}
+.local-only .small{font-size:14px;color:var(--muted);margin-top:6px}
+.mac .nuomi{position:absolute;top:-44px;right:18px;width:56px}
+.mac .nuomi .n-eye{animation-delay:1.7s}
+.leaves{margin-top:18px;border:1.5px dashed var(--line);border-radius:16px;padding:14px 16px;color:var(--muted);font-size:15px}
+.leaves>strong{color:var(--ink)}
+.leaves ul{margin:8px 0 0;padding-left:20px}
+.leaves li{margin:8px 0}
+.leaves li b{color:var(--ink)}
+.leaves p{margin:10px 0 0}
+.cta .nuomi{width:72px;margin:0 auto 6px}
+
+@media(max-width:820px){.team{grid-template-columns:1fr 1fr}.team:before{display:none}.split,.cards,.shots{grid-template-columns:1fr}}
+@media(max-width:600px){nav .links a.section-link{display:none}}
+@media(max-width:480px){.team{grid-template-columns:1fr}.btn{padding:12px 18px}.hello{gap:12px}.hello .nuomi{width:64px}.bubble{font-size:14px;padding:10px 13px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.js .role{opacity:1;transform:none}.nuomi *{animation:none!important}}
 </style>
 </head>
 <body>
+<svg class="nuomi-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="nuomi-body" x1="0.2" y1="0" x2="0.8" y2="1"><stop offset="0.05" stop-color="#c4b0ff"/><stop offset="0.45" stop-color="#9d86ff"/><stop offset="0.8" stop-color="#7c5cff"/></linearGradient>
+  <linearGradient id="nuomi-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient>
+  <filter id="nuomi-soft" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="2.4"/></filter>
+</defs></svg>
 <div class="banner">早期预览版，可能仍有一些问题。<a href="https://github.com/RandComAI/mission-control-site/issues/new">在 GitHub 提交反馈 →</a></div>
-<main>
-  <header class="topbar"><div class="brand"><span class="mark" aria-hidden="true">R</span>RandComp Studio</div><nav class="nav" aria-label="主导航"><a href="#story">使用方式</a><a href="#about">关于 RandComp</a><a href="docs.html">文档</a><a href="../index.html" lang="en">English</a></nav></header>
 
-  <section class="hero">
-    <div class="hero-copy">
-      <p class="eyebrow">你已有的 AI，组成一整支团队——就在你的 Mac 上</p>
-      <h1>别再租云端智能体，雇一支自己的。</h1>
-      <p class="lede">云端智能体服务租给你的是<em>它家的</em>智能体，跑在<em>它家的</em>云上。RandComp 则把你已经在用的 AI 工具——Claude Code、Codex、Kimi，或任何你配置的命令行 AI——雇佣成一支协调员带领的团队：规划任务、动手实现，再由独立的 QA 验收。一切都在你的 Mac 上运行，以可阅读的本地文件保存。</p>
-      <div class="actions"><a class="button" href="https://randcompstudioasia.blob.core.windows.net/$web/RandCompStudio-0.1.1.dmg" download>下载 macOS 版 ↓</a><span class="button disabled" aria-disabled="true">Windows · 即将推出</span><span class="button disabled" aria-disabled="true">Linux · 即将推出</span></div>
-      <p class="offer"><strong>早期预览版</strong><span>当前完全免费 · 不限任务数 · 无订阅</span></p>
+<div class="wrap">
+  <nav aria-label="主导航">
+    <span class="logo"><svg class="nuomi " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#nuomi-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#nuomi-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#nuomi-soft)"/><g class="n-eyes"><g class="n-eye"><circle cx="36" cy="70" r="5.2" fill="#241f3d"/><circle cx="37.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g><g class="n-eye"><circle cx="64" cy="70" r="5.2" fill="#241f3d"/><circle cx="65.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg>RandComp Studio</span>
+    <span class="links"><a class="section-link" href="#local">纯本地</a><a class="section-link" href="#developers">开发者</a><a href="docs.html">文档</a><a class="section-link" href="#about">关于</a><a href="../index.html" lang="en">English</a><a class="btn" href="#get">下载 macOS 版</a></span>
+  </nav>
+
+  <header class="hero">
+    <div class="hello"><svg class="nuomi " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#nuomi-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#nuomi-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#nuomi-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><g class="n-eye"><circle cx="36" cy="70" r="5.2" fill="#241f3d"/><circle cx="37.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g><g class="n-eye"><circle cx="64" cy="70" r="5.2" fill="#241f3d"/><circle cx="65.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg><p class="bubble"><strong>你好，我是糯米。</strong>我住在你的 Mac 里，团队做出来的东西也都留在这儿。</p></div>
+    <div class="eyebrow">早期预览版 · 免费 · 纯本地的 Mac 应用</div>
+    <h1>说一句话，<br>得到一支专家团队。</h1>
+    <p class="lede">RandComp Studio 负责规划、制作，并由独立的检查员核对——全部在你自己的 Mac 上，使用你已有的 AI 工具：Claude Code、Codex、Kimi，或你 Mac 上的本机模型。</p>
+    <div class="local-only">
+      <p class="say"><span class="badge">纯本地</span>应用本身、你的项目、每个智能体的终端和它们写下的文件，全都在你自己的 Mac 上。不用注册账号，没有 RandComp 云端，中间也没有我们的服务器。</p>
+      <p class="small">你选用的 AI 工具仍会连接各自的服务商；应用会向我们发送匿名使用计数，可以随时关掉。<a href="#local">到底有哪些数据会离开你的 Mac →</a></p>
     </div>
-    <figure class="shot hero-shot"><a href="../screenshots/task-tree-preview.png"><video autoplay muted loop playsinline poster="../screenshots/hero-poster.png?v=20261008" aria-label="RandComp Studio 录屏：用一句话描述项目、创建项目，协调员的工作区随即出现。"><source src="../screenshots/hero.webm?v=20261008" type="video/webm"></video></a><figcaption><strong>一个项目，从一句话到一个计划。</strong><span>说出你想要什么，协调员负责规划任务、雇佣帮手。</span></figcaption></figure>
-  </section>
+    <p class="risk">当前免费 · 运行在你的 Mac 上 · 无需账号</p>
 
-  <section id="story">
-    <div class="story-intro"><div><p class="eyebrow">跟随一个完整工作过程</p><h2>一个项目，三种控制方式。</h2></div><div><p>先在 Mac 上启动，离开桌面后继续检查，再从另一个 AI 会话中指挥。RandComp 不会因此复制出三个任务。</p><p class="example">示例目标：“上线一个小型在线商店。让产品确定范围，开发负责实现，质检独立验证。”</p></div></div>
-    <div class="journey">
-      <article class="scene">
-        <div class="scene-copy"><span class="scene-number">1</span><p class="eyebrow">在 Mac 前</p><h3>在桌面应用中看清整个项目。</h3><p>先用一句话描述你想要什么。项目的协调员会把它拆成一组具体任务，并雇佣帮手完成它们。每个任务都显示谁在负责、产生了什么、哪里需要你。</p><span class="surface">桌面应用 · 可视化控制</span></div>
-        <figure class="shot"><a href="../screenshots/workspace-overview.png"><img src="../screenshots/workspace-overview.png" alt="RandComp Studio 的项目工作区（深色模式）：已发送的请求、协调员规划的具体任务和实时状态。"></a><figcaption>浅色与深色皆清爽可读——无需面对原始终端噪音</figcaption></figure>
-      </article>
-      <article class="scene reverse">
-        <div class="scene-copy"><span class="scene-number">2</span><p class="eyebrow">离开桌面后</p><h3>从另一间房、另一台机器，连回你的 Mac 查看。</h3><p>你不在时，团队仍在你 Mac 上继续工作。用笔记本 SSH 回那台 Mac，几条简单命令就能知道哪里需要你、并作出回复。完全不想碰命令？直接问你的 AI 助手——通过 MCP 它连的是同一支本地团队，并替你传话。所有数据都留在你的机器上。</p><span class="surface">SSH 连回自己的 Mac · 保持本地</span></div>
-        <div class="window" aria-label="通过 SSH 控制 RandComp 的终端示例"><div class="window-bar"><i></i><i></i><i></i><span>ssh studio-mac · ~/store</span></div><div class="terminal"><p class="prompt">$ randcomp status</p><p class="ok">在线商店项目 · 3 个角色工作中 · 1 项需要你</p><p class="dim">开发询问：是否复用现有结账设计？</p><p class="prompt">$ randcomp agent send developer-2 "是，复用现有设计。"</p><p class="ok">已发送给开发。</p><div class="answer">这里控制的项目、团队、消息和结果，与桌面应用完全相同。</div></div></div>
-      </article>
-      <article class="scene">
-        <div class="scene-copy"><span class="scene-number">3</span><p class="eyebrow">在你已有的 AI 工具里</p><h3>Claude Code、ChatGPT、Kimi——任何支持 MCP 的 AI 都能过问你的团队。</h3><p>RandComp 在你 Mac 上运行一个本地 MCP server。把你常用的 AI 工具指向它，用大白话问"有什么需要我处理的？"——它会查看你的团队、总结进度、传达你的决定。不需要学任何新应用。</p><span class="surface">本地 MCP · 兼容你已有的 AI 工具</span></div>
-        <div class="window" aria-label="AI 会话通过 RandComp MCP 操作团队的对话示例"><div class="window-bar"><i></i><i></i><i></i><span>AI 会话 · 已连接 RandComp MCP</span></div><div class="conversation"><div class="bubble you">问 RandComp，商店项目现在有什么需要我处理？</div><div class="bubble">质检正在等待结账版本。开发需要你确认是否复用现有设计。</div><div class="bubble you">告诉开发可以复用，然后让质检验证移动端结账。</div><div class="mcp-result"><div><strong>开发</strong><span>答案已送达</span></div><div><strong>质检</strong><span>验证已排队</span></div><div><strong>项目</strong><span>仍在应用中可见</span></div></div></div></div>
-      </article>
-      <article class="scene reverse">
-        <div class="scene-copy"><span class="scene-number">4</span><p class="eyebrow">工作返回时</p><h3>检查一个汇总后的成果。</h3><p>RandComp 把每个任务的帮手、文件和最终结果带回项目。打开成果、检查证据，只有在你认可后才结束工作。</p><span class="surface">成果 · 看证据，不看会话噪音</span></div>
-        <figure class="shot"><a href="../screenshots/outcome-preview.png?v=20261008"><img src="../screenshots/outcome-preview.png?v=20261008" alt="任务详情：负责该任务的帮手分布图、当前状态和成果区块。"></a><figcaption>每个任务都展示帮手、产出与证据</figcaption></figure>
-      </article>
+    <form class="ask" id="ask" onsubmit="return false">
+      <input id="sentence" aria-label="你想完成什么？" value="帮我做一个小小的阅读清单网站">
+      <button class="btn" id="go" type="submit">组建我的团队</button>
+    </form>
+    <div class="chips"><span>或者试试：</span>
+      <button class="chip" type="button" data-s="为我的宠物监控应用规划两周的发布">发布计划</button>
+      <button class="chip" type="button" data-s="写一个脚本并测试，按日期给我的照片文件夹改名">照片脚本</button>
+      <button class="chip" type="button" data-s="调研三个竞品，写一页对比">调研简报</button>
     </div>
-  </section>
-</main>
 
-<section class="right-size"><div>
-  <p class="eyebrow">智能体大军背后的隐藏成本</p><h2>一个智能体能完成，就只用一个。</h2><p class="lede" style="margin-top:24px">更多智能体并不一定更好，隐藏的陷阱却是 Token 成本：每个会话都要读取上下文，协调也会继续消耗。简单工作交给一个专注会话；只有当并行工作或独立验证物有所值时，才组建团队。</p>
-  <div class="compare">
-    <article class="choice"><p class="label">小而独立的工作</p><h3>美化这个 HTML 页面。</h3><p>一个全新的前端会话，可能比五个智能体重复读取同一个项目更快、更省。无需额外规划和无意义的交接。</p><div class="choice-flow"><span>前端</span><span>→ 成果</span></div></article>
-    <article class="choice"><p class="label">有关联、风险更高的工作</p><h3>加入订阅付费功能。</h3><p>只有当独立上下文、并行专业分工和独立验证确实值得额外 Token 与协调成本时，才使用更多角色。</p><div class="choice-flow"><span>产品</span><span>后端</span><span>前端</span><span>支付</span><span>质检</span></div></article>
+    <div class="stage" id="stage">
+      <div class="stagebar">
+        <span class="stagetitle" id="stagetitle">“帮我做一个小小的阅读清单网站”</span>
+        <span class="pill" id="net" aria-live="polite">● 已联网</span>
+      </div>
+      <div class="coord"><div class="node"><span class="ico" aria-hidden="true">🧭</span><div><strong>协调员</strong><div class="sub" id="plan">计划就绪：已雇佣 4 位专员，各用各的 AI。</div></div></div></div>
+      <div class="team" id="team">
+        <div class="node role working"><span class="ico" aria-hidden="true">🎨</span><h3>设计师</h3><p>勾勒外观并撰写 DESIGN.md</p><button class="model" type="button" data-kind="cloud" aria-label="设计师的模型：Claude Code。点击更换。">Claude Code</button><div class="state">正在你的 Mac 上工作</div></div>
+        <div class="node role working"><span class="ico" aria-hidden="true">⚙️</span><h3>开发</h3><p>一步一步把它做出来</p><button class="model" type="button" data-kind="cloud" aria-label="开发的模型：Codex。点击更换。">Codex</button><div class="state">正在你的 Mac 上工作</div></div>
+        <div class="node role working"><span class="ico" aria-hidden="true">🖌️</span><h3>前端</h3><p>让页面真正能用</p><button class="model" type="button" data-kind="cloud" aria-label="前端的模型：Kimi。点击更换。">Kimi</button><div class="state">正在你的 Mac 上工作</div></div>
+        <div class="node role working"><span class="ico" aria-hidden="true">🧪</span><h3>质检</h3><p>不听建造者的说法，独立检查成果</p><button class="model" type="button" data-kind="local" aria-label="质检的模型：本机模型。点击更换。">本机模型</button><div class="state">正在你的 Mac 上工作</div></div>
+      </div>
+      <p class="hint"><span class="illustration-note">示意</span>这是一段预先编排的演示，用来说明团队如何组成——这里并没有真的在制作任何东西。点一下模型名称，可以给该角色换一个 AI。真实应用请看下方截图。</p>
+    </div>
+
+    <div class="get-row">
+      <a class="btn" href="https://randcompstudioasia.blob.core.windows.net/$web/RandCompStudio-0.2.0.dmg" download>下载 macOS 版 ↓</a>
+      <span class="offer"><strong>早期预览版</strong> · 当前完全免费 · 不限任务数 · 无订阅<br>需要一个已登录的 AI 命令行工具。<a href="#need">需要准备什么 →</a></span>
+    </div>
+  </header>
+</div>
+
+<section id="local"><div class="wrap">
+  <div class="eyebrow">其一 · 纯本地</div>
+  <h2>一切都发生在你的 Mac 里。</h2>
+  <p class="lede">RandComp Studio 是一个桌面应用，不是云服务。不用注册账号，你和智能体之间也没有任何 RandComp 服务器：应用、项目、每个智能体的终端和它写下的每个文件，都留在你的 Mac 上。它调用的是你已经装好的 AI 命令行工具——Claude Code、Codex、Kimi Code 或 Ollama——和你自己在终端里用它们没什么两样。</p>
+  <div class="split" style="margin-top:28px">
+    <div>
+      <div class="mac"><b>你的 Mac</b><svg class="nuomi " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#nuomi-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#nuomi-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#nuomi-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><g class="n-eye"><circle cx="36" cy="70" r="5.2" fill="#241f3d"/><circle cx="37.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g><g class="n-eye"><circle cx="64" cy="70" r="5.2" fill="#241f3d"/><circle cx="65.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg>
+        <div class="row"><span class="tag g">RandComp Studio</span><span class="tag">Claude Code</span><span class="tag">Codex</span><span class="tag">Kimi</span><span class="tag g">本机上的模型（Ollama）</span></div>
+        <div class="row" style="margin-top:10px"><span class="tag">📄 plan.md</span><span class="tag">📄 DESIGN.md</span><span class="tag">📁 your-project/</span><span class="tag">📄 qa-report.md</span><span class="tag">⌨️ 每个智能体的终端</span></div>
+      </div>
+      <div class="leaves"><strong>会离开你 Mac 的，全都列在这里</strong>
+        <ul>
+          <li><b>提示词和代码 → 你选的 AI 工具。</b>Claude Code 连接 Anthropic，Codex 连接 OpenAI，Kimi 连接月之暗面——用的都是你自己的账号，和你平时单独使用它们一样。用本机模型（Ollama）时，什么都不会离开。</li>
+          <li><b>匿名使用计数 → RandComp。</b>只有四类事件：打开应用（每天最多记一次）、创建项目、连接 MCP 客户端、发送消息。每条只有事件名、UTC 时间和一个随机安装 ID——不含内容、项目名或文件路径。默认开启；在“设置 → 使用统计”里可以关闭，关闭后还没发出的记录会一并删除。</li>
+        </ul>
+        <p>除此之外，别无其他。RandComp 账号：没有 · RandComp 保存的工作副本：没有 · 发给 RandComp 的提示词和文件：没有。应用自己的服务只监听 127.0.0.1。</p>
+      </div>
+    </div>
+    <div>
+      <p style="margin-top:0"><strong>亲自试试。</strong>在上面的演示里断开网络——使用云端 AI 工具的角色会暂停（它们的服务商需要联网），而使用本机模型的角色继续工作。RandComp 本身从不需要联网。</p>
+      <div class="switch"><button id="cable" type="button" aria-pressed="false" aria-label="在演示中断开网络"></button><span id="cabletxt">已联网</span></div>
+      <p class="hint">需要说明的局限：“本地”指的是 RandComp 自己不加任何云端，并不能让 Claude Code、Codex 或 Kimi 离线工作。本机模型断网也能继续，但较小的本机模型只适合小而明确的工作。</p>
+    </div>
   </div>
-  <div class="proof-grid"><figure class="shot"><a href="../screenshots/org-chart.png"><img src="../screenshots/org-chart.png" alt="RandComp Studio 的项目列表：所有项目及其实时状态一览。"></a><figcaption>所有项目和实时状态，尽在眼前</figcaption></figure><figure class="shot"><a href="../screenshots/role-picker.png"><img src="../screenshots/role-picker.png" alt="RandComp Studio 的智能体会话面板：接入或停止实时会话、给它发消息，或切换它的 AI 工具。"></a><figcaption>每个智能体一个面板——接入、停止，或切换它的 AI 工具：Claude Code、Codex、Kimi，或你自己机器上的模型</figcaption></figure><figure class="shot"><a href="../screenshots/role-library.png"><img src="../screenshots/role-library.png" alt="帮手库：从协调员、开发到质检、安全审查的可复用角色。"></a><figcaption>可跨项目复用的帮手库</figcaption></figure></div>
 </div></section>
 
-<section class="vs"><div>
-  <p class="eyebrow">不只是又一个智能体应用</p><h2>租来的智能体，给自己的作业打分。</h2>
-  <p class="lede" style="margin-top:24px">每个云端智能体服务都在讲同一个故事：给它一句话，它家的智能体帮你干活——一个黑盒，跑在别人的云上，自己检查自己的工作。RandComp 反着来：协调员规划、开发实现，再由一位完全没看到开发思路的独立 QA 验收——就在你的 Mac 上，用你选择的 AI。</p>
-  <div class="compare">
-    <article class="choice"><p class="label">云端智能体服务</p><h3>租给你一个智能体，跑在别人的云端。</h3><p>你的代码和对话离开了自己的机器，还被锁定在某一家公司的模型、定价和云上。一个上下文既干活又给自己打分——同样的盲区，没有独立的检查。</p><div class="choice-flow"><span>别人的云</span><span>别人的模型</span><span>别人的定价</span></div></article>
-    <article class="choice pick"><p class="label">RandComp 团队</p><h3>专员之间互相检查。</h3><p>协调员规划工作，开发负责实现，独立的 QA 负责验收——一双从未看过开发思路的新鲜 AI 之眼。一切运行在你的 Mac 上，配合你选择的任何 AI。</p><div class="choice-flow"><span>协调员规划</span><span>开发实现</span><span>QA 独立验收</span></div></article>
+<section><div class="wrap">
+  <div class="eyebrow">其二 · 每份工作用对的 AI</div>
+  <h2>不是一个 AI 给自己的作业打分。</h2>
+  <p class="lede">检查员从未看过建造者的思路，甚至可以是完全不同的 AI。随意搭配——规划用强的模型，日常活用便宜的，敏感文件用私有的。</p>
+  <div class="cards">
+    <div class="card"><h3>每个角色单独选</h3><p>规划用 Claude Code，实现用 Codex，快速检查用 Kimi，草稿交给你本机上的模型。随时可换，项目进行中也行。</p></div>
+    <div class="card"><h3>独立检查</h3><p>检查员依据成果本身工作，而不是听建造者的说法，因此盲区不会被共享。这是多一双眼睛，而不是保证一切正确。</p></div>
+    <div class="card"><h3>一个够用，就只用一个</h3><p>智能体越多，消耗的 Token 越多。小任务保持一个会话；团队留给值得的工作。</p></div>
   </div>
 </div></section>
 
-<main>
-  <section class="context-section"><div class="context-grid">
-    <div class="context-copy"><p class="eyebrow">工作长期保存，聊天不必堆积</p><h2>随时从上次停下的地方继续——不需要翻漫长的聊天记录。</h2><p>团队学到的一切都保存为你电脑上可阅读的笔记：计划、决定、消息、成果。关掉应用，下周再打开——你的团队记得的是工作本身，而不只是一段对话。</p></div>
-    <div class="context-flow" aria-label="RandComp 保存持久状态并保持会话专注的方式"><div class="context-row"><div class="context-box"><strong>专注会话</strong><span>只读取当前需要的上下文</span></div><span class="context-arrow">→</span><div class="context-box"><strong>完成或停止</strong><span>上下文窗口可以结束</span></div></div><div class="context-store"><strong>保存为可阅读的 Markdown</strong>角色 · 任务 · 决定 · 消息 · 交接 · 成果</div><div class="context-row" style="margin-top:14px"><div class="context-box"><strong>随时恢复</strong><span>重新构建最小必要上下文</span></div><span class="context-arrow">→</span><div class="context-box"><strong>换一个 CLI 继续</strong><span>持久记录不锁在单个会话里</span></div></div></div>
-  </div></section>
-  <section><div class="principles"><div class="principle"><strong>使用你已有的 AI</strong><span>Claude、Codex、Kimi 或任意其他 AI 工具。你的团队永远不会被锁定在某一家公司或某一个模型。</span></div><div class="principle"><strong>工作保留在本机</strong><span>任务、角色定义、消息和成果都以可阅读文件保存在你的电脑上。</span></div><div class="principle"><strong>原始内容始终可查</strong><span>可读摘要帮助快速浏览，原始终端与输出文件仍可随时打开。</span></div></div></section>
-  <section class="install"><p class="eyebrow">从本机开始</p><h2>选择你的第一个控制界面。</h2><div class="install-grid">
-    <article class="install-card"><h3>桌面应用</h3><p>下载并打开磁盘映像，把 RandComp Studio 拖入“应用程序”。</p><p class="offer"><strong>早期预览版</strong><span>当前完全免费 · 不限任务数 · 无订阅</span></p><div class="actions"><a class="button" href="https://randcompstudioasia.blob.core.windows.net/$web/RandCompStudio-0.1.1.dmg" download>下载 macOS 版 ↓</a></div><p class="facts">Apple 芯片 · macOS 11+ · 33M<br>SHA-256 <code>744187411367d69c2471deb1e7f5929f9d8f4376de751e68348200c20eaee5e1</code></p></article>
-    <article class="install-card"><h3>CLI 与 MCP</h3><p>从应用菜单安装附带的 <code>randcomp</code> 命令。通过 SSH 直接使用，或把同一个本地进程注册到支持 MCP 的 AI 客户端。</p><pre>randcomp project list
+<section><div class="wrap">
+  <div class="eyebrow">你拿回的东西</div>
+  <h2>真实的文件，真实的成果。</h2>
+  <div class="split" style="margin-top:20px;align-items:start">
+<pre><span class="m"># 一切都是你磁盘上的普通文件</span>
+<span class="d">reading-list/</span>
+  plan.md            <span class="m">协调员</span>
+  DESIGN.md          <span class="m">设计师</span>
+  server/  web/      <span class="m">开发</span>
+  qa-report.md       <span class="m">独立质检</span></pre>
+    <p style="margin:0;color:var(--muted)">用任何编辑器打开，随意移动、备份或删除。不需要导出步骤，因为本来就没有什么需要从哪里导出。</p>
+  </div>
+  <div class="shots">
+    <figure><a href="../screenshots/zh/task-tree-preview.png"><img loading="lazy" src="../screenshots/zh/task-tree-preview.png" alt="RandComp Studio 的项目工作区：已发送的请求、协调员规划的具体任务和实时状态。"></a><figcaption>一个项目，从一句话到一个计划——谁在做什么。</figcaption></figure>
+    <figure><a href="../screenshots/zh/outcome-preview.png"><img loading="lazy" src="../screenshots/zh/outcome-preview.png" alt="任务详情：负责该任务的帮手分布图、当前状态和成果区块。"></a><figcaption>一个成果，附带证据。你认可了才结束它。</figcaption></figure>
+    <figure><a href="../screenshots/zh/role-picker.png"><img loading="lazy" src="../screenshots/zh/role-picker.png" alt="助手的完整会话，像聊天一样好读：它被要求做什么、做了什么、交了什么。"></a><figcaption>每个助手做了什么，像对话一样看得懂——也可以打开它的终端。</figcaption></figure>
+    <figure><a href="../screenshots/zh/role-library.png"><img loading="lazy" src="../screenshots/zh/role-library.png" alt="帮手库：从协调员、开发到质检、安全审查的可复用角色。"></a><figcaption>可跨项目复用的角色库。</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="dev" id="developers"><div class="wrap">
+  <div class="eyebrow">给开发者</div>
+  <h2>从终端或你的 AI 助手连到你的团队。</h2>
+  <p class="lede">桌面应用是最轻松的入口。同一支本地团队也可以用脚本控制：从任何地方 SSH 回你的 Mac，使用 <code>randcomp</code> 命令；或者让任何支持 MCP 的 AI 工具连到同一个本地进程，问它有什么需要你处理。项目只有一个、文件只有一套——绝不会多出一份副本。</p>
+  <div class="split" style="margin-top:24px;align-items:start">
+<pre><span class="m"># 通过 SSH，从另一台机器</span>
+randcomp project list
 randcomp project ask PROJECT_ID "增加一个礼品卡页面"
 
-# MCP 客户端运行：
-randcomp mcp</pre><p><a href="docs.html">打开完整设置与 CLI 指南 →</a></p></article>
-  </div></section>
-  <section>
-    <p class="eyebrow">真实录屏，非摆拍</p>
-    <h2>直接问你自己的 AI 助手：团队进展如何。</h2>
-    <p class="lede" style="margin-top:24px">没有摆拍截图——这是真实录屏。任何支持 MCP 的 AI 会话连接的都是桌面应用展示的同一个本地状态，它会查看你的团队，并用大白话回答。</p>
-    <div class="proof-grid">
-      <figure class="shot"><video controls preload="none" playsinline poster="../screenshots/mcp-poster.png" aria-label="Claude Code 通过 MCP 连接 RandComp 并询问团队产出的录屏。"><source src="../screenshots/mcp.webm" type="video/webm"></video><figcaption><strong>在任何支持 MCP 的 AI 会话里。</strong>Claude Code 通过 MCP 连接，问一句"团队产出了什么"，就用大白话回答你。</figcaption></figure>
+<span class="m"># MCP 客户端（Claude Code、Kimi 等）运行：</span>
+randcomp mcp</pre>
+    <div>
+      <p style="margin-top:0;color:var(--muted)">从应用菜单安装附带的 <code>randcomp</code> 命令。命令行和 MCP 服务只与你 Mac 上的 RandComp 进程通信，中间没有额外的云端。</p>
+      <a class="btn ghost" href="docs.html">打开完整设置与 CLI 指南 →</a>
     </div>
-  </section>
+  </div>
+</div></section>
 
-  <section class="origin" id="about">
-    <p class="eyebrow">它是怎么来的</p>
-    <h2>关于 RandComp</h2>
-    <p class="origin-copy">起因是我在旅行的时候。我想让 agent 帮我在家里的 Mac mini 上干活——但一个 AI 会话跑长了很容易失控：跑偏、丢目标、没人把关。所以我不再让一个 agent 包打天下，而是开了一家"公司"：协调员负责规划，每个角色各司其职，我在任何地方都能接管其中任何一个。后来我一直自己用它——陆续用它做了好几个小应用，它渐渐成了我默认的工作方式。觉得真正好用了，才决定把它分享出来。至于名字——实在想不出来，就叫 Random Company 吧，RandComp 只是偷懒的简称。</p>
-  </section>
-  <footer><span>RandComp Studio · 本地 AI 团队协调</span><span><a href="docs.html">文档</a> · <a href="https://github.com/RandComAI/mission-control-site/issues/new">反馈</a></span></footer>
-</main>
+<section class="cta" id="get"><div class="wrap">
+  <svg class="nuomi " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#nuomi-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#nuomi-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#nuomi-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><path d="M30.5 72 Q36 64 41.5 72" stroke="#241f3d" stroke-width="2.8" stroke-linecap="round" fill="none"/><path d="M58.5 72 Q64 64 69.5 72" stroke="#241f3d" stroke-width="2.8" stroke-linecap="round" fill="none"/></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg>
+  <h2>今晚就雇下你的第一支团队。</h2>
+  <p class="lede">早期预览期间免费。目前仅支持 macOS。</p>
+  <p><a class="btn" href="https://randcompstudioasia.blob.core.windows.net/$web/RandCompStudio-0.2.0.dmg" download>下载 macOS 版 ↓</a> <a class="btn ghost" href="docs.html">阅读文档</a></p>
+    <div class="need" id="need">
+    <h3>下载前需要准备</h3>
+    <ul>
+      <li><strong>一台 Apple 芯片的 Mac</strong>（M1 或更新），系统为 macOS 11 或更高。</li>
+      <li><strong>至少一个已安装并登录的 AI 命令行工具</strong>——Claude Code、Codex 或 Kimi Code，使用你自己在该公司的套餐或 API 密钥。也可以用 Ollama 搭配 Qwen Code，在 Mac 上免费运行本机模型——适合小而明确的工作。</li>
+      <li>RandComp 不包含 AI 用量。各工具照常向你计费；帮手越多，用量越大。</li>
+    </ul>
+    <p><a href="docs.html#quick-start">文档里的安装步骤 →</a></p>
+  </div>
+  <p class="facts">Apple 芯片 · macOS 11+ · 33 MB<br>SHA-256 <code>982fa8a9c315700551623abc0adfb7304e6e0c907ef616eae4921b4f06193df6</code></p>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <div class="eyebrow">它是怎么来的</div>
+  <h2>关于 RandComp</h2>
+  <p class="origin-copy">起因是我在旅行的时候。我想让 agent 帮我在家里的 Mac mini 上干活——但一个 AI 会话跑长了很容易失控：跑偏、丢目标、没人把关。所以我不再让一个 agent 包打天下，而是开了一家"公司"：协调员负责规划，每个角色各司其职，我在任何地方都能接管其中任何一个。后来我一直自己用它——陆续用它做了好几个小应用，它渐渐成了我默认的工作方式。觉得真正好用了，才决定把它分享出来。至于名字——实在想不出来，就叫 Random Company 吧，RandComp 只是偷懒的简称。</p>
+</div></section>
+
+<footer><div class="wrap"><span>RandComp Studio · 早期预览版，可能有些粗糙。</span><span><a href="docs.html">文档</a> · <a href="https://github.com/RandComAI/mission-control-site/issues/new">反馈</a></span></div></footer>
+
+<script>
+/* The hero demo is a scripted illustration: canned role sets, no backend.
+   The four default roles are already in the HTML above, so the page reads
+   fine with JavaScript off; this script only makes them interactive. */
+document.documentElement.classList.add('js');
+
+const DEFAULT_SENTENCE = '帮我做一个小小的阅读清单网站';
+const MODELS = [
+  {n: 'Claude Code', k: 'cloud'},
+  {n: 'Codex', k: 'cloud'},
+  {n: 'Kimi', k: 'cloud'},
+  {n: '本机模型', k: 'local'}
+];
+const T = {paused: '已暂停——它的服务商需要联网', working: '正在你的 Mac 上工作',
+           on: '已联网', off: '已断网', change: '点击更换。', model: '的模型'};
+// [icon, title, what it does, index into MODELS]
+const SETS = {
+  build: [['🎨','设计师','勾勒外观并撰写 DESIGN.md',0],['⚙️','开发','一步一步把它做出来',1],['🖌️','前端','让页面真正能用',2],['🧪','质检','不听建造者的说法，独立检查成果',3]],
+  launch: [['📊','市场分析师','找出谁可能需要它',0],['✍️','文案','撰写发布文案',2],['📅','规划师','排出两周的节奏',0],['🔎','审阅','检查说法与遗漏',3]],
+  research: [['🔎','调研员','查找并阅读资料',2],['📊','分析师','并排对比它们',0],['✍️','文案','撰写一页纸简报',1],['🧪','核查员','逐条独立核对说法',3]]
+};
+function pickSet(s) {
+  s = s.toLowerCase();
+  if (/发布|上线|营销|推广|规划|计划|宠物|launch|market/.test(s)) return 'launch';
+  if (/调研|研究|对比|比较|竞品|research|compar/.test(s)) return 'research';
+  return 'build';
+}
+
+const stage = document.getElementById('stage');
+const team = document.getElementById('team');
+const input = document.getElementById('sentence');
+let offline = false;
+let roles = SETS.build.map(a => ({i: a[0], t: a[1], d: a[2], m: a[3]}));
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function render() {
+  team.replaceChildren();
+  roles.forEach((r, i) => {
+    const card = el('div', 'node role'); card.dataset.i = i;
+    const ico = el('span', 'ico', r.i); ico.setAttribute('aria-hidden', 'true');
+    const btn = el('button', 'model', MODELS[r.m].n);
+    btn.type = 'button'; btn.dataset.kind = MODELS[r.m].k;
+    btn.setAttribute('aria-label', `${r.t}${T.model}：${MODELS[r.m].n}。${T.change}`);
+    card.append(ico, el('h3', '', r.t), el('p', '', r.d), btn, el('div', 'state'));
+    team.append(card);
+  });
+  status();
+}
+
+function status() {
+  team.querySelectorAll('.role').forEach(card => {
+    const r = roles[card.dataset.i];
+    const wait = offline && MODELS[r.m].k !== 'local';
+    card.classList.toggle('waiting', wait);
+    card.classList.toggle('working', !wait);
+    card.querySelector('.state').textContent = wait ? T.paused : T.working;
+  });
+  const net = document.getElementById('net');
+  net.textContent = (offline ? '○ ' : '● ') + (offline ? T.off : T.on);
+  net.classList.toggle('off', offline);
+  document.getElementById('cable').setAttribute('aria-pressed', offline);
+  document.getElementById('cabletxt').textContent = offline ? T.off : T.on;
+}
+
+function run() {
+  const s = input.value.trim() || DEFAULT_SENTENCE;
+  roles = SETS[pickSet(s)].map(a => ({i: a[0], t: a[1], d: a[2], m: a[3]}));
+  document.getElementById('stagetitle').textContent = '“' + s + '”';
+  document.getElementById('plan').textContent = `计划就绪：已雇佣 ${roles.length} 位专员，各用各的 AI。`;
+  stage.classList.remove('go');
+  render();
+  void stage.offsetWidth;   // restart the slide-in
+  stage.classList.add('go');
+}
+
+document.getElementById('ask').addEventListener('submit', run);
+document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => { input.value = c.dataset.s; run(); }));
+team.addEventListener('click', e => {
+  const b = e.target.closest('.model');
+  if (!b) return;
+  const r = roles[b.closest('.role').dataset.i];
+  r.m = (r.m + 1) % MODELS.length;
+  b.textContent = MODELS[r.m].n;
+  b.dataset.kind = MODELS[r.m].k;
+  b.setAttribute('aria-label', `${r.t}${T.model}：${MODELS[r.m].n}。${T.change}`);
+  status();
+});
+document.getElementById('cable').addEventListener('click', () => {
+  offline = !offline;
+  status();
+  if (offline) stage.scrollIntoView({block: 'center'});   // so the visitor sees what paused
+});
+// the roles written into the HTML are the default set; number them so the buttons can find their role
+team.querySelectorAll('.role').forEach((card, i) => { card.dataset.i = i; });
+stage.classList.add('go');
+</script>
+<script>
+/* Nuomi's eyes drift a little toward the cursor, as in the app. Nothing happens under reduced motion. */
+(function () {
+  if (!window.matchMedia || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const faces = document.querySelectorAll('.nuomi');
+  let frame = 0;
+  addEventListener('mousemove', e => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      faces.forEach(face => {
+        const box = face.getBoundingClientRect();
+        const dx = e.clientX - (box.left + box.width / 2), dy = e.clientY - (box.top + box.height / 2);
+        const distance = Math.hypot(dx, dy) || 1, reach = Math.min(1, distance / 240) * 2.2;
+        face.style.setProperty('--look-x', dx / distance * reach);
+        face.style.setProperty('--look-y', dy / distance * reach);
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>
