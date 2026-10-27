@@ -58,6 +58,7 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 /* Hero: a real picture of the app, nothing scripted */
 .hero-shot{margin:34px 0 0}
 .hero-shot img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 44px rgba(40,30,90,.12)}
+@media(max-width:600px){.hero-shot .crop{overflow:hidden;border:1px solid var(--line);border-radius:14px}.hero-shot .crop img{width:155%;max-width:none;margin-left:-38%;border:0;border-radius:0;box-shadow:none}}
 .hero-shot figcaption{font-size:14px;color:var(--muted);margin-top:10px;max-width:760px}
 
 /* Three ways to use it: three equal cards */
@@ -84,6 +85,9 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 .mac>b{position:absolute;top:-13px;left:18px;background:var(--bg);padding:0 8px;font-size:13px}
 .mac .row{display:flex;flex-wrap:wrap;gap:8px}
 .tag{border:1px solid var(--line);background:var(--soft);padding:6px 12px;border-radius:10px;font-size:14px}
+.mac .grp+.grp{margin-top:14px}
+.mac .lbl{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.mac .kept{margin:16px 0 0;font-size:14px;color:var(--muted)}
 .tag.g{background:var(--mint);border-color:transparent;color:var(--green);font-weight:600}
 
 /* Cards, files, screenshots */
@@ -153,7 +157,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
 @media(max-width:820px){.split,.cards,.shots,.ways{grid-template-columns:1fr}}
 @media(max-width:600px){nav .links a.section-link{display:none}}
-@media(max-width:480px){.btn{padding:12px 18px}.hello{gap:12px}.hello .mascot{width:64px}.bubble{font-size:14px;padding:10px 13px}}
+@media(max-width:480px){.mac .tag{font-size:13px;padding:4px 9px}.mac{padding:20px 14px 14px}.btn{padding:12px 18px}.hello{gap:12px}.hello .mascot{width:64px}.bubble{font-size:14px;padding:10px 13px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.mascot *{animation:none!important}}
 </style>
 </head>
@@ -183,12 +187,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <p class="risk">Free right now · Runs on your computer · No account</p>
 
     <div class="get-row">
-      <a class="btn" href="https://missioncontroldl.blob.core.windows.net/$web/RandCompStudio-0.2.2.dmg" download>Download for macOS ↓</a>
+      <a class="btn" href="https://missioncontroldl.blob.core.windows.net/$web/RandCompStudio-0.2.4.dmg" download>Download for macOS ↓</a>
       <span class="offer"><strong>Early preview</strong> · Free right now · No task limit · No subscription<br>Needs one AI command-line tool, signed in. <a href="#need">What you need →</a><br>Windows and Linux come later — this early preview is made by a one-person army (also the QA team, the support desk and the intern).</span>
     </div>
 
     <figure class="hero-shot">
-      <img src="screenshots/project-diagram.png" width="2160" height="2011" alt="RandComp Studio's project page on the Tasks tab: the goal “Reading-list website, 3 of 7 tasks done, 2 in progress” at the top of a diagram of tasks — three delivered, two working, two not started yet, each waiting for the ones above it.">
+      <div class="crop"><img src="screenshots/project-diagram.png" width="2160" height="2011" alt="RandComp Studio's project page on the Tasks tab: the goal “Reading-list website, 3 of 7 tasks done, 2 in progress” at the top of a diagram of tasks — three delivered, two working, two not started yet, each waiting for the ones above it."></div>
       <figcaption>A real screen from the app, with a demo project. The coordinator turns your sentence into a diagram of tasks; it grows as the work does, and every task says whether it is delivered, working or not started yet.</figcaption>
     </figure>
   </header>
@@ -243,13 +247,15 @@ claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
   <div class="split" style="margin-top:28px">
     <div>
       <div class="mac"><b>Your computer</b><svg class="mascot " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#mascot-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#mascot-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#mascot-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><g class="n-eye"><circle cx="36" cy="70" r="5.2" fill="#241f3d"/><circle cx="37.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g><g class="n-eye"><circle cx="64" cy="70" r="5.2" fill="#241f3d"/><circle cx="65.8" cy="68" r="1.9" fill="#fff" opacity=".9"/></g></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg>
-        <div class="row"><span class="tag g">RandComp Studio</span><span class="tag">Claude Code</span><span class="tag">Codex</span><span class="tag">Kimi</span><span class="tag g">A model on this machine (Ollama)</span></div>
-        <div class="row" style="margin-top:10px"><span class="tag">📄 plan.md</span><span class="tag">📄 DESIGN.md</span><span class="tag">📁 your-project/</span><span class="tag">📄 qa-report.md</span><span class="tag">⌨️ each agent’s terminal</span></div>
+        <div class="grp"><span class="lbl">The app</span><div class="row"><span class="tag g">RandComp Studio</span></div></div>
+        <div class="grp"><span class="lbl">The AI tools it runs</span><div class="row"><span class="tag">Claude Code</span><span class="tag">Codex</span><span class="tag">Kimi</span><span class="tag">Ollama (a model on this computer)</span></div></div>
+        <div class="grp"><span class="lbl">Your work</span><div class="row"><span class="tag">📁 your-project/</span><span class="tag">📄 plan.md</span><span class="tag">📄 qa-report.md</span><span class="tag">⌨️ each agent’s terminal</span></div></div>
+        <p class="kept">All of this lives on your computer. RandComp keeps no copy.</p>
       </div>
       <div class="leaves"><strong>What does leave your computer — all of it</strong>
         <ul>
           <li><b>Your prompts and code → the AI tool you picked.</b> Claude Code talks to Anthropic, Codex to OpenAI, Kimi to Moonshot AI — on your own account, exactly as when you run them yourself. With a model on your computer (Ollama), nothing leaves.</li>
-          <li><b>Anonymous usage counts → RandComp.</b> Four events: app opened (at most once a day), project created, MCP client connected, message sent. Each is only the event’s name, a UTC time and a random install ID — no content, no project names, no file paths. It is on by default; Settings → Usage statistics turns it off and deletes anything not yet sent.</li>
+          <li><b>Anonymous usage counts → RandComp.</b> A few events: app installed, app opened, project created, MCP client connected, message sent. Each is only the event’s name, a UTC time and a random install ID — no content, no project names, no file paths. It is on by default; Settings → Usage statistics turns it off and deletes anything not yet sent.</li>
         </ul>
         <p>Nothing else. RandComp account: none · RandComp copy of your work: none · Your prompts and files sent to RandComp: none. The app’s own server listens on 127.0.0.1 only.</p>
       </div>
@@ -276,7 +282,7 @@ claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
   <div class="eyebrow">What you get back</div>
   <h2>Real files, a real outcome.</h2>
   <div class="split" style="margin-top:20px;align-items:start">
-<pre><span class="m"># everything is a plain file on your disk</span>
+<pre><span class="m"># plain files on your disk</span>
 <span class="d">reading-list/</span>
   plan.md            <span class="m">coordinator</span>
   DESIGN.md          <span class="m">designer</span>
@@ -296,7 +302,7 @@ claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
   <svg class="mascot " viewBox="0 0 100 110" aria-hidden="true" focusable="false"><g class="n-float"><g class="n-body"><path d="M50 26 C50 20 50.5 15 52 10" stroke="#3ecfb9" stroke-width="3.6" stroke-linecap="round" fill="none"/><path d="M52 12 C58 3 70 3 75 6 C73 17 61 21 52 12 Z" fill="url(#mascot-leaf)"/><ellipse cx="50" cy="68" rx="45" ry="41" fill="url(#mascot-body)"/><ellipse cx="33" cy="45" rx="16" ry="8" fill="#fff" opacity=".55" filter="url(#mascot-soft)"/><ellipse cx="24" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><ellipse cx="76" cy="80" rx="7.5" ry="4.2" fill="#ff82b4" opacity=".5"/><g class="n-eyes"><path d="M30.5 72 Q36 64 41.5 72" stroke="#241f3d" stroke-width="2.8" stroke-linecap="round" fill="none"/><path d="M58.5 72 Q64 64 69.5 72" stroke="#241f3d" stroke-width="2.8" stroke-linecap="round" fill="none"/></g><path class="n-mouth" d="M44 80 Q50 85.5 56 80" stroke="#241f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/></g></g></svg>
   <h2>Hire your first team tonight.</h2>
   <p class="lede">Free during early preview. macOS only for now — Windows and Linux come later, once the one-person army has slept.</p>
-  <p><a class="btn" href="https://missioncontroldl.blob.core.windows.net/$web/RandCompStudio-0.2.2.dmg" download>Download for macOS ↓</a> <a class="btn ghost" href="docs.html">Read the docs</a></p>
+  <p><a class="btn" href="https://missioncontroldl.blob.core.windows.net/$web/RandCompStudio-0.2.4.dmg" download>Download for macOS ↓</a> <a class="btn ghost" href="docs.html">Read the docs</a></p>
     <div class="need" id="need">
     <h3>What you need first</h3>
     <ul>
@@ -306,7 +312,7 @@ claude mcp add -s user randcomp-studio -- randcomp mcp</pre>
     </ul>
     <p><a href="docs.html#quick-start">Setup steps in the docs →</a></p>
   </div>
-  <p class="facts">Apple silicon · macOS 11+ · 33 MB<br>SHA-256 <code>be7201652ed784e60b9ac2d3883b592268ca014ca84e6b3cab45a98fdac4dfd1</code></p>
+  <p class="facts">Apple silicon · macOS 11+ · 33 MB<br>SHA-256 <code>e0ed3db1777db14c95026d0d83d8f18dd9302f05448314147a474f0453304822</code></p>
 </div></section>
 
 <section id="about"><div class="wrap">
